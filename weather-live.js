@@ -10,6 +10,7 @@ var ilu;
 
 var Tinkerforge = require('tinkerforge');
 var async = require('async');
+var program = require('commander');
 
 if (program.host) {
   var HOST = program.host;

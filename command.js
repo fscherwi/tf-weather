@@ -19,11 +19,10 @@ if (!program.args.length) {
 
     process.exit(0);
 
-  }
-  else if (program.live) {
-    require('weather-live.js');
+  } else if (program.live) {
+    require('./weather-live.js');
   } else {
-    require('weather.js');
+    require('./weather.js');
   }
 
 } else {
@@ -32,7 +31,6 @@ if (!program.args.length) {
 
 process.stdin.on('data',
   function(data) {
-    ipcon.disconnect();
     process.exit(0);
   }
 );
