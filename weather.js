@@ -1,7 +1,6 @@
 var LIGHT = require('./uids.json').light;
 var BARO = require('./uids.json').baro;
 var HUMI = require('./uids.json').humi;
-var LCD = require('./uids.json').lcd;
 
 var rh;
 var ap;
@@ -20,11 +19,6 @@ if (program.port) {
   var PORT = program.port;
 } else {
   var PORT = 4223;
-}
-if (program.wait) {
-  var WAIT = program.wait;
-} else {
-  var WAIT = 1000;
 }
 
 var ipcon = new Tinkerforge.IPConnection();
@@ -84,7 +78,7 @@ if (al === undefined && b === undefined && h === undefined) {
       b.getChipTemperature(
         function(temperature) {
           temp = temperature / 100;
-          console.log('Temperature: ' + temp + ' °C');
+          console.log('Temperature: ' + temp + ' \u00B0C');
         },
         function(error) {
           console.log('Error: ' + error);

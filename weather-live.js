@@ -1,7 +1,6 @@
 var LIGHT = require('./uids.json').light;
 var BARO = require('./uids.json').baro;
 var HUMI = require('./uids.json').humi;
-var LCD = require('./uids.json').lcd;
 
 var rh;
 var ap;
@@ -93,7 +92,7 @@ if (al === undefined && b === undefined && h === undefined) {
           b.getChipTemperature(
             function(temperature) {
               temp = temperature / 100;
-              console.log('Temperature: ' + temp + ' °C');
+              console.log('Temperature: ' + temp + ' \u00B0C');
             },
             function(error) {
               console.log('Error: ' + error);
