@@ -5,6 +5,7 @@ var program = require('commander');
 program
   .version(require('./package.json').version)
   .usage('[options]')
+  .option('-l, --live', 'Shows the live weather')
   .option('-h, --host [host]', 'The HOST, default to "localhost"')
   .option('-p, --port [port]', 'The PORT, default to "4223"', parseInt)
   .option('-w, --wait [time]', 'The Callback time', parseInt)
@@ -18,9 +19,11 @@ if (!program.args.length) {
 
     process.exit(0);
 
+  }
+  else if (program.live) {
+    require('weather-live.js');
   } else {
     require('weather.js');
-    }
   }
 
 } else {
