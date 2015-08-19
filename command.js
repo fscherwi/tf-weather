@@ -7,7 +7,7 @@ program
   .usage('[options]')
   .option('-h, --host [host]', 'The HOST, default to "localhost"')
   .option('-p, --port [port]', 'The PORT, default to "4223"', parseInt)
-  .option('-c, --callback [time]', 'The Callback time', parseInt)
+  .option('-w, --wait [time]', 'The Callback time', parseInt)
   .option('get', 'Get UIDs of BRICKs!')
   .parse(process.argv);
 
@@ -43,8 +43,8 @@ if (!program.args.length) {
     } else {
       var PORT = 4223;
     }
-    if (program.callback) {
-      var WAIT = program.callback;
+    if (program.wait) {
+      var WAIT = program.wait;
     } else {
       var WAIT = 1000;
     }
