@@ -136,7 +136,7 @@ if (!program.args.length) {
           setTimeout(callback, WAIT);
         },
         function(err) {
-          console.log("ERROR!");
+          console.log("ERROR: " + err);
           process.exit();
         }
       );
