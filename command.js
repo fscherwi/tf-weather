@@ -15,7 +15,7 @@ program
 if (!program.args.length) {
 
   if (program.get) {
-    console.log("GET");
+    require('./get.js').get;
 
     process.exit(0);
 
