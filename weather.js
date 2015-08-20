@@ -2,11 +2,6 @@ var LIGHT = require('./uids.json').light;
 var BARO = require('./uids.json').baro;
 var HUMI = require('./uids.json').humi;
 
-var rh;
-var ap;
-var temp;
-var ilu;
-
 var Tinkerforge = require('tinkerforge');
 var program = require('commander');
 
@@ -59,7 +54,7 @@ function tfdata() {
     function(connectReason) {
       h.getHumidity(
         function(humidity) {
-          rh = humidity / 10;
+          var rh = humidity / 10;
           console.log('Relative Humidity: ' + rh + ' %RH');
         },
         function(error) {
@@ -68,7 +63,7 @@ function tfdata() {
       );
       b.getAirPressure(
         function(air_pressure) {
-          ap = air_pressure / 1000;
+          var ap = air_pressure / 1000;
           console.log('Air pressure: ' + ap + ' mbar');
         },
         function(error) {
@@ -77,7 +72,7 @@ function tfdata() {
       );
       b.getChipTemperature(
         function(temperature) {
-          temp = temperature / 100;
+          var temp = temperature / 100;
           console.log('Temperature: ' + temp + ' \u00B0C');
         },
         function(error) {
@@ -86,7 +81,7 @@ function tfdata() {
       );
       al.getIlluminance(
         function(illuminance) {
-          ilu = illuminance / 10;
+          var ilu = illuminance / 10;
           console.log('Illuminance: ' + ilu + ' Lux');
         },
         function(error) {
