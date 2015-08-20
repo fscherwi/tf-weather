@@ -5,7 +5,8 @@ var program = require('commander');
 var LIGHT;
 var BARO;
 var HUMI;
-var LCD;
+
+var ipcon;
 
 var outputFilename = './uids.json';
 

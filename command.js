@@ -17,8 +17,6 @@ if (!program.args.length) {
   if (program.get) {
     require('./get.js');
 
-    process.exit(0);
-
   } else if (program.live) {
     require('./weather-live.js');
   } else {
