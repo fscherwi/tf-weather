@@ -27,9 +27,3 @@ if (!program.args.length) {
 } else {
   program.help();
 }
-
-process.stdin.on('data',
-  function(data) {
-    process.exit(0);
-  }
-);

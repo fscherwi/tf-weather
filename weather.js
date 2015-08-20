@@ -54,6 +54,7 @@ function tfinit() {
 
 function tfdata() {
   tfinit();
+  end();
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
       h.getHumidity(
@@ -98,6 +99,7 @@ function tfdata() {
 
 function tflive() {
   tfinit();
+  end();
   var async = require('async');
   if (program.wait) {
     var WAIT = program.wait;
@@ -112,46 +114,7 @@ function tflive() {
 
       console.log('\033[2J');
 
-      ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-        function(connectReason) {
-          h.getHumidity(
-            function(humidity) {
-              rh = humidity / 10;
-              console.log('Relative Humidity: ' + rh + ' %RH');
-            },
-            function(error) {
-              process.stdout.write('Error: ' + error);
-            }
-          );
-          b.getAirPressure(
-            function(air_pressure) {
-              ap = air_pressure / 1000;
-              console.log('Air pressure: ' + ap + ' mbar');
-            },
-            function(error) {
-              process.stdout.write('Error: ' + error);
-            }
-          );
-          b.getChipTemperature(
-            function(temperature) {
-              temp = temperature / 100;
-              console.log('Temperature: ' + temp + ' \u00B0C');
-            },
-            function(error) {
-              console.log('Error: ' + error);
-            }
-          );
-          al.getIlluminance(
-            function(illuminance) {
-              ilu = illuminance / 10;
-              console.log('Illuminance: ' + ilu + ' Lux');
-            },
-            function(error) {
-              process.stdout.write('Error: ' + error);
-            }
-          );
-        }
-      );
+      tfdata();
 
       setTimeout(callback, WAIT);
     },
@@ -164,3 +127,12 @@ function tflive() {
 
 exports.tfdata = tfdata;
 exports.tflive = tflive;
+
+function end() {
+  process.stdin.on('data',
+    function(data) {
+      ipcon.disconnect();
+      process.exit(0);
+    }
+  );
+}
