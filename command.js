@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var program = require('commander');
+var w = require('./weather.js');
 
 program
   .version(require('./package.json').version)
@@ -18,9 +19,9 @@ if (!program.args.length) {
     require('./get.js');
 
   } else if (program.live) {
-    require('./weather-live.js');
+    w.tflive();
   } else {
-    require('./weather.js');
+    w.tfdata();
   }
 
 } else {
