@@ -1,6 +1,5 @@
 var Tinkerforge = require('tinkerforge');
 var program = require('commander');
-var async = require('async');
 
 if (program.host) {
   var HOST = program.host;

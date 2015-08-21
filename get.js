@@ -54,18 +54,23 @@ function tfget() {
 }
 
 function jsonwrite() {
-  fs.writeFile(outputFilename, JSON.stringify({
-    light: LIGHT,
-    baro: BARO,
-    humi: HUMI
-  }, null, 4), function(err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Succefully configured UIDs!");
-      process.exit(0);
-    }
-  });
+  if (LIGHT === undefined | BARO === undefined | HUMI === undefined) {
+    console.log('Error: not the right Bricklets connected')
+    process.exit(0);
+  } else {
+    fs.writeFile(outputFilename, JSON.stringify({
+      light: LIGHT,
+      baro: BARO,
+      humi: HUMI
+    }, null, 4), function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Succefully configured UIDs!");
+        process.exit(0);
+      }
+    });
+  }
 }
 
 tfinit();
