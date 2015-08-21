@@ -133,5 +133,4 @@ function end() {
 }
 
 exports.tfsimple = tfsimple;
-exports.tfdata = tfdata;
 exports.tflive = tflive;
