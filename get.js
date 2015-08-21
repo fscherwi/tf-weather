@@ -63,13 +63,13 @@ function jsonwrite() {
       console.log(err);
     } else {
       console.log("Succefully configured UIDs!");
+      process.exit(0);
     }
   });
-
 }
 
 tfinit();
 tfget();
 setTimeout(function() {
   jsonwrite();
-}, 3000);
+}, 500);

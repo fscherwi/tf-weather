@@ -1,9 +1,6 @@
-var LIGHT = require('./uids.json').light;
-var BARO = require('./uids.json').baro;
-var HUMI = require('./uids.json').humi;
-
 var Tinkerforge = require('tinkerforge');
 var program = require('commander');
+var async = require('async');
 
 if (program.host) {
   var HOST = program.host;
@@ -15,6 +12,10 @@ if (program.port) {
 } else {
   var PORT = 4223;
 }
+
+var LIGHT = require('./uids.json').light;
+var BARO = require('./uids.json').baro;
+var HUMI = require('./uids.json').humi;
 
 var ipcon = new Tinkerforge.IPConnection();
 var al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
@@ -48,8 +49,6 @@ function tfinit() {
 }
 
 function tfdata() {
-  tfinit();
-  end();
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
       h.getHumidity(
@@ -58,7 +57,7 @@ function tfdata() {
           console.log('Relative Humidity: ' + rh + ' %RH');
         },
         function(error) {
-          process.stdout.write('Error: ' + error);
+          process.stdout.write('Relative Humidity: ' + 'Error ' + error + '\n');
         }
       );
       b.getAirPressure(
@@ -67,7 +66,7 @@ function tfdata() {
           console.log('Air pressure: ' + ap + ' mbar');
         },
         function(error) {
-          process.stdout.write('Error: ' + error);
+          process.stdout.write('Air pressure: ' + 'Error ' + error + '\n');
         }
       );
       b.getChipTemperature(
@@ -76,7 +75,7 @@ function tfdata() {
           console.log('Temperature: ' + temp + ' \u00B0C');
         },
         function(error) {
-          console.log('Error: ' + error);
+          console.log('Temperature: ' + 'Error ' + error);
         }
       );
       al.getIlluminance(
@@ -85,11 +84,17 @@ function tfdata() {
           console.log('Illuminance: ' + ilu + ' Lux');
         },
         function(error) {
-          process.stdout.write('Error: ' + error);
+          process.stdout.write('Illuminance: ' + 'Error ' + error);
         }
       );
     }
   );
+}
+
+function tfsimple() {
+  tfinit();
+  end();
+  tfdata();
 }
 
 function tflive() {
@@ -120,9 +125,6 @@ function tflive() {
   );
 }
 
-exports.tfdata = tfdata;
-exports.tflive = tflive;
-
 function end() {
   process.stdin.on('data',
     function(data) {
@@ -131,3 +133,7 @@ function end() {
     }
   );
 }
+
+exports.tfsimple = tfsimple;
+exports.tfdata = tfdata;
+exports.tflive = tflive;

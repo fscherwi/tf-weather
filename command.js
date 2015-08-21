@@ -21,7 +21,7 @@ if (!program.args.length) {
   } else if (program.live) {
     w.tflive();
   } else {
-    w.tfdata();
+    w.tfsimple();
   }
 
 } else {
