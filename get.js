@@ -8,7 +8,7 @@ var HUMI;
 
 var ipcon;
 
-var outputFilename = './uids.json';
+var outputFilename = './config.json';
 
 if (program.host) {
   var HOST = program.host;
@@ -19,6 +19,11 @@ if (program.port) {
   var PORT = program.port;
 } else {
   var PORT = 4223;
+}
+if (program.wait) {
+  var WAIT = program.wait;
+} else {
+  var WAIT = 4223;
 }
 
 function tfinit() {
@@ -37,6 +42,11 @@ function tfinit() {
 }
 
 function tfget() {
+  console.log("HOST: " + HOST);
+  console.log("PORT: " + PORT);
+  console.log("WAIT: " + WAIT);
+  console.log("");
+
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
     function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
       if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
@@ -61,12 +71,15 @@ function jsonwrite() {
     fs.writeFile(outputFilename, JSON.stringify({
       light: LIGHT,
       baro: BARO,
-      humi: HUMI
+      humi: HUMI,
+      host: HOST,
+      port: PORT,
+      wait: WAIT
     }, null, 4), function(err) {
       if (err) {
         console.log(err);
       } else {
-        console.log("Succefully configured UIDs!");
+        console.log("Succefully configured!");
         process.exit(0);
       }
     });

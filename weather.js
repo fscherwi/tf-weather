@@ -1,16 +1,8 @@
 var Tinkerforge = require('tinkerforge');
 var program = require('commander');
 
-if (program.host) {
-  var HOST = program.host;
-} else {
-  var HOST = "localhost";
-}
-if (program.port) {
-  var PORT = program.port;
-} else {
-  var PORT = 4223;
-}
+var HOST = require('./config.json').host;
+var PORT = require('./config.json').port;
 
 var LIGHT = require('./uids.json').light;
 var BARO = require('./uids.json').baro;
@@ -99,11 +91,7 @@ function tflive() {
   tfinit();
   end();
   var async = require('async');
-  if (program.wait) {
-    var WAIT = program.wait;
-  } else {
-    var WAIT = 1000;
-  }
+  var WAIT = require('./config.json').wait;
   async.whilst(
     function() {
       return true;
