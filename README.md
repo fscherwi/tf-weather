@@ -1,16 +1,36 @@
 # weather
 [![Build Status](https://travis-ci.org/fscherwi/weather.svg)](https://travis-ci.org/fscherwi/weather) [![Dependency Status](https://david-dm.org/fscherwi/weather.svg)](https://david-dm.org/fscherwi/weather) [![bitHound Score](https://www.bithound.io/github/fscherwi/weather/badges/score.svg)](https://www.bithound.io/github/fscherwi/weather) [![Code Climate](https://codeclimate.com/github/fscherwi/weather/badges/gpa.svg)](https://codeclimate.com/github/fscherwi/weather)
 
-Tinkerforge Weather Tool
+## Shows the current weather from Tinkerforge Sensors!
+# Install
+You may require sudo! Run in the root of the repo!
 
-# usage
-Simply run, in the root of the repo:
 ```sh
-npm install -g
+ $ npm install -g
 ```
 
-# usage
-Simply run:
+# Usage
+## Simple show current weather
+
 ```sh
-weather
+ $ weather
+```
+
+## Advanced functions
+### Show live weather
+
+```sh
+ $ weather live
+```
+
+### Custom HOST
+
+```sh
+ $ weather -h <your-host>
+```
+
+### Custom PORT
+
+```sh
+ $ weather -p <your-port>
 ```

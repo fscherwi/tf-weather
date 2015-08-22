@@ -2,6 +2,7 @@
 
 var program = require('commander');
 var w = require('./weather.js');
+var g = require('./get.js')
 
 program
   .version(require('./package.json').version)
@@ -16,8 +17,7 @@ program
 if (!program.args.length) {
 
   if (program.get) {
-    require('./get.js');
-
+    g.get();
   } else if (program.live) {
     w.tflive();
   } else {

@@ -73,8 +73,12 @@ function jsonwrite() {
   }
 }
 
-tfinit();
-tfget();
-setTimeout(function() {
-  jsonwrite();
-}, 500);
+function get() {
+  tfinit();
+  tfget();
+  setTimeout(function() {
+    jsonwrite();
+  }, 500);
+}
+
+exports.get = get;
