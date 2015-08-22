@@ -54,7 +54,7 @@ function tfget() {
 }
 
 function jsonwrite() {
-  if (LIGHT === undefined | BARO === undefined | HUMI === undefined) {
+  if (LIGHT === undefined || BARO === undefined || HUMI === undefined) {
     console.log('Error: not the right Bricklets connected');
     process.exit(0);
   } else {
