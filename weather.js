@@ -83,8 +83,12 @@ function tfdata() {
 
 function tfsimple() {
   tfinit();
-  end();
+  console.log("");
   tfdata();
+  setTimeout(function() {
+    console.log("");
+    process.exit();
+  }, 500);
 }
 
 function tflive() {

@@ -14,13 +14,12 @@ function get() {
   host = require('./config.json').host;
   port = require('./config.json').port;
   wait = require('./config.json').wait;
-
 }
 
 function show() {
-  console.log("HOST: " + HOST);
-  console.log("PORT: " + PORT);
-  console.log("WAIT: " + WAIT);
+  console.log("HOST: " + host);
+  console.log("PORT: " + port);
+  console.log("WAIT: " + wait);
   console.log("");
   console.log("LIGHT UID: " + light);
   console.log("BARO UID: " + baro);
@@ -33,4 +32,28 @@ function info() {
   process.exit(0);
 }
 
+function test() {
+  get();
+  if (light === undefined) {
+    console.log("Not correct configure, run 'weather get'!");
+    process.exit(0);
+  } else if (baro === undefined) {
+    console.log("Not correct configure, run 'weather get'!");
+    process.exit(0);
+  } else if (humi === undefined) {
+    console.log("Not correct configure, run 'weather get'!");
+    process.exit(0);
+  } else if (host === undefined) {
+    console.log("Not correct configure, run 'weather get'!");
+    process.exit(0);
+  } else if (port === undefined) {
+    console.log("Not correct configure, run 'weather get'!");
+    process.exit(0);
+  } else if (wait === undefined) {
+    console.log("Not correct configure, run 'weather get'!");
+    process.exit(0);
+  }
+}
+
 exports.info = info;
+exports.test = test;

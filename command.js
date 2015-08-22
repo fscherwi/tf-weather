@@ -20,12 +20,15 @@ if (!program.args.length) {
 
   if (program.get) {
     g.get();
-  } else if (program.info) {
-    i.info();
-  }else if (program.live) {
-    w.tflive();
   } else {
-    w.tfsimple();
+    i.test();
+    if (program.info) {
+      i.info();
+    } else if (program.live) {
+      w.tflive();
+    } else {
+      w.tfsimple();
+    }
   }
 
 } else {

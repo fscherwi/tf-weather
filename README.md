@@ -16,6 +16,18 @@ You may require sudo! Run in the root of the repo!
  $ weather
 ```
 
+## Configure
+
+```sh
+ $ weather get
+```
+
+## Show config
+
+```sh
+ $ weather info
+```
+
 ## Advanced functions
 ### Show live weather
 

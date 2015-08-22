@@ -80,6 +80,7 @@ function jsonwrite() {
         console.log(err);
       } else {
         console.log("Succefully configured!");
+        ipcon.disconnect();
         process.exit(0);
       }
     });
