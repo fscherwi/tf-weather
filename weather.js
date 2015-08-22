@@ -47,22 +47,22 @@ function tfdata() {
           console.log('Relative Humidity: ' + rh + ' %RH');
         },
         function(error) {
-          process.stdout.write('Relative Humidity: ' + 'Error ' + error + '\n');
+          console.log('Relative Humidity: ' + 'Error ' + error);
         }
       );
       b.getAirPressure(
         function(air_pressure) {
           var ap = air_pressure / 1000;
-          console.log('Air pressure: ' + ap + ' mbar');
+          console.log('Air pressure:      ' + ap + ' mbar');
         },
         function(error) {
-          process.stdout.write('Air pressure: ' + 'Error ' + error + '\n');
+          console.log('Air pressure: ' + 'Error ' + error);
         }
       );
       b.getChipTemperature(
         function(temperature) {
           var temp = temperature / 100;
-          console.log('Temperature: ' + temp + ' \u00B0C');
+          console.log('Temperature:       ' + temp + ' \u00B0C');
         },
         function(error) {
           console.log('Temperature: ' + 'Error ' + error);
@@ -71,7 +71,7 @@ function tfdata() {
       al.getIlluminance(
         function(illuminance) {
           var ilu = illuminance / 10;
-          console.log('Illuminance: ' + ilu + ' Lux');
+          console.log('Illuminance:       ' + ilu + ' Lux');
         },
         function(error) {
           process.stdout.write('Illuminance: ' + 'Error ' + error);

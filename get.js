@@ -45,7 +45,6 @@ function tfget() {
   console.log("HOST: " + HOST);
   console.log("PORT: " + PORT);
   console.log("WAIT: " + WAIT);
-  console.log("");
 
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
     function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
@@ -79,6 +78,7 @@ function jsonwrite() {
       if (err) {
         console.log(err);
       } else {
+        console.log("");
         console.log("Succefully configured!");
         ipcon.disconnect();
         process.exit(0);
