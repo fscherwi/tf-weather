@@ -4,9 +4,9 @@ var program = require('commander');
 var HOST = require('./config.json').host;
 var PORT = require('./config.json').port;
 
-var LIGHT = require('./uids.json').light;
-var BARO = require('./uids.json').baro;
-var HUMI = require('./uids.json').humi;
+var LIGHT = require('./config.json').light;
+var BARO = require('./config.json').baro;
+var HUMI = require('./config.json').humi;
 
 var ipcon = new Tinkerforge.IPConnection();
 var al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
