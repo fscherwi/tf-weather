@@ -1,7 +1,13 @@
 var Tinkerforge = require('tinkerforge');
 var program = require('commander');
 
-var config_json = require(require('os-homedir')() + '/.tf_config.json');
+if (require(require('os-homedir')() + '/.tf_config.json') === undefined) {
+  console.log("ERROR!");
+  console.log("Didn't found config file!");
+  process.exit();
+} else {
+  var config_json = require(require('os-homedir')() + '/.tf_config.json');
+}
 
 var HOST = config_json.host;
 var PORT = parseInt(config_json.port);
