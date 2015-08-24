@@ -8,7 +8,7 @@ var HUMI;
 
 var ipcon;
 
-var outputFilename = './config.json';
+var outputFilename = require('os-homedir')()+ '/.tf_config.json';
 
 if (program.host) {
   var HOST = program.host;

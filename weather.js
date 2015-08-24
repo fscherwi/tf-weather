@@ -1,12 +1,14 @@
 var Tinkerforge = require('tinkerforge');
 var program = require('commander');
 
-var HOST = require('./config.json').host;
-var PORT = require('./config.json').port;
+var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
-var LIGHT = require('./config.json').light;
-var BARO = require('./config.json').baro;
-var HUMI = require('./config.json').humi;
+var HOST = config_json.host;
+var PORT = parseInt(config_json.port);
+
+var BARO = config_json.baro;
+var HUMI = config_json.humi;
+var LIGHT = config_json.light;
 
 var ipcon = new Tinkerforge.IPConnection();
 var al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
@@ -95,7 +97,7 @@ function tflive() {
   tfinit();
   end();
   var async = require('async');
-  var WAIT = require('./config.json').wait;
+  var WAIT = parseInt(config_json.wait);
   async.whilst(
     function() {
       return true;

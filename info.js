@@ -1,29 +1,32 @@
-var light;
-var baro;
-var humi;
+var WAIT;
+var HOST;
+var PORT;
 
-var host;
-var port;
-var wait;
+var BARO;
+var HUMI;
+var LIGHT;
 
 function get() {
-  light = require('./config.json').light;
-  baro = require('./config.json').baro;
-  humi = require('./config.json').humi;
+  var config_json_path = require('os-homedir')() + '/.tf_config.json';
+  var config_json = require(config_json_path);
 
-  host = require('./config.json').host;
-  port = require('./config.json').port;
-  wait = require('./config.json').wait;
+  WAIT = parseInt(config_json.wait);
+  HOST = config_json.host;
+  PORT = parseInt(config_json.port);
+
+  BARO = config_json.baro;
+  HUMI = config_json.humi;
+  LIGHT = config_json.light;
 }
 
 function show() {
-  console.log("HOST: " + host);
-  console.log("PORT: " + port);
-  console.log("WAIT: " + wait);
+  console.log("HOST: " + HOST);
+  console.log("PORT: " + PORT);
+  console.log("WAIT: " + WAIT);
   console.log("");
-  console.log("LIGHT UID: " + light);
-  console.log("BARO UID: " + baro);
-  console.log("HUMI UID: " + humi);
+  console.log("LIGHT UID: " + LIGHT);
+  console.log("BARO UID: " + BARO);
+  console.log("HUMI UID: " + HUMI);
 }
 
 function info() {
@@ -34,23 +37,23 @@ function info() {
 
 function test() {
   get();
-  if (light === undefined) {
-    console.log("Not correct configure, run 'weather get'!");
+  if (LIGHT === undefined) {
+    console.log("Not correct configure, run 'weather get'!" + "1");
     process.exit(0);
-  } else if (baro === undefined) {
-    console.log("Not correct configure, run 'weather get'!");
+  } else if (BARO === undefined) {
+    console.log("Not correct configure, run 'weather get'!" + "12");
     process.exit(0);
-  } else if (humi === undefined) {
-    console.log("Not correct configure, run 'weather get'!");
+  } else if (HUMI === undefined) {
+    console.log("Not correct configure, run 'weather get'!" + "13");
     process.exit(0);
-  } else if (host === undefined) {
-    console.log("Not correct configure, run 'weather get'!");
+  } else if (HOST === undefined) {
+    console.log("Not correct configure, run 'weather get'!" + "14");
     process.exit(0);
-  } else if (port === undefined) {
-    console.log("Not correct configure, run 'weather get'!");
+  } else if (PORT === undefined) {
+    console.log("Not correct configure, run 'weather get'!" + "15");
     process.exit(0);
-  } else if (wait === undefined) {
-    console.log("Not correct configure, run 'weather get'!");
+  } else if (WAIT === undefined) {
+    console.log("Not correct configure, run 'weather get'!" + "16");
     process.exit(0);
   }
 }

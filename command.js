@@ -2,8 +2,8 @@
 
 var program = require('commander');
 var w = require('./weather.js');
-var g = require('./get.js')
-var i = require('./info.js')
+var g = require('./get.js');
+var i = require('./info.js');
 
 program
   .version(require('./package.json').version)
