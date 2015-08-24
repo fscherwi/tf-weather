@@ -23,7 +23,7 @@ if (program.port) {
 if (program.wait) {
   var WAIT = program.wait;
 } else {
-  var WAIT = 4223;
+  var WAIT = 1000;
 }
 
 function tfinit() {
