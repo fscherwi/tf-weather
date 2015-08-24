@@ -4,6 +4,7 @@ var program = require('commander');
 var w = require('./weather.js');
 var g = require('./get.js');
 var i = require('./info.js');
+var test = require('./test.js');
 
 program
   .version(require('./package.json').version)
@@ -17,6 +18,8 @@ program
   .parse(process.argv);
 
 if (!program.args.length) {
+
+  test.test_config_file();
 
   if (program.get) {
     g.get();

@@ -7,13 +7,7 @@ var HUMI;
 var LIGHT;
 
 function get() {
-  if (require(require('os-homedir')() + '/.tf_config.json') === undefined) {
-    console.log("ERROR!");
-    console.log("Didn't found config file!");
-    process.exit();
-  } else {
-    config_json = require(require('os-homedir')() + '/.tf_config.json');
-  }
+  var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
   WAIT = parseInt(config_json.wait);
   HOST = config_json.host;

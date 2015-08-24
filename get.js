@@ -8,13 +8,7 @@ var HUMI;
 
 var ipcon;
 
-if (require(require('os-homedir')() + '/.tf_config.json') === undefined) {
-  console.log("ERROR!");
-  console.log("Didn't found config file!");
-  process.exit();
-} else {
-  var config_json = require(require('os-homedir')() + '/.tf_config.json');
-}
+var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
 if (program.host) {
   var HOST = program.host;
