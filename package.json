@@ -23,10 +23,7 @@
     "os-homedir": "^1.0.1",
     "tinkerforge": "latest"
   },
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-jsbeautifier": "^0.2.10"
-  },
+  "devDependencies": {},
   "preferGlobal": true,
   "bin": {
     "weather": "command.js"
