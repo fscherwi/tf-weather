@@ -6,7 +6,7 @@
 You may require sudo! Run in the root of the repo!
 
 ```sh
- $ npm install -g
+ $ npm install -g tf-weather
 ```
 
 # Usage
