@@ -16,22 +16,22 @@ function test_uids() {
   var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
   if (config_json.light === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "1");
+    console.log("Not correct configured, run 'weather get'!");
     process.exit(0);
   } else if (config_json.baro === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "12");
+    console.log("Not correct configured, run 'weather get'!");
     process.exit(0);
   } else if (config_json.humi === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "13");
+    console.log("Not correct configured, run 'weather get'!");
     process.exit(0);
   } else if (config_json.host === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "14");
+    console.log("Not correct configured, run 'weather get'!");
     process.exit(0);
   } else if (parseInt(config_json.port) === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "15");
+    console.log("Not correct configured, run 'weather get'!");
     process.exit(0);
   } else if (parseInt(config_json.wait) === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "16");
+    console.log("Not correct configured, run 'weather get'!");
     process.exit(0);
   }
 }
