@@ -6,8 +6,10 @@ var BARO;
 var HUMI;
 var LIGHT;
 
+var config_json;
+
 function get() {
-  var config_json = require(require('os-homedir')() + '/.tf_config.json');
+  config_json = require(require('os-homedir')() + '/.tf_config.json');
 
   WAIT = parseInt(config_json.wait);
   HOST = config_json.host;
@@ -34,28 +36,4 @@ function info() {
   process.exit(0);
 }
 
-function test() {
-  get();
-  if (LIGHT === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "1");
-    process.exit(0);
-  } else if (BARO === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "12");
-    process.exit(0);
-  } else if (HUMI === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "13");
-    process.exit(0);
-  } else if (HOST === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "14");
-    process.exit(0);
-  } else if (PORT === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "15");
-    process.exit(0);
-  } else if (WAIT === undefined) {
-    console.log("Not correct configure, run 'weather get'!" + "16");
-    process.exit(0);
-  }
-}
-
 exports.info = info;
-exports.test = test;

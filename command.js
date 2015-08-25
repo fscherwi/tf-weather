@@ -18,17 +18,17 @@ program
   .parse(process.argv);
 
 if (!program.args.length) {
-  test = require('./test.js');
-  test.test_config_file();
-
   if (program.get) {
     g = require('./get.js');
     g.get();
   } else {
     w = require('./weather.js');
     i = require('./info.js');
+    test = require('./test.js');
 
-    i.test();
+    test.test_config_file();
+    test.test_uids();
+
     if (program.info) {
       i.info();
     } else if (program.live) {
