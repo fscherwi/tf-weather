@@ -8,7 +8,7 @@ var HUMI;
 
 var ipcon;
 
-var config_json = require(require('os-homedir')() + '/.tf_config.json');
+var config_json = require('os-homedir')() + '/.tf_config.json';
 
 if (program.host) {
   var HOST = program.host;
@@ -62,12 +62,24 @@ function tfget() {
   );
 }
 
+function jsonavaible() {
+  try {
+    if (config_json.isFile()) {}
+  } catch (e) {
+    fs.writeFile("config_json", "{}", function(err) {
+      if (err) {
+        return console.log(err);
+      }
+    });
+  }
+}
+
 function jsonwrite() {
   if (LIGHT === undefined || BARO === undefined || HUMI === undefined) {
     console.log('Error: not the right Bricklets connected');
     process.exit(0);
   } else {
-    fs.writeFile(outputFilename, JSON.stringify({
+    fs.writeFile(config_json, JSON.stringify({
       light: LIGHT,
       baro: BARO,
       humi: HUMI,
@@ -90,6 +102,7 @@ function jsonwrite() {
 function get() {
   tfinit();
   tfget();
+  jsonavaible();
   setTimeout(function() {
     jsonwrite();
   }, 500);

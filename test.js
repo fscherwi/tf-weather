@@ -2,9 +2,9 @@ var fs = require('fs');
 
 function test_config_file() {
   try {
-    stats = fs.lstatSync(require('os-homedir')() + '/.tf_config.json');
+    config_file = fs.lstatSync(require('os-homedir')() + '/.tf_config.json');
 
-    if (stats.isFile()) {
+    if (config_file.isFile()) {
     }
   } catch (e) {
     console.log("Did't found config file!");
