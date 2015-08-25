@@ -66,7 +66,7 @@ function jsonavaible() {
   try {
     if (config_json.isFile()) {}
   } catch (e) {
-    fs.writeFile("config_json", "{}", function(err) {
+    fs.writeFile(config_json, "{}", function(err) {
       if (err) {
         return console.log(err);
       }
