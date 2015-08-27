@@ -10,9 +10,9 @@
   },
   "author": "fscherwi",
   "license": "MIT",
-  "keywords": {
+  "keywords": [
     "tinkerforge"
-  },
+  ],
   "bugs": {
     "url": "https://github.com/fscherwi/tf-weather/issues"
   },
