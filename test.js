@@ -1,6 +1,5 @@
 var fs = require('fs');
 
-function test_config_file() {
   try {
     var config_file = fs.lstatSync(require('os-homedir')() + '/.tf_config.json');
 
@@ -10,9 +9,7 @@ function test_config_file() {
     console.log("Did't found config file!");
     process.exit();
   }
-}
 
-function test_uids() {
   var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
   if (config_json.light === undefined) {
@@ -34,7 +31,3 @@ function test_uids() {
     console.log("Not correct configured, run 'weather get'!");
     process.exit(0);
   }
-}
-
-exports.test_config_file = test_config_file;
-exports.test_uids = test_uids;

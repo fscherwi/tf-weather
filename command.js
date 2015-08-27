@@ -1,10 +1,6 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var w;
-var g;
-var i;
-var test;
 
 program
   .version(require('./package.json').version)
@@ -19,15 +15,13 @@ program
 
 if (!program.args.length) {
   if (program.get) {
-    g = require('./get.js');
+    var g = require('./get.js');
     g.get();
   } else {
-    w = require('./weather.js');
-    i = require('./info.js');
-    test = require('./test.js');
+    require('./test.js');
 
-    test.test_config_file();
-    test.test_uids();
+    var w = require('./weather.js');
+    var i = require('./info.js');
 
     if (program.info) {
       i.info();
