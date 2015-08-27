@@ -2,7 +2,7 @@ var fs = require('fs');
 
 function test_config_file() {
   try {
-    config_file = fs.lstatSync(require('os-homedir')() + '/.tf_config.json');
+    var config_file = fs.lstatSync(require('os-homedir')() + '/.tf_config.json');
 
     if (config_file.isFile()) {
     }

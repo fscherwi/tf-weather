@@ -1,5 +1,4 @@
 var Tinkerforge = require('tinkerforge');
-var program = require('commander');
 
 var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
