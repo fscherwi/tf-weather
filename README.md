@@ -3,7 +3,7 @@
 
 ## Shows the current weather from Tinkerforge Sensors!
 # Install
-You may require sudo! Run in the root of the repo!
+You may require sudo!
 
 ```sh
  $ npm install -g tf-weather

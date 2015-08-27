@@ -3,18 +3,16 @@
   "version": "1.0.1",
   "description": "Tinkerforge Weather Tool",
   "main": "weather.js",
-  "scripts": {
-    "test": "test.js"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/fscherwi/tf-weather.git"
   },
   "author": "fscherwi",
   "license": "MIT",
-  "keywords": [
+  "keywords": {
     "tinkerforge"
-  ],
+  },
   "bugs": {
     "url": "https://github.com/fscherwi/tf-weather/issues"
   },
