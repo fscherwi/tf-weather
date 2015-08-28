@@ -40,44 +40,40 @@ function tfinit() {
 }
 
 function tfdata() {
-  ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-    function(connectReason) {
-      h.getHumidity(
-        function(humidity) {
-          var rh = humidity / 10;
-          console.log('Relative Humidity: ' + rh + ' %RH');
-        },
-        function(error) {
-          console.log('Relative Humidity: ' + 'Error ' + error);
-        }
-      );
-      b.getAirPressure(
-        function(air_pressure) {
-          var ap = air_pressure / 1000;
-          console.log('Air pressure:      ' + ap + ' mbar');
-        },
-        function(error) {
-          console.log('Air pressure: ' + 'Error ' + error);
-        }
-      );
-      b.getChipTemperature(
-        function(temperature) {
-          var temp = temperature / 100;
-          console.log('Temperature:       ' + temp + ' \u00B0C');
-        },
-        function(error) {
-          console.log('Temperature: ' + 'Error ' + error);
-        }
-      );
-      al.getIlluminance(
-        function(illuminance) {
-          var ilu = illuminance / 10;
-          console.log('Illuminance:       ' + ilu + ' Lux');
-        },
-        function(error) {
-          process.stdout.write('Illuminance: ' + 'Error ' + error);
-        }
-      );
+  h.getHumidity(
+    function(humidity) {
+      var rh = humidity / 10;
+      console.log('Relative Humidity: ' + rh + ' %RH');
+    },
+    function(error) {
+      console.log('Relative Humidity: ' + 'Error ' + error);
+    }
+  );
+  b.getAirPressure(
+    function(air_pressure) {
+      var ap = air_pressure / 1000;
+      console.log('Air pressure:      ' + ap + ' mbar');
+    },
+    function(error) {
+      console.log('Air pressure: ' + 'Error ' + error);
+    }
+  );
+  b.getChipTemperature(
+    function(temperature) {
+      var temp = temperature / 100;
+      console.log('Temperature:       ' + temp + ' \u00B0C');
+    },
+    function(error) {
+      console.log('Temperature: ' + 'Error ' + error);
+    }
+  );
+  al.getIlluminance(
+    function(illuminance) {
+      var ilu = illuminance / 10;
+      console.log('Illuminance:       ' + ilu + ' Lux');
+    },
+    function(error) {
+      process.stdout.write('Illuminance: ' + 'Error ' + error);
     }
   );
 }
@@ -85,7 +81,11 @@ function tfdata() {
 function tfsimple() {
   tfinit();
   console.log("");
-  tfdata();
+  ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+    function(connectReason) {
+      tfdata();
+    }
+  );
   setTimeout(function() {
     console.log("");
     process.exit();
@@ -104,7 +104,6 @@ function tflive() {
     function(callback) {
 
       console.log('\033[2J');
-
       tfdata();
 
       setTimeout(callback, WAIT);
