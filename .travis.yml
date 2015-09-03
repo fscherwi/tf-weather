@@ -8,6 +8,6 @@ node_js:
 install:
   - npm install -g
 
-test:
+script:
   - weather get
   - weather
