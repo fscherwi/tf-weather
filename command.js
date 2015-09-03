@@ -15,16 +15,14 @@ program
 
 if (!program.args.length) {
   if (program.get) {
-    var g = require('./get.js');
-    g.get();
+    require('./get.js').get();
   } else {
     require('./test.js');
-
+    
     var w = require('./weather.js');
-    var i = require('./info.js');
 
     if (program.info) {
-      i.info();
+      require('./info.js').info();
     } else if (program.live) {
       w.tflive();
     } else {
