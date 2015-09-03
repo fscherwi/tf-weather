@@ -4,7 +4,7 @@
   "description": "Tinkerforge Weather Tool",
   "main": "weather.js",
   "scripts": {
-    "test:system": "node test.js",
+    "test:system": "node test.js"
   },
   "repository": {
     "type": "git",
