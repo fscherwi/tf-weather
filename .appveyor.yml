@@ -1,6 +1,6 @@
 install:
   - npm install -g
 
-script:
+test:
   - weather get
   - weather
