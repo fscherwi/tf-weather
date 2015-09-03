@@ -89,7 +89,7 @@ function getIlluminance() {
       process.stdout.write('Illuminance: ' + 'Error ' + error);
     }
   );
-};
+}
 
 tfconnect();
 
