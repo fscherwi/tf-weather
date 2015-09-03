@@ -1,6 +1,9 @@
+environment:
+  nodejs_version: "0.12"
+
 install:
   - npm install -g
 
-test:
+test_script:
   - weather get
   - weather
