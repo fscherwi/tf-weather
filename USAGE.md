@@ -1,5 +1,4 @@
 # Usage
-
 ## Simple show current weather
 
 ```sh
@@ -10,6 +9,19 @@ $ weather
 
 ```sh
 $ weather get
+```
+
+### Options
+#### Custom HOST
+
+```sh
+$ weather get -h <your-host>
+```
+
+#### Custom PORT
+
+```sh
+$ weather get -p <your-port>
 ```
 
 ## Show config
@@ -23,16 +35,4 @@ $ weather info
 
 ```sh
 $ weather live
-```
-
-### Custom HOST
-
-```sh
-$ weather -h <your-host>
-```
-
-### Custom PORT
-
-```sh
-$ weather -p <your-port>
 ```
