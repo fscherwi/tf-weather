@@ -42,10 +42,6 @@ function tfinit() {
 }
 
 function tfget() {
-  console.log("HOST: " + HOST);
-  console.log("PORT: " + PORT);
-  console.log("WAIT: " + WAIT);
-
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
     function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
       if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
@@ -60,6 +56,10 @@ function tfget() {
       }
     }
   );
+  
+  console.log("HOST: " + HOST);
+  console.log("PORT: " + PORT);
+  console.log("WAIT: " + WAIT);
 }
 
 function jsonavaible() {
