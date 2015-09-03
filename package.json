@@ -5,7 +5,6 @@
   "main": "weather.js",
   "scripts": {
     "test:system": "node test.js",
-    "jshint": "./node_modules/.bin/jshint *"
   },
   "repository": {
     "type": "git",
@@ -26,9 +25,7 @@
     "os-homedir": "^1.0.1",
     "tinkerforge": "latest"
   },
-  "devDependencies": {
-    "jshint": "^2.8.0"
-  },
+  "devDependencies": {},
   "preferGlobal": true,
   "bin": {
     "weather": "command.js"
