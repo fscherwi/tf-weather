@@ -5,25 +5,28 @@ var program = require('commander');
 var LIGHT;
 var BARO;
 var HUMI;
+var HOST;
+var PORT;
+var WAIT;
 
 var ipcon;
 
 var config_json = require('os-homedir')() + '/.tf_config.json';
 
 if (program.host) {
-  var HOST = program.host;
+  HOST = program.host;
 } else {
-  var HOST = "localhost";
+  HOST = "localhost";
 }
 if (program.port) {
-  var PORT = program.port;
+  PORT = program.port;
 } else {
-  var PORT = 4223;
+  PORT = 4223;
 }
 if (program.wait) {
-  var WAIT = program.wait;
+  WAIT = program.wait;
 } else {
-  var WAIT = 1000;
+  WAIT = 1000;
 }
 
 function tfinit() {
@@ -79,7 +82,7 @@ function jsonavaible() {
 function jsonwrite() {
   if (LIGHT === undefined || BARO === undefined || HUMI === undefined) {
     console.log('Error: not the right Bricklets connected');
-    process.exit(0);
+    process.exit(1);
   } else {
     showinfo();
     fs.writeFile(config_json, JSON.stringify({
@@ -92,6 +95,7 @@ function jsonwrite() {
     }, null, 4), function(err) {
       if (err) {
         console.log(err);
+        process.exit(1);
       } else {
         console.log("");
         console.log("Succefully configured!");

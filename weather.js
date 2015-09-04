@@ -34,7 +34,7 @@ function tfinit() {
       } else {
         console.log('Error: UNKNOWN ERROR');
       }
-      process.exit();
+      process.exit(1);
     }
   );
 }
