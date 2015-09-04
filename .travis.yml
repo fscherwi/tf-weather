@@ -12,16 +12,9 @@ script:
   - weather get
   - weather
 
-env:
-  - TARGET_ARCH=x64
-
 matrix:
-  include:
-    - os: linux
-      env: TARGET_ARCH=arm
-    - os: linux
-      env: TARGET_ARCH=ia32
   allow_failures:
-    - env: TARGET_ARCH=arm
-    - env: TARGET_ARCH=ia32
     - node_js: "0.12"
+    - node_js: "0.11"
+    - node_js: "0.10"
+    - node_js: "iojs"
