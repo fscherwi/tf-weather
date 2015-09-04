@@ -9,5 +9,4 @@ You may require sudo!
  $ npm install -g tf-weather
 ```
 
-# Usage
-See [Usage](https://github.com/fscherwi/tf-weather/blob/master/USAGE.md)!
+# [Usage](https://github.com/fscherwi/tf-weather/blob/master/USAGE.md)
