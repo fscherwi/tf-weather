@@ -11,3 +11,13 @@ install:
 script:
   - weather get
   - weather
+
+matrix:
+  include:
+    - os: linux
+      env: TARGET_ARCH=arm
+    - os: linux
+      env: TARGET_ARCH=ia32
+  allow_failures:
+    - env: TARGET_ARCH=arm
+    - env: TARGET_ARCH=ia32
