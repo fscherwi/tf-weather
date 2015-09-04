@@ -46,20 +46,22 @@ function tfget() {
     function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
       if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
         LIGHT = uid;
-        console.log("LIGHT: " + LIGHT);
       } else if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
         BARO = uid;
-        console.log("BARO: " + BARO);
       } else if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
         HUMI = uid;
-        console.log("HUMI: " + HUMI);
       }
     }
   );
-  
+}
+
+function showinfo() {
   console.log("HOST: " + HOST);
   console.log("PORT: " + PORT);
   console.log("WAIT: " + WAIT);
+  console.log("LIGHT: " + LIGHT);
+  console.log("BARO: " + BARO);
+  console.log("HUMI: " + HUMI);
 }
 
 function jsonavaible() {
@@ -79,6 +81,7 @@ function jsonwrite() {
     console.log('Error: not the right Bricklets connected');
     process.exit(0);
   } else {
+    showinfo();
     fs.writeFile(config_json, JSON.stringify({
       light: LIGHT,
       baro: BARO,
