@@ -13,9 +13,8 @@ var ipcon = new Tinkerforge.IPConnection();
 var al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
 var b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
 var h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
-
+/* istanbul ignore next */
 function tfinit() {
-  /* istanbul ignore next */
   ipcon.connect(HOST, PORT,
     function(error) {
       if (error === 11) {
