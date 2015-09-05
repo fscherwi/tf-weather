@@ -16,6 +16,7 @@ var h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
 
 function tfinit() {
   ipcon.connect(HOST, PORT,
+    /* istanbul ignore next */
     function(error) {
       if (error === 11) {
         console.log('Error: ALREADY CONNECTED');
@@ -45,6 +46,7 @@ function tfdata() {
       var rh = humidity / 10;
       console.log('Relative Humidity: ' + rh + ' %RH');
     },
+    /* istanbul ignore next */
     function(error) {
       console.log('Relative Humidity: ' + 'Error ' + error);
     }
@@ -54,6 +56,7 @@ function tfdata() {
       var ap = air_pressure / 1000;
       console.log('Air pressure:      ' + ap + ' mbar');
     },
+    /* istanbul ignore next */
     function(error) {
       console.log('Air pressure: ' + 'Error ' + error);
     }
@@ -63,6 +66,7 @@ function tfdata() {
       var temp = temperature / 100;
       console.log('Temperature:       ' + temp + ' \u00B0C');
     },
+    /* istanbul ignore next */
     function(error) {
       console.log('Temperature: ' + 'Error ' + error);
     }
@@ -72,6 +76,7 @@ function tfdata() {
       var ilu = illuminance / 10;
       console.log('Illuminance:       ' + ilu + ' Lux');
     },
+    /* istanbul ignore next */
     function(error) {
       process.stdout.write('Illuminance: ' + 'Error ' + error);
     }

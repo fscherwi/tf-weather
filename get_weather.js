@@ -4,7 +4,6 @@ var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
 var HOST = config_json.host;
 var PORT = parseInt(config_json.port);
-
 var BARO = config_json.baro;
 var HUMI = config_json.humi;
 var LIGHT = config_json.light;
@@ -18,6 +17,7 @@ var Humidity;
 var AirPressure;
 var Temperature;
 
+/* istanbul ignore next */
 ipcon.connect(HOST, PORT,
   function(error) {
     if (error === 11) {
@@ -40,7 +40,7 @@ ipcon.connect(HOST, PORT,
     process.exit();
   }
 );
-
+/* istanbul ignore next */
 function getHumidity() {
   h.getHumidity(
     function(humidity) {
@@ -53,7 +53,7 @@ function getHumidity() {
     }
   );
 }
-
+/* istanbul ignore next */
 function getAirPressure() {
   b.getAirPressure(
     function(air_pressure) {
@@ -65,7 +65,7 @@ function getAirPressure() {
     }
   );
 }
-
+/* istanbul ignore next */
 function getTemperature() {
   b.getChipTemperature(
     function(temperature) {
@@ -77,7 +77,7 @@ function getTemperature() {
     }
   );
 }
-
+/* istanbul ignore next */
 function getIlluminance() {
   al.getIlluminance(
     function(illuminance) {

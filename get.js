@@ -43,7 +43,7 @@ function tfinit() {
     }
   );
 }
-
+/* istanbul ignore next */
 function tfget() {
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
     function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
@@ -57,7 +57,7 @@ function tfget() {
     }
   );
 }
-
+/* istanbul ignore next */
 function showinfo() {
   console.log("HOST: " + HOST);
   console.log("PORT: " + PORT);
@@ -78,7 +78,7 @@ function jsonavaible() {
     });
   }
 }
-
+/* istanbul ignore next */
 function jsonwrite() {
   if (LIGHT === undefined || BARO === undefined || HUMI === undefined) {
     console.log('Error: not the right Bricklets connected');
@@ -105,7 +105,7 @@ function jsonwrite() {
     });
   }
 }
-
+/* istanbul ignore next */
 function get() {
   tfinit();
   tfget();

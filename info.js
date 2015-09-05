@@ -7,7 +7,7 @@ var HUMI;
 var LIGHT;
 
 var config_json;
-
+/* istanbul ignore next */
 function get() {
   config_json = require(require('os-homedir')() + '/.tf_config.json');
 
@@ -19,7 +19,7 @@ function get() {
   HUMI = config_json.humi;
   LIGHT = config_json.light;
 }
-
+/* istanbul ignore next */
 function show() {
   console.log("HOST: " + HOST);
   console.log("PORT: " + PORT);
@@ -29,7 +29,7 @@ function show() {
   console.log("BARO UID: " + BARO);
   console.log("HUMI UID: " + HUMI);
 }
-
+/* istanbul ignore next */
 function info() {
   get();
   show();
