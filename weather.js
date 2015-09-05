@@ -39,9 +39,8 @@ function tfinit() {
     }
   );
 }
-
+/* istanbul ignore next */
 function tfdata() {
-  /* istanbul ignore next */
   h.getHumidity(
     function(humidity) {
       var rh = humidity / 10;
@@ -51,7 +50,6 @@ function tfdata() {
       console.log('Relative Humidity: ' + 'Error ' + error);
     }
   );
-  /* istanbul ignore next */
   b.getAirPressure(
     function(air_pressure) {
       var ap = air_pressure / 1000;
@@ -61,7 +59,6 @@ function tfdata() {
       console.log('Air pressure: ' + 'Error ' + error);
     }
   );
-  /* istanbul ignore next */
   b.getChipTemperature(
     function(temperature) {
       var temp = temperature / 100;
@@ -71,7 +68,6 @@ function tfdata() {
       console.log('Temperature: ' + 'Error ' + error);
     }
   );
-  /* istanbul ignore next */
   al.getIlluminance(
     function(illuminance) {
       var ilu = illuminance / 10;
@@ -82,7 +78,7 @@ function tfdata() {
     }
   );
 }
-
+/* istanbul ignore next */
 function tfsimple() {
   tfinit();
   console.log("");
@@ -96,7 +92,7 @@ function tfsimple() {
     process.exit();
   }, 500);
 }
-
+/* istanbul ignore next */
 function tflive() {
   tfinit();
   end();
@@ -119,7 +115,7 @@ function tflive() {
     }
   );
 }
-
+/* istanbul ignore next */
 function end() {
   process.stdin.on('data',
     function(data) {
