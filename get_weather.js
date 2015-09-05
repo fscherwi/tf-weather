@@ -4,18 +4,11 @@ var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
 var HOST = config_json.host;
 var PORT = parseInt(config_json.port);
-var BARO = config_json.baro;
-var HUMI = config_json.humi;
-var LIGHT = config_json.light;
 
 var ipcon = new Tinkerforge.IPConnection();
-var al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
-var b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
-var h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
-
-var Humidity;
-var AirPressure;
-var Temperature;
+var al = new Tinkerforge.BrickletAmbientLight(config_json.light, ipcon);
+var b = new Tinkerforge.BrickletBarometer(config_json.baro, ipcon);
+var h = new Tinkerforge.BrickletHumidity(config_json.humi, ipcon);
 
 /* istanbul ignore next */
 ipcon.connect(HOST, PORT,
