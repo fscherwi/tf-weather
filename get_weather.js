@@ -35,52 +35,64 @@ ipcon.connect(HOST, PORT,
 );
 /* istanbul ignore next */
 function getHumidity() {
-  h.getHumidity(
-    function(humidity) {
-      var rh = humidity / 10;
-      return rh;
-    },
-    function(error) {
-      console.log('Relative Humidity: Error ' + error);
-      ipcon.disconnect();
-    }
-  );
+  ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+    function(connectReason) {
+      h.getHumidity(
+        function(humidity) {
+          var rh = humidity / 10;
+          return rh;
+        },
+        function(error) {
+          console.log('Relative Humidity: Error ' + error);
+          ipcon.disconnect();
+        }
+      );
+    });
 }
 /* istanbul ignore next */
 function getAirPressure() {
-  b.getAirPressure(
-    function(air_pressure) {
-      var ap = air_pressure / 1000;
-      return ap;
-    },
-    function(error) {
-      console.log('Air pressure: Error ' + error);
-    }
-  );
+  ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+    function(connectReason) {
+      b.getAirPressure(
+        function(air_pressure) {
+          var ap = air_pressure / 1000;
+          return ap;
+        },
+        function(error) {
+          console.log('Air pressure: Error ' + error);
+        }
+      );
+    });
 }
 /* istanbul ignore next */
 function getTemperature() {
-  b.getChipTemperature(
-    function(temperature) {
-      var temp = temperature / 100;
-      return temp;
-    },
-    function(error) {
-      console.log('Temperature: Error ' + error);
-    }
-  );
+  ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+    function(connectReason) {
+      b.getChipTemperature(
+        function(temperature) {
+          var temp = temperature / 100;
+          return temp;
+        },
+        function(error) {
+          console.log('Temperature: Error ' + error);
+        }
+      );
+    });
 }
 /* istanbul ignore next */
 function getIlluminance() {
-  al.getIlluminance(
-    function(illuminance) {
-      var ilu = illuminance / 10;
-      return Illuminance;
-    },
-    function(error) {
-      process.stdout.write('Illuminance: Error ' + error);
-    }
-  );
+  ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+    function(connectReason) {
+      al.getIlluminance(
+        function(illuminance) {
+          var ilu = illuminance / 10;
+          return ilu;
+        },
+        function(error) {
+          process.stdout.write('Illuminance: Error ' + error);
+        }
+      );
+    });
 }
 
 module.exports.Humidity = getHumidity;
