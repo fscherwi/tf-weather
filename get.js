@@ -28,7 +28,7 @@ if (program.wait) {
 } else {
   WAIT = 1000;
 }
-
+/* istanbul ignore next */
 function tfinit() {
   ipcon = new Tinkerforge.IPConnection();
   ipcon.connect(HOST, PORT,
@@ -66,7 +66,7 @@ function showinfo() {
   console.log("BARO: " + BARO);
   console.log("HUMI: " + HUMI);
 }
-
+/* istanbul ignore next */
 function jsonavaible() {
   try {
     if (config_json.isFile()) {}

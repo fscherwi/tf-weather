@@ -12,7 +12,7 @@ program
   .option('get', 'Get UIDs of BRICKLETs!')
   .option('info', 'Show configured UIDs!')
   .parse(process.argv);
-
+/* istanbul ignore next */
 if (!program.args.length) {
   if (program.get) {
     require('./get.js').get();
