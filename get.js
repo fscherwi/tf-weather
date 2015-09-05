@@ -12,17 +12,19 @@ var WAIT;
 var ipcon;
 
 var config_json = require('os-homedir')() + '/.tf_config.json';
-
+/* istanbul ignore next */
 if (program.host) {
   HOST = program.host;
 } else {
   HOST = "localhost";
 }
+/* istanbul ignore next */
 if (program.port) {
   PORT = program.port;
 } else {
   PORT = 4223;
 }
+/* istanbul ignore next */
 if (program.wait) {
   WAIT = program.wait;
 } else {

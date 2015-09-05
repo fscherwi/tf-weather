@@ -15,8 +15,8 @@ var b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
 var h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
 
 function tfinit() {
+  /* istanbul ignore next */
   ipcon.connect(HOST, PORT,
-    /* istanbul ignore next */
     function(error) {
       if (error === 11) {
         console.log('Error: ALREADY CONNECTED');
@@ -41,42 +41,42 @@ function tfinit() {
 }
 
 function tfdata() {
+  /* istanbul ignore next */
   h.getHumidity(
     function(humidity) {
       var rh = humidity / 10;
       console.log('Relative Humidity: ' + rh + ' %RH');
     },
-    /* istanbul ignore next */
     function(error) {
       console.log('Relative Humidity: ' + 'Error ' + error);
     }
   );
+  /* istanbul ignore next */
   b.getAirPressure(
     function(air_pressure) {
       var ap = air_pressure / 1000;
       console.log('Air pressure:      ' + ap + ' mbar');
     },
-    /* istanbul ignore next */
     function(error) {
       console.log('Air pressure: ' + 'Error ' + error);
     }
   );
+  /* istanbul ignore next */
   b.getChipTemperature(
     function(temperature) {
       var temp = temperature / 100;
       console.log('Temperature:       ' + temp + ' \u00B0C');
     },
-    /* istanbul ignore next */
     function(error) {
       console.log('Temperature: ' + 'Error ' + error);
     }
   );
+  /* istanbul ignore next */
   al.getIlluminance(
     function(illuminance) {
       var ilu = illuminance / 10;
       console.log('Illuminance:       ' + ilu + ' Lux');
     },
-    /* istanbul ignore next */
     function(error) {
       process.stdout.write('Illuminance: ' + 'Error ' + error);
     }
