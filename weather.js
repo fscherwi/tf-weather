@@ -119,6 +119,7 @@ function end() {
     }
   );
 }
-
+/* istanbul ignore next */
 exports.tfsimple = tfsimple;
+/* istanbul ignore next */
 exports.tflive = tflive;

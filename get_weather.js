@@ -97,10 +97,15 @@ function getIlluminance() {
       );
     });
 }
+/* istanbul ignore next */
 module.exports.get_uids = uids;
+/* istanbul ignore next */
 module.exports.connect = connect;
-
+/* istanbul ignore next */
 module.exports.Humidity = getHumidity;
+/* istanbul ignore next */
 module.exports.AirPressure = getAirPressure;
+/* istanbul ignore next */
 module.exports.Temperature = getTemperature;
+/* istanbul ignore next */
 module.exports.Illuminance = getIlluminance;

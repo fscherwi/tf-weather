@@ -116,5 +116,5 @@ function get() {
     jsonwrite();
   }, 500);
 }
-
+/* istanbul ignore next */
 exports.get = get;
