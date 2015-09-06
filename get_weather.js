@@ -2,37 +2,38 @@ var Tinkerforge = require('tinkerforge');
 
 var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
-var HOST = config_json.host;
-var PORT = parseInt(config_json.port);
-
 var ipcon = new Tinkerforge.IPConnection();
 var al = new Tinkerforge.BrickletAmbientLight(config_json.light, ipcon);
 var b = new Tinkerforge.BrickletBarometer(config_json.baro, ipcon);
 var h = new Tinkerforge.BrickletHumidity(config_json.humi, ipcon);
 
 /* istanbul ignore next */
-ipcon.connect(HOST, PORT,
-  function(error) {
-    if (error === 11) {
-      console.log('Error: ALREADY CONNECTED');
-    } else if (error === 12) {
-      console.log('Error: NOT CONNECTED');
-    } else if (error === 13) {
-      console.log('Error: CONNECT FAILED');
-    } else if (error === 21) {
-      console.log('Error: INVALID FUNCTION ID');
-    } else if (error === 31) {
-      console.log('Error: TIMEOUT');
-    } else if (error === 41) {
-      console.log('Error: INVALID PARAMETER');
-    } else if (error === 42) {
-      console.log('Error: FUNCTION NOT SUPPORTED');
-    } else {
-      console.log('Error: UNKNOWN ERROR');
+function connect(host, port) {
+  ipcon.connect(host, port,
+    function(error) {
+      if (error === 11) {
+        console.log('Error: ALREADY CONNECTED');
+      } else if (error === 12) {
+        console.log('Error: NOT CONNECTED');
+      } else if (error === 13) {
+        console.log('Error: CONNECT FAILED');
+      } else if (error === 21) {
+        console.log('Error: INVALID FUNCTION ID');
+      } else if (error === 31) {
+        console.log('Error: TIMEOUT');
+      } else if (error === 41) {
+        console.log('Error: INVALID PARAMETER');
+      } else if (error === 42) {
+        console.log('Error: FUNCTION NOT SUPPORTED');
+      } else {
+        console.log('Error: UNKNOWN ERROR');
+      }
+      process.exit(1);
     }
-    process.exit();
-  }
-);
+  );
+}
+/* istanbul ignore next */
+connect(host=config_json.host, port=parseInt(config_json.port));
 /* istanbul ignore next */
 function getHumidity() {
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
