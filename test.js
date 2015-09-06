@@ -12,7 +12,7 @@ function test_json() {
   }
 
   var config_json = require(require('os-homedir')() + '/.tf_config.json');
-  
+
   if (config_json.light === undefined) {
     console.log("Not correct configured, run 'weather get'!");
     process.exit(1);

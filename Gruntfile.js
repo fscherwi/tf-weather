@@ -2,6 +2,18 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    jsbeautifier: {
+      files: ["*.js"],
+      options: {
+        js: {
+          indentChar: " ",
+          indentLevel: 0,
+          indentSize: 2,
+          indentWithTabs: false,
+          endWithNewline: true
+        }
+      }
+    },
     replace: {
       coverage: {
         src: ['*.js', '!Gruntfile.js'],
@@ -34,9 +46,11 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks("grunt-jsbeautifier");
   grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-shell');
 
+  grunt.registerTask('default', ['jsbeautifier']);
   grunt.registerTask('replace_coverage_config', ['replace']);
   grunt.registerTask('publish', ['shell']);
 

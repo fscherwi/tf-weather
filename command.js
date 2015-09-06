@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /* istanbul ignore next */
 var program = require('commander');
 /* istanbul ignore next */
