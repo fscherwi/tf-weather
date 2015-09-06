@@ -13,7 +13,7 @@ script:
   - weather get
   - weather
 after_script:
-  - istanbul --include-all-sources cover test.js
+  - npm run test
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
 matrix:
