@@ -2,11 +2,19 @@ var Tinkerforge = require('tinkerforge');
 
 var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
-var ipcon = new Tinkerforge.IPConnection();
-var al = new Tinkerforge.BrickletAmbientLight(config_json.light, ipcon);
-var b = new Tinkerforge.BrickletBarometer(config_json.baro, ipcon);
-var h = new Tinkerforge.BrickletHumidity(config_json.humi, ipcon);
-
+var ipcon;
+var al;
+var b;
+var h;
+/* istanbul ignore next */
+function uids(light_uid, baro_uid, humi_uid) {
+  ipcon = new Tinkerforge.IPConnection();
+  al = new Tinkerforge.BrickletAmbientLight(light_uid, ipcon);
+  b = new Tinkerforge.BrickletBarometer(baro_uid, ipcon);
+  h = new Tinkerforge.BrickletHumidity(humi_uid, ipcon);
+}
+/* istanbul ignore next */
+uids(light_uid=config_json.light, baro_uid=config_json.baro, humi_uid=config_json.humi)
 /* istanbul ignore next */
 function connect(host, port) {
   ipcon.connect(host, port,
