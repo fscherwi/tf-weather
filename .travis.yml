@@ -6,8 +6,19 @@ node_js:
   - "iojs"
 
 install:
+  - npm install
   - npm install -g
 
 script:
   - weather get
   - weather
+after_script:
+  - npm run cover
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+
+matrix:
+  allow_failures:
+    - node_js: "0.12"
+    - node_js: "0.11"
+    - node_js: "0.10"
+    - node_js: "iojs"

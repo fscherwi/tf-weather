@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
+/* istanbul ignore next */
 var program = require('commander');
-
+/* istanbul ignore next */
 program
   .version(require('./package.json').version)
   .usage('[options]')
@@ -12,19 +13,17 @@ program
   .option('get', 'Get UIDs of BRICKLETs!')
   .option('info', 'Show configured UIDs!')
   .parse(process.argv);
-
+/* istanbul ignore next */
 if (!program.args.length) {
   if (program.get) {
-    var g = require('./get.js');
-    g.get();
+    require('./get.js').get();
   } else {
-    require('./test.js');
+    require('./test.js').test_json();
 
     var w = require('./weather.js');
-    var i = require('./info.js');
 
     if (program.info) {
-      i.info();
+      require('./info.js').info();
     } else if (program.live) {
       w.tflive();
     } else {
