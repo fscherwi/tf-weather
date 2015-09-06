@@ -1,7 +1,5 @@
 var Tinkerforge = require('tinkerforge');
 
-var config_json = require(require('os-homedir')() + '/.tf_config.json');
-
 var ipcon;
 var al;
 var b;
@@ -13,8 +11,6 @@ function uids(light_uid, baro_uid, humi_uid) {
   b = new Tinkerforge.BrickletBarometer(baro_uid, ipcon);
   h = new Tinkerforge.BrickletHumidity(humi_uid, ipcon);
 }
-/* istanbul ignore next */
-uids(light_uid=config_json.light, baro_uid=config_json.baro, humi_uid=config_json.humi)
 /* istanbul ignore next */
 function connect(host, port) {
   ipcon.connect(host, port,
@@ -40,8 +36,6 @@ function connect(host, port) {
     }
   );
 }
-/* istanbul ignore next */
-connect(host=config_json.host, port=parseInt(config_json.port));
 /* istanbul ignore next */
 function getHumidity() {
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
@@ -103,6 +97,8 @@ function getIlluminance() {
       );
     });
 }
+module.exports.get_uids = uids;
+module.exports.connect = connect;
 
 module.exports.Humidity = getHumidity;
 module.exports.AirPressure = getAirPressure;
