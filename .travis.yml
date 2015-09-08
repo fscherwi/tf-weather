@@ -8,6 +8,7 @@ node_js:
 install:
   - npm install
   - npm install -g
+  - npm install codecov.io coveralls
 
 script:
   - weather get
@@ -15,6 +16,7 @@ script:
 after_script:
   - npm run cover
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js
 
 matrix:
   allow_failures:
