@@ -6,9 +6,8 @@ node_js:
   - "iojs"
 
 install:
-  - npm install
   - npm install -g
-  - npm install codecov.io coveralls
+  - npm install istanbul coveralls codecov
 
 script:
   - weather get
