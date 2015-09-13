@@ -34,6 +34,9 @@ module.exports = function(grunt) {
       replace_coverage: {
         command: 'grunt replace_coverage_config'
       },
+      add_readme: {
+        command: 'mv ./README.md ./coverage_files/README.md'
+      },
       publish: {
         command: 'npm publish'
       },
