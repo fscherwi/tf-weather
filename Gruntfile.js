@@ -2,25 +2,27 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
     jsbeautifier: {
-      files: ["*.js"],
+      files: ["*.js", "*.json", "!*.min.js"],
       options: {
         js: {
-          indentChar: " ",
-          indentLevel: 0,
-          indentSize: 2,
-          indentWithTabs: false,
-          endWithNewline: true
+          indentSize: 2
         }
       }
     },
-    replace: {
-      coverage: {
-        src: ['*.js', '!Gruntfile.js'],
-        overwrite: true,
-        replacements: [{
-          from: '/* istanbul ignore next */',
-          to: ''
+    uglify: {
+      options: {
+        removeComments: true,
+        banner: '/*! <%= pkg.name %> ©<%= grunt.template.today("yyyy") %> <%= pkg.author %> */\n '
+      },
+      build: {
+        files: [{
+          expand: true,
+          cwd: './',
+          src: ['*.js', '!Gruntfile.js', '!**/node_modules/**', '!command.js'],
+          dest: './',
+          ext: '.js'
         }]
       }
     },
@@ -31,11 +33,11 @@ module.exports = function(grunt) {
       copy: {
         command: 'cp *.js ./coverage_files'
       },
-      replace_coverage: {
-        command: 'grunt replace_coverage_config'
+      minify: {
+        command: 'grunt uglify'
       },
       add_readme: {
-        command: 'mv ./README.md ./coverage_files/README.md'
+        command: 'cp ./README.md ./coverage_files/README.md'
       },
       publish: {
         command: 'npm publish'
@@ -47,14 +49,14 @@ module.exports = function(grunt) {
         command: 'rm -rf coverage_files'
       }
     }
-  });
 
+  });
   grunt.loadNpmTasks("grunt-jsbeautifier");
-  grunt.loadNpmTasks('grunt-text-replace');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('default', ['jsbeautifier']);
-  grunt.registerTask('replace_coverage_config', ['replace']);
+  grunt.registerTask('cover', ['jsbeautifier']);
   grunt.registerTask('publish', ['shell']);
 
 };
