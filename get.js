@@ -69,18 +69,6 @@ function showinfo() {
   console.log("HUMI: " + HUMI);
 }
 /* istanbul ignore next */
-function jsonavaible() {
-  try {
-    if (config_json.isFile()) {}
-  } catch (e) {
-    fs.writeFile(config_json, "{}", function(err) {
-      if (err) {
-        return console.log(err);
-      }
-    });
-  }
-}
-/* istanbul ignore next */
 function jsonwrite() {
   if (LIGHT === undefined || BARO === undefined || HUMI === undefined) {
     console.log('Error: not the right Bricklets connected');
@@ -111,7 +99,7 @@ function jsonwrite() {
 function get() {
   tfinit();
   tfget();
-  jsonavaible();
+  require("./json.js");
   setTimeout(function() {
     jsonwrite();
   }, 500);

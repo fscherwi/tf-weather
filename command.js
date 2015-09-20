@@ -18,7 +18,7 @@ if (!program.args.length) {
   if (program.get) {
     require('./get.js').get();
   } else {
-    require('./test.js').test_json();
+    require("./json.js");
 
     var w = require('./weather.js');
 
