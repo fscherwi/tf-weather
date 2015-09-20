@@ -22,9 +22,7 @@ if (!program.args.length) {
 
     var w = require('./weather.js');
 
-    if (program.info) {
-      require('./info.js').info();
-    } else if (program.live) {
+    if (program.live) {
       w.tflive();
     } else {
       w.tfsimple();
