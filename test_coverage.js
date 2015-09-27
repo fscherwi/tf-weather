@@ -1,4 +1,3 @@
-require('./get.js').get();
-require('./info.js').info();
+require('./command.js');
 
 require('./weather.js').tfsimple();
