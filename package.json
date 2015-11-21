@@ -21,11 +21,11 @@
     "async": "^1.5.0",
     "commander": "^2.9.0",
     "os-homedir": "^1.0.1",
-    "tinkerforge": "^2.0.5"
+    "tinkerforge": "^2.0.6"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-uglify": "^0.10.0",
+    "grunt-contrib-uglify": "^0.11.0",
     "grunt-jsbeautifier": "^0.2.10",
     "grunt-shell": "^1.1.2"
   },
