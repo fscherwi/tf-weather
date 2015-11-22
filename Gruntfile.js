@@ -7,7 +7,8 @@ module.exports = function(grunt) {
       files: ['*.js', '*.json', '!*.min.js'],
       options: {
         js: {
-          indentSize: 2
+          indentSize: 2,
+          "preserve-newlines": true
         }
       }
     },
