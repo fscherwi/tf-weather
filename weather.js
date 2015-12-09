@@ -1,5 +1,4 @@
 var Tinkerforge = require('tinkerforge');
-
 var config_json = require(require('os-homedir')() + '/.tf_config.json');
 
 var HOST = config_json.host;
@@ -13,22 +12,31 @@ var h = new Tinkerforge.BrickletHumidity(config_json.humi, ipcon);
 function tfinit() {
   ipcon.connect(HOST, PORT,
     function(error) {
-      if (error === 11) {
-        console.log('Error: ALREADY CONNECTED');
-      } else if (error === 12) {
-        console.log('Error: NOT CONNECTED');
-      } else if (error === 13) {
-        console.log('Error: CONNECT FAILED');
-      } else if (error === 21) {
-        console.log('Error: INVALID FUNCTION ID');
-      } else if (error === 31) {
-        console.log('Error: TIMEOUT');
-      } else if (error === 41) {
-        console.log('Error: INVALID PARAMETER');
-      } else if (error === 42) {
-        console.log('Error: FUNCTION NOT SUPPORTED');
-      } else {
-        console.log('Error: UNKNOWN ERROR');
+      switch (error) {
+        case 11:
+          console.log('Error: ALREADY CONNECTED');
+          break;
+        case 12:
+          console.log('Error: NOT CONNECTED');
+          break;
+        case 13:
+          console.log('Error: CONNECT FAILED');
+          break;
+        case 21:
+          console.log('Error: INVALID FUNCTION ID');
+          break;
+        case 31:
+          console.log('Error: TIMEOUT');
+          break;
+        case 41:
+          console.log('Error: INVALID PARAMETER');
+          break;
+        case 42:
+          console.log('Error: FUNCTION NOT SUPPORTED');
+          break;
+        default:
+          console.log('Error: UNKNOWN ERROR');
+          break;
       }
       process.exit(1);
     }
