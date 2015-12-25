@@ -8,42 +8,7 @@ var h;
 var b;
 var ipcon;
 /* istanbul ignore next */
-function get(HOST, PORT) {
-  ipcon = new Tinkerforge.IPConnection();
-  ipcon.connect(HOST, PORT,
-    function(error) {
-      console.log('Error: ' + error);
-    }
-  );
-
-  ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-    function(connectReason) {
-      ipcon.enumerate();
-    }
-  );
-
-  ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
-    function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
-      if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
-        LIGHT = uid;
-      } else if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
-        BARO = uid;
-      } else if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
-        HUMI = uid;
-      }
-    }
-  );
-  setTimeout(function() {
-    ipcon.disconnect();
-  }, 500);
-}
-/* istanbul ignore next */
-function tfinit(HOST, PORT) {
-  ipcon = new Tinkerforge.IPConnection();
-  al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
-  b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
-  h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
-
+function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
     function(error) {
       switch (error) {
@@ -75,6 +40,38 @@ function tfinit(HOST, PORT) {
       process.exit();
     }
   );
+}
+/* istanbul ignore next */
+function get(HOST, PORT) {
+  ipcon = new Tinkerforge.IPConnection();
+  ipcon_connect(HOST, PORT);
+  ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+    function(connectReason) {
+      ipcon.enumerate();
+    }
+  );
+  ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
+    function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
+      if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
+        LIGHT = uid;
+      } else if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
+        BARO = uid;
+      } else if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
+        HUMI = uid;
+      }
+    }
+  );
+  setTimeout(function() {
+    ipcon.disconnect();
+  }, 500);
+}
+/* istanbul ignore next */
+function tfinit(HOST, PORT) {
+  ipcon = new Tinkerforge.IPConnection();
+  al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
+  b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
+  h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
+  ipcon_connect(HOST, PORT);
 }
 /* istanbul ignore next */
 function tfdata() {
@@ -143,8 +140,7 @@ function tflive(HOST, PORT, WAIT) {
         process.exit(0);
       }
     );
-    var async = require('async');
-    async.whilst(
+    require('async').whilst(
       function() {
         return true;
       },

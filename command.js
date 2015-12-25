@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-/* istanbul ignore next */
 var program = require('commander');
-/* istanbul ignore next */
+
 program
   .version(require('./package.json').version)
   .usage('[options]')
