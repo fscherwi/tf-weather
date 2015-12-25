@@ -42,7 +42,7 @@ function ipcon_connect(HOST, PORT) {
   );
 }
 /* istanbul ignore next */
-function get(HOST, PORT) {
+function get_uid(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
   ipcon_connect(HOST, PORT);
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
@@ -77,8 +77,7 @@ function tfinit(HOST, PORT) {
 function tfdata() {
   h.getHumidity(
     function(humidity) {
-      var rh = humidity / 10;
-      console.log('Relative Humidity: ' + rh + ' %RH');
+      console.log('Relative Humidity: ' + humidity / 10 + ' %RH');
     },
     function(error) {
       console.log('Relative Humidity: ' + 'Error ' + error);
@@ -86,8 +85,7 @@ function tfdata() {
   );
   b.getAirPressure(
     function(air_pressure) {
-      var ap = air_pressure / 1000;
-      console.log('Air pressure:      ' + ap + ' mbar');
+      console.log('Air pressure:      ' + air_pressure / 1000 + ' mbar');
     },
     function(error) {
       console.log('Air pressure: ' + 'Error ' + error);
@@ -95,8 +93,7 @@ function tfdata() {
   );
   b.getChipTemperature(
     function(temperature) {
-      var temp = temperature / 100;
-      console.log('Temperature:       ' + temp + ' \u00B0C');
+      console.log('Temperature:       ' + temperature / 100 + ' \u00B0C');
     },
     function(error) {
       console.log('Temperature: ' + 'Error ' + error);
@@ -104,8 +101,7 @@ function tfdata() {
   );
   al.getIlluminance(
     function(illuminance) {
-      var ilu = illuminance / 10;
-      console.log('Illuminance:       ' + ilu + ' Lux');
+      console.log('Illuminance:       ' + illuminance / 10 + ' Lux');
     },
     function(error) {
       process.stdout.write('Illuminance: ' + 'Error ' + error);
@@ -113,50 +109,42 @@ function tfdata() {
   );
 }
 /* istanbul ignore next */
-function tfsimple(HOST, PORT) {
-  get(HOST, PORT);
+exports.get = function tfget(HOST, PORT, WAIT, live) {
+  get_uid(HOST, PORT);
   setTimeout(function() {
     tfinit(HOST, PORT);
-    ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-      function(connectReason) {
-        tfdata();
-      }
-    );
-    setTimeout(function() {
-      console.log('');
-      ipcon.disconnect();
-      process.exit(0);
-    }, 500);
-  }, 1000);
-}
-/* istanbul ignore next */
-function tflive(HOST, PORT, WAIT) {
-  get(HOST, PORT);
-  setTimeout(function() {
-    tfinit(HOST, PORT);
-    process.stdin.on('data',
-      function(data) {
+    if (live === true) {
+      process.stdin.on('data',
+        function(data) {
+          ipcon.disconnect();
+          process.exit(0);
+        }
+      );
+      require('async').whilst(
+        function() {
+          return true;
+        },
+        function(callback) {
+          console.log('\033[2J');
+          tfdata();
+          setTimeout(callback, WAIT);
+        },
+        function(err) {
+          console.log('ERROR: ' + err);
+          process.exit();
+        }
+      );
+    } else {
+      ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+        function(connectReason) {
+          tfdata();
+        }
+      );
+      setTimeout(function() {
+        console.log('');
         ipcon.disconnect();
         process.exit(0);
-      }
-    );
-    require('async').whilst(
-      function() {
-        return true;
-      },
-      function(callback) {
-        console.log('\033[2J');
-        tfdata();
-        setTimeout(callback, WAIT);
-      },
-      function(err) {
-        console.log('ERROR: ' + err);
-        process.exit();
-      }
-    );
+      }, 500);
+    }
   }, 1000);
-}
-/* istanbul ignore next */
-exports.tfsimple = tfsimple;
-/* istanbul ignore next */
-exports.tflive = tflive;
+};

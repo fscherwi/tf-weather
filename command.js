@@ -33,9 +33,9 @@ if (!program.args.length) {
   }
 
   if (program.live) {
-    w.tflive(HOST, PORT, WAIT);
+    w.get(HOST, PORT, WAIT, live=true);
   } else {
-    w.tfsimple(HOST, PORT);
+    w.get(HOST, PORT, live=false);
   }
 } else {
   program.help();
