@@ -10,7 +10,7 @@ script:
   - weather get
   - weather
 after_script:
-  - node ./node_modules/.bin/istanbul cover test/test_coverage.js
+  - node ./node_modules/.bin/istanbul cover command.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
   - cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js
 matrix:
