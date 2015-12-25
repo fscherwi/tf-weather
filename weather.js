@@ -72,7 +72,7 @@ function tfinit(HOST, PORT) {
           console.log('Error: UNKNOWN ERROR');
           break;
       }
-      process.exit(1);
+      process.exit();
     }
   );
 }
@@ -154,7 +154,7 @@ function tflive(HOST, PORT, WAIT) {
         setTimeout(callback, WAIT);
       },
       function(err) {
-        console.log("ERROR: " + err);
+        console.log('ERROR: ' + err);
         process.exit();
       }
     );

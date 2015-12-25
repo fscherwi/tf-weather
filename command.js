@@ -20,7 +20,7 @@ if (!program.args.length) {
   if (program.host) {
     HOST = program.host;
   } else {
-    HOST = "localhost";
+    HOST = 'localhost';
   }
   if (program.port) {
     PORT = program.port;
