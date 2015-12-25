@@ -91,8 +91,8 @@ function tfsimple() {
     }
   );
   setTimeout(function() {
-    console.log("");
-    process.exit();
+    ipcon.disconnect();
+    process.exit(0);
   }, 500);
 }
 /* istanbul ignore next */
@@ -106,10 +106,8 @@ function tflive() {
       return true;
     },
     function(callback) {
-
       console.log('\033[2J');
       tfdata();
-
       setTimeout(callback, WAIT);
     },
     function(err) {
