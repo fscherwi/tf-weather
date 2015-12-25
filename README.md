@@ -16,29 +16,17 @@ You may require sudo!
 $ weather
 ```
 
-## Configure
-
-```sh
-$ weather get
-```
-
 ### Options
-#### Custom HOST
+**Custom HOST**
 
 ```sh
 $ weather get -h <your-host>
 ```
 
-#### Custom PORT
+**Custom PORT**
 
 ```sh
 $ weather get -p <your-port>
-```
-
-## Show config
-
-```sh
-$ weather info
 ```
 
 ## Advanced functions
