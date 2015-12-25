@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/fscherwi/tf-weather/blob/master/README.md",
   "dependencies": {
-    "async": "^1.5.0",
     "commander": "^2.9.0",
     "tinkerforge": "^2.0.6"
   },

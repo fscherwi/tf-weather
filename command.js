@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-
+/* istanbul ignore next */
 program
   .version(require('./package.json').version)
   .usage('[options]')
@@ -33,9 +33,9 @@ if (!program.args.length) {
   }
 
   if (program.live) {
-    w.get(HOST, PORT, WAIT, live=true);
+    w.get(HOST, PORT, WAIT, live = true);
   } else {
-    w.get(HOST, PORT, live=false);
+    w.get(HOST, PORT, live = false);
   }
 } else {
   program.help();

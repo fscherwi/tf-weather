@@ -117,23 +117,13 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
       process.stdin.on('data',
         function(data) {
           ipcon.disconnect();
-          process.exit(0);
-        }
-      );
-      require('async').whilst(
-        function() {
-          return true;
-        },
-        function(callback) {
-          console.log('\033[2J');
-          tfdata();
-          setTimeout(callback, WAIT);
-        },
-        function(err) {
-          console.log('ERROR: ' + err);
           process.exit();
         }
       );
+      setInterval(function() {
+        console.log('\033[2J');
+        tfdata();
+      }, WAIT);
     } else {
       ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
         function(connectReason) {
