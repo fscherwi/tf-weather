@@ -13,7 +13,6 @@ program
   .parse(process.argv);
 /* istanbul ignore next */
 if (!program.args.length) {
-  require("./json.js");
   var w = require('./weather.js');
   var HOST;
   var PORT;
@@ -36,9 +35,7 @@ if (!program.args.length) {
     WAIT = 1000;
   }
 
-  if (program.info) {
-    require('./info.js').info();
-  } else if (program.live) {
+  if (program.live) {
     w.tflive();
   } else {
     w.tfsimple(HOST, PORT, WAIT);
