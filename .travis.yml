@@ -5,7 +5,7 @@ node_js:
   - "0.12"
 install:
   - npm install -g
-  - npm install istanbul coveralls codecov.io
+  - npm update istanbul coveralls codecov.io
 script:
   - weather get
   - weather
