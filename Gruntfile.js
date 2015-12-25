@@ -21,7 +21,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: './',
           src: ['*.js', '!Gruntfile.js', '!**/node_modules/**', '!command.js'],
-          dest: './publish_files',
+          dest: './',
           ext: '.js'
         }]
       }
@@ -29,15 +29,12 @@ module.exports = function(grunt) {
     shell: {
       publish: {
         command: [
-          'mkdir cover_files',
+          'mkdir old_files',
+          'cp *.js ./old_files',
           'grunt uglify:puplish',
-          'cp connected.js ./cover_files/connected.js',
-          'mv ./uglify/connected.js connected.js',
-          'rm -rf ./uglify',
           'npm publish',
-          'rm ./connected.js',
-          'mv ./cover_files/connected.js ./connected.js',
-          'rm -rf cover_files'
+          'mv ./old_files/*.js ./*.js',
+          'rm -rf old_files'
         ].join('&&')
       }
     }
