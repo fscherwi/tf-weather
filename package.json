@@ -23,7 +23,6 @@
   "dependencies": {
     "async": "^1.5.0",
     "commander": "^2.9.0",
-    "os-homedir": "^1.0.1",
     "tinkerforge": "^2.0.6"
   },
   "devDependencies": {

@@ -8,7 +8,7 @@ var h;
 var b;
 var ipcon;
 /* istanbul ignore next */
-function get(HOST, PORT, WAIT) {
+function get(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
   ipcon.connect(HOST, PORT,
     function(error) {
@@ -116,8 +116,8 @@ function tfdata() {
   );
 }
 /* istanbul ignore next */
-function tfsimple(HOST, PORT, WAIT) {
-  get(HOST, PORT, WAIT);
+function tfsimple(HOST, PORT) {
+  get(HOST, PORT);
   setTimeout(function() {
     tfinit(HOST, PORT);
     ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
@@ -133,34 +133,32 @@ function tfsimple(HOST, PORT, WAIT) {
   }, 1000);
 }
 /* istanbul ignore next */
-function tflive() {
-  tfinit();
-  end();
-  var async = require('async');
-  var WAIT = parseInt(config_json.wait);
-  async.whilst(
-    function() {
-      return true;
-    },
-    function(callback) {
-      console.log('\033[2J');
-      tfdata();
-      setTimeout(callback, WAIT);
-    },
-    function(err) {
-      console.log("ERROR: " + err);
-      process.exit();
-    }
-  );
-}
-/* istanbul ignore next */
-function end() {
-  process.stdin.on('data',
-    function(data) {
-      ipcon.disconnect();
-      process.exit(0);
-    }
-  );
+function tflive(HOST, PORT, WAIT) {
+  get(HOST, PORT);
+  setTimeout(function() {
+    tfinit(HOST, PORT);
+    process.stdin.on('data',
+      function(data) {
+        ipcon.disconnect();
+        process.exit(0);
+      }
+    );
+    var async = require('async');
+    async.whilst(
+      function() {
+        return true;
+      },
+      function(callback) {
+        console.log('\033[2J');
+        tfdata();
+        setTimeout(callback, WAIT);
+      },
+      function(err) {
+        console.log("ERROR: " + err);
+        process.exit();
+      }
+    );
+  }, 1000);
 }
 /* istanbul ignore next */
 exports.tfsimple = tfsimple;

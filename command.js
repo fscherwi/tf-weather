@@ -22,13 +22,11 @@ if (!program.args.length) {
   } else {
     HOST = "localhost";
   }
-  /* istanbul ignore next */
   if (program.port) {
     PORT = program.port;
   } else {
     PORT = 4223;
   }
-  /* istanbul ignore next */
   if (program.wait) {
     WAIT = program.wait;
   } else {
@@ -36,9 +34,9 @@ if (!program.args.length) {
   }
 
   if (program.live) {
-    w.tflive();
+    w.tflive(HOST, PORT, WAIT);
   } else {
-    w.tfsimple(HOST, PORT, WAIT);
+    w.tfsimple(HOST, PORT);
   }
 } else {
   program.help();
