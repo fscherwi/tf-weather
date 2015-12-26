@@ -63,7 +63,7 @@ function get_uid(HOST, PORT) {
   );
   setTimeout(function() {
     ipcon.disconnect();
-  }, 500);
+  }, 250);
 }
 /* istanbul ignore next */
 function tfinit(HOST, PORT) {
@@ -125,6 +125,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         tfdata();
       }, WAIT);
     } else {
+      console.log('');
       ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
         function(connectReason) {
           tfdata();
@@ -134,7 +135,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         console.log('');
         ipcon.disconnect();
         process.exit(0);
-      }, 500);
+      }, 50);
     }
-  }, 1000);
+  }, 300);
 };
