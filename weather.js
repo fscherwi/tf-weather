@@ -13,29 +13,21 @@ function ipcon_connect(HOST, PORT) {
     function(error) {
       switch (error) {
         case 11:
-          console.log('Error: ALREADY CONNECTED');
-          break;
+          return console.log('Error: ALREADY CONNECTED');
         case 12:
-          console.log('Error: NOT CONNECTED');
-          break;
+          return console.log('Error: NOT CONNECTED');
         case 13:
-          console.log('Error: CONNECT FAILED');
-          break;
+          return console.log('Error: CONNECT FAILED');
         case 21:
-          console.log('Error: INVALID FUNCTION ID');
-          break;
+          return console.log('Error: INVALID FUNCTION ID');
         case 31:
-          console.log('Error: TIMEOUT');
-          break;
+          return console.log('Error: TIMEOUT');
         case 41:
-          console.log('Error: INVALID PARAMETER');
-          break;
+          return console.log('Error: INVALID PARAMETER');
         case 42:
-          console.log('Error: FUNCTION NOT SUPPORTED');
-          break;
+          return console.log('Error: FUNCTION NOT SUPPORTED');
         default:
-          console.log('Error: UNKNOWN ERROR');
-          break;
+          return console.log('Error: UNKNOWN ERROR');
       }
       process.exit();
     }
