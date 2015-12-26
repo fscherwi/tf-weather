@@ -1,6 +1,5 @@
 /* istanbul ignore next */
 module.exports = function(grunt) {
-
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jsbeautifier: {
@@ -14,7 +13,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         removeComments: true,
-        banner: '/*! <%= pkg.name %> ©<%= grunt.template.today("yyyy") %> <%= pkg.author %> */\n '
+        banner: '/*! <%= pkg.name %> © <%= grunt.template.today("yyyy") %> <%= pkg.author %> */\n '
       },
       puplish: {
         files: [{
@@ -46,5 +45,4 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['jsbeautifier']);
   grunt.registerTask('publish', ['shell:publish']);
-
 };

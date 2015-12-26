@@ -8,7 +8,7 @@ program
   .option('-l, --live', 'Shows the live weather')
   .option('-h, --host [host]', 'The HOST, default to "localhost"')
   .option('-p, --port [port]', 'The PORT, default to "4223"', parseInt)
-  .option('-w, --wait [time]', 'The Callback time', parseInt)
+  .option('-w, --wait [time]', 'The Callback time in milliseconds', parseInt)
   .parse(process.argv);
 /* istanbul ignore next */
 if (!program.args.length) {

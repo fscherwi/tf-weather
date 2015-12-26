@@ -1,8 +1,5 @@
 {
   "ignore": [
     "Gruntfile.js"
-  ],
-  "test": [
-    "test_coverage.js"
   ]
 }
