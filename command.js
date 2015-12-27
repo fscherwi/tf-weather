@@ -8,34 +8,25 @@ program
   .option('-l, --live', 'Shows the live weather')
   .option('-h, --host [host]', 'The HOST, default to "localhost"')
   .option('-p, --port [port]', 'The PORT, default to "4223"', parseInt)
-  .option('-w, --wait [time]', 'The Callback time in milliseconds', parseInt)
+  .option('-w, --wait [time]', 'The Callback time in milliseconds, default to "1000" ms', parseInt)
   .parse(process.argv);
 /* istanbul ignore next */
 if (!program.args.length) {
   var w = require('./weather.js');
-  var HOST;
-  var PORT;
-  var WAIT;
-  if (program.host) {
-    HOST = program.host;
-  } else {
-    HOST = 'localhost';
+  if (program.host === undefined) {
+    program.host = 'localhost';
   }
-  if (program.port) {
-    PORT = program.port;
-  } else {
-    PORT = 4223;
-  }
-  if (program.wait) {
-    WAIT = program.wait;
-  } else {
-    WAIT = 1000;
+  if (program.port === undefined) {
+    program.port = 4223;
   }
 
   if (program.live) {
-    w.get(HOST, PORT, WAIT, live = true);
+    if (program.wait === undefined) {
+      program.wait = 1000;
+    }
+    w.get(program.host, program.port, program.wait, live = true);
   } else {
-    w.get(HOST, PORT, live = false);
+    w.get(program.host, program.port, live = false);
   }
 } else {
   program.help();
