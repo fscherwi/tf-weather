@@ -113,8 +113,7 @@ function tfdata_get() {
   );
 }
 /* istanbul ignore next */
-function getTime() {
-  var date = new Date();
+function getTime(date) {
   return ((date.getHours() < 10 ? "0" : "") + date.getHours()) + ":" + ((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()) + ":" + ((date.getSeconds() < 10 ? "0" : "") + date.getSeconds());
 }
 /* istanbul ignore next */
@@ -136,7 +135,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         console.log('Air pressure:      ' + AirPressure);
         console.log('Temperature:       ' + Temperature);
         console.log('Illuminance:       ' + Illuminance);
-        console.log('\nTime:              ' + getTime());
+        console.log('\nTime:              ' + getTime(new Date()));
         tfdata_get();
       }, WAIT);
     } else {
@@ -151,11 +150,11 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         console.log('Air pressure:      ' + AirPressure);
         console.log('Temperature:       ' + Temperature);
         console.log('Illuminance:       ' + Illuminance);
-        console.log('\nTime:              ' + getTime());
+        console.log('\nTime:              ' + getTime(new Date()));
         console.log('');
         ipcon.disconnect();
         process.exit(0);
       }, 50);
     }
-  }, 300);
+  }, 250);
 };
