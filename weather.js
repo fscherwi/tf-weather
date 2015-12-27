@@ -119,9 +119,9 @@ function getTime(date) {
 /* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
   get_uid(HOST, PORT);
-  setTimeout(function() {
-    tfinit(HOST, PORT);
-    if (live === true) {
+  if (live === true) {
+    setTimeout(function() {
+      tfinit(HOST, PORT);
       process.stdin.on('data',
         function(data) {
           ipcon.disconnect();
@@ -138,7 +138,10 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         console.log('\nTime:              ' + getTime(new Date()));
         tfdata_get();
       }, WAIT);
-    } else {
+    }, 250);
+  } else {
+    setTimeout(function() {
+      tfinit(HOST, PORT);
       ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
         function(connectReason) {
           tfdata_get();
@@ -154,7 +157,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         console.log('');
         ipcon.disconnect();
         process.exit(0);
-      }, 50);
-    }
-  }, 250);
+      }, 25);
+    }, 50);
+  }
 };
