@@ -1,16 +1,16 @@
 var Tinkerforge = require('tinkerforge');
 
-var LIGHT;
-var BARO;
-var HUMI;
-var al;
-var h;
-var b;
-var ipcon;
-var Humidity;
-var AirPressure;
-var Temperature;
-var Illuminance;
+var LIGHT,
+  BARO,
+  HUMI,
+  al,
+  h,
+  b,
+  ipcon,
+  Humidity,
+  AirPressure,
+  Temperature,
+  Illuminance;
 /* istanbul ignore next */
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
