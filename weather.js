@@ -11,7 +11,7 @@ var LIGHT,
   AirPressure,
   Temperature,
   Illuminance;
-
+/* istanbul ignore next */
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
     function(error) {
@@ -45,7 +45,7 @@ function ipcon_connect(HOST, PORT) {
     }
   );
 }
-
+/* istanbul ignore next */
 function get_uid(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
   ipcon_connect(HOST, PORT);
@@ -66,7 +66,7 @@ function get_uid(HOST, PORT) {
     }
   );
 }
-
+/* istanbul ignore next */
 function tfinit(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
   al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
@@ -74,7 +74,7 @@ function tfinit(HOST, PORT) {
   h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
   ipcon_connect(HOST, PORT);
 }
-
+/* istanbul ignore next */
 function tfdata_get() {
   h.getHumidity(
     function(humidity) {
@@ -109,11 +109,11 @@ function tfdata_get() {
     }
   );
 }
-
+/* istanbul ignore next */
 function getTime(date) {
   return ((date.getHours() < 10 ? "0" : "") + date.getHours()) + ":" + ((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()) + ":" + ((date.getSeconds() < 10 ? "0" : "") + date.getSeconds());
 }
-
+/* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
   get_uid(HOST, PORT);
   if (live === true) {
