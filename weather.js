@@ -7,6 +7,10 @@ var al;
 var h;
 var b;
 var ipcon;
+var Humidity;
+var AirPressure;
+var Temperature;
+var Illuminance;
 /* istanbul ignore next */
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
@@ -74,10 +78,10 @@ function tfinit(HOST, PORT) {
   ipcon_connect(HOST, PORT);
 }
 /* istanbul ignore next */
-function tfdata() {
+function tfdata_get() {
   h.getHumidity(
     function(humidity) {
-      console.log('Relative Humidity: ' + humidity / 10 + ' %RH');
+      Humidity = humidity / 10;
     },
     function(error) {
       console.log('Relative Humidity: ' + 'Error ' + error);
@@ -85,7 +89,7 @@ function tfdata() {
   );
   b.getAirPressure(
     function(air_pressure) {
-      console.log('Air pressure:      ' + air_pressure / 1000 + ' mbar');
+      AirPressure = air_pressure / 1000;
     },
     function(error) {
       console.log('Air pressure: ' + 'Error ' + error);
@@ -93,7 +97,7 @@ function tfdata() {
   );
   b.getChipTemperature(
     function(temperature) {
-      console.log('Temperature:       ' + temperature / 100 + ' \u00B0C');
+      Temperature = temperature / 100;
     },
     function(error) {
       console.log('Temperature: ' + 'Error ' + error);
@@ -101,7 +105,7 @@ function tfdata() {
   );
   al.getIlluminance(
     function(illuminance) {
-      console.log('Illuminance:       ' + illuminance / 10 + ' Lux');
+      Illuminance = illuminance / 10;
     },
     function(error) {
       process.stdout.write('Illuminance: ' + 'Error ' + error);
@@ -120,18 +124,27 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
           process.exit();
         }
       );
+      tfdata_get();
       setInterval(function() {
         console.log('\033[2J');
-        tfdata();
+        console.log('Relative Humidity: ' + Humidity + ' %RH');
+        console.log('Air pressure:      ' + AirPressure + ' mbar');
+        console.log('Temperature:       ' + Temperature + ' \u00B0C');
+        console.log('Illuminance:       ' + Illuminance + ' Lux');
+        tfdata_get();
       }, WAIT);
     } else {
-      console.log('');
       ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
         function(connectReason) {
-          tfdata();
+          tfdata_get();
         }
       );
       setTimeout(function() {
+        console.log('');
+        console.log('Relative Humidity: ' + Humidity + ' %RH');
+        console.log('Air pressure:      ' + AirPressure + ' mbar');
+        console.log('Temperature:       ' + Temperature + ' \u00B0C');
+        console.log('Illuminance:       ' + Illuminance + ' Lux');
         console.log('');
         ipcon.disconnect();
         process.exit(0);
