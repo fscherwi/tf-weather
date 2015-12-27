@@ -63,7 +63,7 @@ function get_uid(HOST, PORT) {
   );
   setTimeout(function() {
     ipcon.disconnect();
-  }, 250);
+  }, 50);
 }
 /* istanbul ignore next */
 function tfinit(HOST, PORT) {
@@ -135,7 +135,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         console.log('');
         ipcon.disconnect();
         process.exit(0);
-      }, 50);
+      }, 10);
     }
-  }, 300);
+  }, 25);
 };
