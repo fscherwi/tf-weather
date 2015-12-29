@@ -114,6 +114,14 @@ function getTime(date) {
   return ((date.getHours() < 10 ? "0" : "") + date.getHours()) + ":" + ((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()) + ":" + ((date.getSeconds() < 10 ? "0" : "") + date.getSeconds());
 }
 /* istanbul ignore next */
+function output() {
+  console.log('Relative Humidity: ' + Humidity);
+  console.log('Air pressure:      ' + AirPressure);
+  console.log('Temperature:       ' + Temperature);
+  console.log('Illuminance:       ' + Illuminance);
+  console.log('\nTime:              ' + getTime(new Date()));
+}
+/* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
   get_uid(HOST, PORT);
   if (live === true) {
@@ -131,13 +139,9 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         );
         tfdata_get();
         setInterval(function() {
-          console.log('\033[2J');
-          console.log('Relative Humidity: ' + Humidity);
-          console.log('Air pressure:      ' + AirPressure);
-          console.log('Temperature:       ' + Temperature);
-          console.log('Illuminance:       ' + Illuminance);
-          console.log('\nTime:              ' + getTime(new Date()));
           tfdata_get();
+          console.log('\033[2J');
+          output();
         }, WAIT);
       }, 300);
     }, 250);
@@ -151,11 +155,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
       );
       setTimeout(function() {
         console.log('');
-        console.log('Relative Humidity: ' + Humidity);
-        console.log('Air pressure:      ' + AirPressure);
-        console.log('Temperature:       ' + Temperature);
-        console.log('Illuminance:       ' + Illuminance);
-        console.log('\nTime:              ' + getTime(new Date()));
+        output();
         console.log('');
         ipcon.disconnect();
         process.exit(0);
