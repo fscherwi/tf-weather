@@ -1,5 +1,5 @@
 exports.connect = function connect(code) {
-  switch (error) {
+  switch (code) {
     case 11:
       return'Error: ALREADY CONNECTED';
     case 12:
@@ -17,4 +17,4 @@ exports.connect = function connect(code) {
     default:
       return'Error: UNKNOWN ERROR';
   }
-}
+};
