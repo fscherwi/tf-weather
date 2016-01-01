@@ -10,13 +10,19 @@ You may require sudo!
 ```
 
 # Usage
-## Simple show current weather
+**Simple show current weather**
 
 ```shell
 $ weather
 ```
 
-### Options
+**Show live weather**
+
+```shell
+$ weather live
+```
+
+## Options
 **Custom HOST**
 
 ```shell
@@ -29,9 +35,8 @@ $ weather get -h <your-host>
 $ weather get -p <your-port>
 ```
 
-### Advanced functions
-**Show live weather**
+**Custom Callback period in live mode**
 
 ```shell
-$ weather live
+$ weather get -w <your-wait-period>
 ```
