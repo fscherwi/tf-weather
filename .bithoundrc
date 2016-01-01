@@ -1,5 +1,10 @@
 {
   "ignore": [
     "Gruntfile.js"
-  ]
+  ],
+  "dependencies": {
+    "unused-ignores": [
+      "tinkerforge"
+    ]
+  }
 }

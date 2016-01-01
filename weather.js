@@ -1,5 +1,4 @@
 var Tinkerforge = require('tinkerforge');
-
 var LIGHT,
   BARO,
   HUMI,
