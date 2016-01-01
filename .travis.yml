@@ -9,8 +9,9 @@ install:
   - npm install
   - npm update istanbul coveralls codecov.io
 script:
-  - weather get
   - weather
+  - weather --help
+  - weather -V
 after_script:
   - node ./node_modules/.bin/istanbul cover --include-all-sources command.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
