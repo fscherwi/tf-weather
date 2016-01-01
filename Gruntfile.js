@@ -32,7 +32,8 @@ module.exports = function(grunt) {
           'cp *.js ./old_files',
           'grunt uglify:puplish',
           'npm publish',
-          'mv ./old_files/*.js ./*.js',
+          'mv ./old_files/error.js ./error.js',
+          'mv ./old_files/weather.js ./weather.js',
           'rm -rf old_files'
         ].join('&&')
       }

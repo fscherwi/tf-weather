@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var program = require('commander');
 program
-  .version(require('./package.json').version)
+  .version(require('../package.json').version)
   .usage('[options]')
   .option('-l, --live', 'Shows the live weather')
   .option('-h, --host [host]', 'The HOST, default to "localhost"')

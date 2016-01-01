@@ -1,10 +1,10 @@
 {
   "name": "tf-weather",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Tinkerforge Weather Tool",
   "main": "weather.js",
   "scripts": {
-    "test": "node command.js"
+    "test": "node ./bin/command.js"
   },
   "repository": {
     "type": "git",
