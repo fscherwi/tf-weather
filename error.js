@@ -1,4 +1,4 @@
-exports.connect = function connect(code) { /* istanbul ignore next */
+exports.error = function error(code) { /* istanbul ignore next */
   switch (code) {
     case 11:
       return 'Error: ALREADY CONNECTED';

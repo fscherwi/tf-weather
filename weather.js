@@ -15,7 +15,7 @@ var LIGHT,
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
     function(error) {
-      console.log(require('./error.js').connect(error));
+      console.log(require('./error.js').error(error));
       process.exit();
     }
   );
@@ -56,7 +56,7 @@ function tfdata_get() {
       Humidity = humidity / 10 + ' %RH';
     },
     function(error) {
-      Humidity = 'Error ' + error;
+      Humidity = require('./error.js').error(error);
     }
   );
   b.getAirPressure(
@@ -64,7 +64,7 @@ function tfdata_get() {
       AirPressure = air_pressure / 1000 + ' mbar';
     },
     function(error) {
-      AirPressure = 'Error ' + error;
+      AirPressure = require('./error.js').error(error);
     }
   );
   b.getChipTemperature(
@@ -72,7 +72,7 @@ function tfdata_get() {
       Temperature = temperature / 100 + ' \u00B0C';
     },
     function(error) {
-      Temperature = 'Error ' + error;
+      Temperature = require('./error.js').error(error);
     }
   );
   al.getIlluminance(
@@ -80,7 +80,7 @@ function tfdata_get() {
       Illuminance = illuminance / 10 + ' Lux';
     },
     function(error) {
-      Illuminance = 'Error ' + error;
+      Illuminance = require('./error.js').error(error);
     }
   );
 }
