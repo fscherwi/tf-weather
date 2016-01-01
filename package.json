@@ -31,6 +31,6 @@
   },
   "preferGlobal": true,
   "bin": {
-    "weather": "command.js"
+    "weather": "./bin/command.js"
   }
 }
