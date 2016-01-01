@@ -13,15 +13,15 @@ program
 /* istanbul ignore next */
 if (!program.args.length) {
   var w = require('./weather.js');
-  if (program.host === null) {
+  if (!program.host) {
     program.host = 'localhost';
   }
-  if (program.port === null) {
+  if (!program.port) {
     program.port = 4223;
   }
 
   if (program.live) {
-    if (program.wait === null) {
+    if (!program.wait) {
       program.wait = 1000;
     }
     w.get(program.host, program.port, program.wait, live = true);
