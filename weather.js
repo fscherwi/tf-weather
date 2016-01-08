@@ -43,45 +43,57 @@ function get_uid(HOST, PORT) {
 /* istanbul ignore next */
 function tfinit(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
-  al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
-  b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
-  h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
+  if (LIGHT !== undefined) {
+    al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
+  }
+  if (BARO !== undefined) {
+    b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
+  }
+  if (HUMI !== undefined) {
+    h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
+  }
   ipcon_connect(HOST, PORT);
 }
 /* istanbul ignore next */
 function tfdata_get() {
-  h.getHumidity(
-    function(humidity) {
-      Humidity = humidity / 10 + ' %RH';
-    },
-    function(error) {
-      Humidity = require('./error.js').error(error);
-    }
-  );
-  b.getAirPressure(
-    function(air_pressure) {
-      AirPressure = air_pressure / 1000 + ' mbar';
-    },
-    function(error) {
-      AirPressure = require('./error.js').error(error);
-    }
-  );
-  b.getChipTemperature(
-    function(temperature) {
-      Temperature = temperature / 100 + ' \u00B0C';
-    },
-    function(error) {
-      Temperature = require('./error.js').error(error);
-    }
-  );
-  al.getIlluminance(
-    function(illuminance) {
-      Illuminance = illuminance / 10 + ' Lux';
-    },
-    function(error) {
-      Illuminance = require('./error.js').error(error);
-    }
-  );
+  if (h !== undefined) {
+    h.getHumidity(
+      function(humidity) {
+        Humidity = humidity / 10 + ' %RH';
+      },
+      function(error) {
+        Humidity = require('./error.js').error(error);
+      }
+    );
+  }
+  if (b !== undefined) {
+    b.getAirPressure(
+      function(air_pressure) {
+        AirPressure = air_pressure / 1000 + ' mbar';
+      },
+      function(error) {
+        AirPressure = require('./error.js').error(error);
+      }
+    );
+    b.getChipTemperature(
+      function(temperature) {
+        Temperature = temperature / 100 + ' \u00B0C';
+      },
+      function(error) {
+        Temperature = require('./error.js').error(error);
+      }
+    );
+  }
+  if (al !== undefined) {
+    al.getIlluminance(
+      function(illuminance) {
+        Illuminance = illuminance / 10 + ' Lux';
+      },
+      function(error) {
+        Illuminance = require('./error.js').error(error);
+      }
+    );
+  }
 }
 /* istanbul ignore next */
 function getTime(date) {
@@ -89,11 +101,23 @@ function getTime(date) {
 }
 /* istanbul ignore next */
 function output() {
-  console.log('Relative Humidity: ' + Humidity);
-  console.log('Air pressure:      ' + AirPressure);
-  console.log('Temperature:       ' + Temperature);
-  console.log('Illuminance:       ' + Illuminance);
-  console.log('\nTime:              ' + getTime(new Date()));
+  if (Humidity !== undefined) {
+    console.log('Relative Humidity: ' + Humidity);
+  }
+  if (AirPressure !== undefined) {
+    console.log('Air pressure:      ' + AirPressure);
+  }
+  if (Temperature !== undefined) {
+    console.log('Temperature:       ' + Temperature);
+  }
+  if (Illuminance !== undefined) {
+    console.log('Illuminance:       ' + Illuminance);
+  }
+  if (Humidity !== undefined || AirPressure !== undefined || Temperature !== undefined || Illuminance !== undefined) {
+    console.log('\nTime:              ' + getTime(new Date()));
+  } else {
+    console.log('ERROR: nothing connected');
+  }
 }
 /* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
