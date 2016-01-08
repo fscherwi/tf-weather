@@ -1,5 +1,6 @@
 var Tinkerforge = require('tinkerforge');
 var LIGHT,
+  LIGHT_2,
   BARO,
   HUMI,
   al,
@@ -32,6 +33,8 @@ function get_uid(HOST, PORT) {
     function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
       if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
         LIGHT = uid;
+      } else if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER) {
+        LIGHT_2 = uid;
       } else if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
         BARO = uid;
       } else if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
@@ -43,7 +46,9 @@ function get_uid(HOST, PORT) {
 /* istanbul ignore next */
 function tfinit(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
-  if (LIGHT !== undefined) {
+  if (LIGHT_2 !== undefined) {
+    al = new Tinkerforge.BrickletAmbientLightV2(LIGHT, ipcon);
+  } else if (LIGHT !== undefined) {
     al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
   }
   if (BARO !== undefined) {
