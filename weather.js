@@ -107,19 +107,19 @@ function getTime(date) {
 /* istanbul ignore next */
 function output() {
   if (Humidity !== undefined) {
-    console.log('Relative Humidity: ' + Humidity);
+    console.log('Relative Humidity:\t' + Humidity);
   }
   if (AirPressure !== undefined) {
-    console.log('Air pressure:      ' + AirPressure);
+    console.log('Air pressure:\t\t' + AirPressure);
   }
   if (Temperature !== undefined) {
-    console.log('Temperature:       ' + Temperature);
+    console.log('Temperature:\t\t' + Temperature);
   }
   if (Illuminance !== undefined) {
-    console.log('Illuminance:       ' + Illuminance);
+    console.log('Illuminance:\t\t' + Illuminance);
   }
   if (Humidity !== undefined || AirPressure !== undefined || Temperature !== undefined || Illuminance !== undefined) {
-    console.log('\nTime:              ' + getTime(new Date()));
+    console.log('\nTime:\t\t\t' + getTime(new Date()));
   } else {
     console.log('ERROR: nothing connected');
   }
