@@ -31,19 +31,14 @@ function get_uid(HOST, PORT) {
   );
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
     function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
-      switch (deviceIdentifier) {
-        case Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER:
-          LIGHT = uid;
-          break;
-        case Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER:
-          LIGHT = uid;
-          break;
-        case Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER:
-          BARO = uid;
-          break;
-        case Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER:
-          HUMI = uid;
-          break;
+      if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
+        LIGHT = uid;
+      } else if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER) {
+        LIGHT_2 = uid;
+      } else if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
+        BARO = uid;
+      } else if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
+        HUMI = uid;
       }
     }
   );
