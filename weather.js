@@ -36,7 +36,7 @@ function get_uid(HOST, PORT) {
           LIGHT = uid;
           break;
         case Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER:
-          LIGHT = uid;
+          LIGHT_2 = uid;
           break;
         case Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER:
           BARO = uid;
