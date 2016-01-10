@@ -10,6 +10,7 @@ install:
   - npm update istanbul coveralls codecov.io
 script:
   - weather
+  - weather --live
   - weather --help
   - weather -V
 after_script:
