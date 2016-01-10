@@ -25,7 +25,7 @@ function get_uid(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
   ipcon_connect(HOST, PORT);
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-    function(connectReason) {
+    function() {
       ipcon.enumerate();
     }
   );
@@ -144,7 +144,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
       }, 250);
       setTimeout(function() {
         process.stdin.on('data',
-          function(data) {
+          function() {
             ipcon.disconnect();
             process.exit();
           }
@@ -161,7 +161,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
     setTimeout(function() {
       tfinit(HOST, PORT);
       ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-        function(connectReason) {
+        function() {
           tfdata_get();
         }
       );
