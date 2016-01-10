@@ -62,7 +62,7 @@ function tfinit(HOST, PORT) {
   if (HUMI !== undefined) {
     h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
   }
-  if (al !== undefined || b !== undefined || h !== undefined) {
+  if ((al || b || h) !== undefined) {
     ipcon_connect(HOST, PORT);
   } else {
     console.log('ERROR: nothing connected');
@@ -128,7 +128,7 @@ function output() {
   if (Illuminance !== undefined) {
     console.log('Illuminance:\t\t' + Illuminance);
   }
-  if (Humidity !== undefined || AirPressure !== undefined || Temperature !== undefined || Illuminance !== undefined) {
+  if ((Humidity ||  AirPressure || Temperature ||  Illuminance) !== undefined) {
     console.log('\nTime:\t\t\t' + getTime(new Date()));
   } else {
     console.log('ERROR: nothing connected');
