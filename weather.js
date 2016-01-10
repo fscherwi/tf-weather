@@ -3,9 +3,9 @@ var LIGHT,
   LIGHT_2,
   BARO,
   HUMI,
-  light,
-  humi,
-  baro,
+  al,
+  h,
+  b,
   ipcon,
   Humidity,
   AirPressure,
@@ -52,17 +52,17 @@ function get_uid(HOST, PORT) {
 function tfinit(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
   if (LIGHT_2 !== undefined) {
-    light = new Tinkerforge.BrickletAmbientLightV2(LIGHT, ipcon);
+    al = new Tinkerforge.BrickletAmbientLightV2(LIGHT, ipcon);
   } else if (LIGHT !== undefined) {
-    light = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
+    al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
   }
   if (BARO !== undefined) {
-    baro = new Tinkerforge.BrickletBarometer(BARO, ipcon);
+    b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
   }
   if (HUMI !== undefined) {
-    humi = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
+    h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
   }
-  if ((light || baro || humi) !== undefined) {
+  if ((al || b || h) !== undefined) {
     ipcon_connect(HOST, PORT);
   } else {
     console.log('ERROR: nothing connected');
@@ -71,8 +71,8 @@ function tfinit(HOST, PORT) {
 }
 /* istanbul ignore next */
 function tfdata_get() {
-  if (humi !== undefined) {
-    humi.getHumidity(
+  if (h !== undefined) {
+    h.getHumidity(
       function(humidity) {
         Humidity = humidity / 10 + ' %RH';
       },
@@ -81,8 +81,8 @@ function tfdata_get() {
       }
     );
   }
-  if (baro !== undefined) {
-    baro.getAirPressure(
+  if (b !== undefined) {
+    b.getAirPressure(
       function(air_pressure) {
         AirPressure = air_pressure / 1000 + ' mbar';
       },
@@ -90,7 +90,7 @@ function tfdata_get() {
         AirPressure = require('./error.js').error(error);
       }
     );
-    baro.getChipTemperature(
+    b.getChipTemperature(
       function(temperature) {
         Temperature = temperature / 100 + ' \u00B0C';
       },
@@ -99,8 +99,8 @@ function tfdata_get() {
       }
     );
   }
-  if (light !== undefined) {
-    light.getIlluminance(
+  if (al !== undefined) {
+    al.getIlluminance(
       function(illuminance) {
         Illuminance = illuminance / 10 + ' Lux';
       },
