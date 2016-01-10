@@ -128,7 +128,7 @@ function output() {
   if (Illuminance !== undefined) {
     console.log('Illuminance:\t\t' + Illuminance);
   }
-  if ((Humidity ||  AirPressure || Temperature ||  Illuminance) !== undefined) {
+  if ((Humidity ||  AirPressure || Temperature ||  Illuminance) === undefined) {
     console.log('ERROR: nothing connected');
   }
   console.log('\nTime:\t\t\t' + getTime(new Date()));
