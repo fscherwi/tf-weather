@@ -62,7 +62,12 @@ function tfinit(HOST, PORT) {
   if (HUMI !== undefined) {
     h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
   }
-  ipcon_connect(HOST, PORT);
+  if (al !== undefined || b !== undefined || h !== undefined) {
+    ipcon_connect(HOST, PORT);
+  } else {
+    console.log('ERROR: nothing connected');
+    process.exit();
+  }
 }
 /* istanbul ignore next */
 function tfdata_get() {
@@ -127,6 +132,7 @@ function output() {
     console.log('\nTime:\t\t\t' + getTime(new Date()));
   } else {
     console.log('ERROR: nothing connected');
+    process.exit();
   }
 }
 /* istanbul ignore next */
