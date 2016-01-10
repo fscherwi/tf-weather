@@ -129,11 +129,9 @@ function output() {
     console.log('Illuminance:\t\t' + Illuminance);
   }
   if ((Humidity ||  AirPressure || Temperature ||  Illuminance) !== undefined) {
-    console.log('\nTime:\t\t\t' + getTime(new Date()));
-  } else {
     console.log('ERROR: nothing connected');
-    process.exit();
   }
+  console.log('\nTime:\t\t\t' + getTime(new Date()));
 }
 /* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
