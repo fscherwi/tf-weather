@@ -51,15 +51,15 @@ function get_uid(HOST, PORT) {
 /* istanbul ignore next */
 function tfinit(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
-  if (LIGHT_2 !== undefined) {
+  if (LIGHT_2) {
     al = new Tinkerforge.BrickletAmbientLightV2(LIGHT, ipcon);
-  } else if (LIGHT !== undefined) {
+  } else if (LIGHT) {
     al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
   }
-  if (BARO !== undefined) {
+  if (BARO) {
     b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
   }
-  if (HUMI !== undefined) {
+  if (HUMI) {
     h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
   }
   if ((al || b || h) !== undefined) {
@@ -71,7 +71,7 @@ function tfinit(HOST, PORT) {
 }
 /* istanbul ignore next */
 function tfdata_get() {
-  if (h !== undefined) {
+  if (h) {
     h.getHumidity(
       function(humidity) {
         Humidity = humidity / 10 + ' %RH';
@@ -81,7 +81,7 @@ function tfdata_get() {
       }
     );
   }
-  if (b !== undefined) {
+  if (b) {
     b.getAirPressure(
       function(air_pressure) {
         AirPressure = air_pressure / 1000 + ' mbar';
@@ -99,7 +99,7 @@ function tfdata_get() {
       }
     );
   }
-  if (al !== undefined) {
+  if (al) {
     al.getIlluminance(
       function(illuminance) {
         Illuminance = illuminance / 10 + ' Lux';
@@ -116,19 +116,19 @@ function getTime(date) {
 }
 /* istanbul ignore next */
 function output() {
-  if (Humidity !== undefined) {
+  if (Humidity) {
     console.log('Relative Humidity:\t' + Humidity);
   }
-  if (AirPressure !== undefined) {
+  if (AirPressure) {
     console.log('Air pressure:\t\t' + AirPressure);
   }
-  if (Temperature !== undefined) {
+  if (Temperature) {
     console.log('Temperature:\t\t' + Temperature);
   }
-  if (Illuminance !== undefined) {
+  if (Illuminance) {
     console.log('Illuminance:\t\t' + Illuminance);
   }
-  if ((Humidity ||  AirPressure || Temperature ||  Illuminance) === undefined) {
+  if (!Humidity ||  !AirPressure || !Temperature ||  !Illuminance) {
     console.log('ERROR: nothing connected');
   }
   console.log('\nTime:\t\t\t' + getTime(new Date()));
