@@ -30,7 +30,7 @@ function get_uid(HOST, PORT) {
     }
   );
   ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
-    function(uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) {
+    function(uid, a, b, c, d, deviceIdentifier) {
       switch (deviceIdentifier) {
         case Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER:
           LIGHT = uid;
