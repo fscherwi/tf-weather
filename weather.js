@@ -6,11 +6,7 @@ var LIGHT,
   al,
   h,
   b,
-  ipcon,
-  Humidity,
-  AirPressure,
-  Temperature,
-  Illuminance;
+  ipcon;
 /* istanbul ignore next */
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
@@ -74,38 +70,38 @@ function tfdata_get() {
   if (h) {
     h.getHumidity(
       function(humidity) {
-        Humidity = humidity / 10 + ' %RH';
+        console.log('Relative Humidity:\t' + humidity / 10 + ' %RH');
       },
       function(error) {
-        Humidity = require('./error.js').error(error);
+        console.log('Relative Humidity:\t' + require('./error.js').error(error));
       }
     );
   }
   if (b) {
     b.getAirPressure(
       function(air_pressure) {
-        AirPressure = air_pressure / 1000 + ' mbar';
+        console.log('Air pressure:\t\t' + air_pressure / 1000 + ' mbar');
       },
       function(error) {
-        AirPressure = require('./error.js').error(error);
+        console.log('Air pressure:\t\t' + require('./error.js').error(error));
       }
     );
     b.getChipTemperature(
       function(temperature) {
-        Temperature = temperature / 100 + ' \u00B0C';
+        console.log('Temperature:\t\t' + temperature / 100 + ' \u00B0C');
       },
       function(error) {
-        Temperature = require('./error.js').error(error);
+        console.log('Temperature:\t\t' + require('./error.js').error(error));
       }
     );
   }
   if (al) {
     al.getIlluminance(
       function(illuminance) {
-        Illuminance = illuminance / 10 + ' Lux';
+        console.log('Illuminance:\t\t' + illuminance / 10 + ' Lux');
       },
       function(error) {
-        Illuminance = require('./error.js').error(error);
+        console.log('Illuminance:\t\t' + require('./error.js').error(error));
       }
     );
   }
@@ -113,25 +109,6 @@ function tfdata_get() {
 /* istanbul ignore next */
 function getTime(date) {
   return ((date.getHours() < 10 ? "0" : "") + date.getHours()) + ":" + ((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()) + ":" + ((date.getSeconds() < 10 ? "0" : "") + date.getSeconds());
-}
-/* istanbul ignore next */
-function output() {
-  if (Humidity) {
-    console.log('Relative Humidity:\t' + Humidity);
-  }
-  if (AirPressure) {
-    console.log('Air pressure:\t\t' + AirPressure);
-  }
-  if (Temperature) {
-    console.log('Temperature:\t\t' + Temperature);
-  }
-  if (Illuminance) {
-    console.log('Illuminance:\t\t' + Illuminance);
-  }
-  if (!Humidity ||  !AirPressure || !Temperature ||  !Illuminance) {
-    console.log('ERROR: nothing connected');
-  }
-  console.log('\nTime:\t\t\t' + getTime(new Date()));
 }
 /* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
@@ -150,8 +127,10 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
           }
         );
         tfdata_get();
+        console.log('\nTime:\t\t\t' + getTime(new Date()));
         setInterval(function() {
           tfdata_get();
+          console.log('\nTime:\t\t\t' + getTime(new Date()));
           console.log('\033[2J');
           output();
         }, WAIT);
@@ -167,7 +146,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
       );
       setTimeout(function() {
         console.log('');
-        output();
+        console.log('\nTime:\t\t\t' + getTime(new Date()));
         console.log('');
         ipcon.disconnect();
         process.exit(0);
