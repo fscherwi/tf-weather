@@ -132,7 +132,6 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
           tfdata_get();
           console.log('\nTime:\t\t\t' + getTime(new Date()));
           console.log('\033[2J');
-          output();
         }, WAIT);
       }, 300);
     }, 250);
