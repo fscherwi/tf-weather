@@ -32,5 +32,10 @@
   "preferGlobal": true,
   "bin": {
     "weather": "./bin/command.js"
-  }
+  },
+  "files": [
+    "weather.js",
+    "error,js",
+    "./bin/command.js"
+  ]
 }
