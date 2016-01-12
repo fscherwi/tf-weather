@@ -117,28 +117,26 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
   get_uid(HOST, PORT);
   if (live === true) {
     setTimeout(function() {
-      setTimeout(function() {
-        ipcon.disconnect();
-        tfinit(HOST, PORT);
-      }, 250);
-      setTimeout(function() {
-        process.stdin.on('data',
-          function() {
-            ipcon.disconnect();
-            process.exit();
-          }
-        );
-        tfdata_get();
-        setInterval(function() {
-          tfdata_get();
-          output_data.forEach(function(output) {
-            console.log(output);
-          });
-          console.log('\nTime:\t\t\t' + getTime(new Date()));
-          console.log('\033[2J');
-        }, WAIT);
-      }, 300);
+      ipcon.disconnect();
+      tfinit(HOST, PORT);
     }, 250);
+    setTimeout(function() {
+      process.stdin.on('data',
+        function() {
+          ipcon.disconnect();
+          process.exit();
+        }
+      );
+      tfdata_get();
+      setInterval(function() {
+        tfdata_get();
+        console.log('\033[2J');
+        output_data.forEach(function(output) {
+          console.log(output);
+        });
+        console.log('\nTime:\t\t\t' + getTime(new Date()));
+      }, WAIT);
+    }, 300);
   } else {
     setTimeout(function() {
       tfinit(HOST, PORT);
