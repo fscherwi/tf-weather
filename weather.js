@@ -119,7 +119,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
     setTimeout(function() {
       ipcon.disconnect();
       tfinit(HOST, PORT);
-    }, 250);
+    }, 150);
     setTimeout(function() {
       process.stdin.on('data',
         function() {
@@ -136,7 +136,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         });
         console.log('\nTime:\t\t\t' + getTime(new Date()));
       }, WAIT);
-    }, 300);
+    }, 200);
   } else {
     setTimeout(function() {
       tfinit(HOST, PORT);
@@ -154,7 +154,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         console.log('');
         ipcon.disconnect();
         process.exit(0);
-      }, 25);
-    }, 50);
+      }, 10);
+    }, 25);
   }
 };
