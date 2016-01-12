@@ -1,13 +1,4 @@
-var Tinkerforge = require('tinkerforge');
-var LIGHT,
-  LIGHT_2,
-  BARO,
-  HUMI,
-  al,
-  h,
-  b,
-  ipcon,
-  output_data = [];
+var Tinkerforge = require('tinkerforge'), LIGHT, LIGHT_2, BARO, HUMI, al, h, b, ipcon, output_data = [];
 /* istanbul ignore next */
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
@@ -72,7 +63,6 @@ function tfdata_get() {
     h.getHumidity(
       function(humidity) {
         output_data[0] = ('Relative Humidity:\t' + humidity / 10 + ' %RH');
-        //console.log('Relative Humidity:\t' + humidity / 10 + ' %RH');
       },
       function(error) {
         output_data[0] = ('Relative Humidity:\t' + require('./error.js').error(error));
