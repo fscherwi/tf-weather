@@ -50,7 +50,7 @@ function tfinit(HOST, PORT) {
   if (HUMI) {
     h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
   }
-  if ((al || b || h) !== undefined) {
+  if (al || b || h) {
     ipcon_connect(HOST, PORT);
   } else {
     console.log('ERROR: nothing connected');
@@ -105,7 +105,7 @@ function getTime(date) {
 /* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
   get_uid(HOST, PORT);
-  if (live === true) {
+  if (live) {
     setTimeout(function() {
       ipcon.disconnect();
       tfinit(HOST, PORT);
