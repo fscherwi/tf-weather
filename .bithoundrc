@@ -2,9 +2,7 @@
   "ignore": [
     "Gruntfile.js"
   ],
-  "dependencies": {
-    "unused-ignores": [
-      "tinkerforge"
-    ]
-  }
+  "critics": {
+    "wc": { "limit": 200 }
+    }
 }
