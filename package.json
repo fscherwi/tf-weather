@@ -37,6 +37,6 @@
   "files": [
     "weather.js",
     "error,js",
-    "./bin/command.js"
+    "bin/command.js"
   ]
 }
