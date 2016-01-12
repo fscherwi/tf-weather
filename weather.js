@@ -6,7 +6,8 @@ var LIGHT,
   al,
   h,
   b,
-  ipcon;
+  ipcon,
+  output_data = [];
 /* istanbul ignore next */
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
@@ -70,38 +71,39 @@ function tfdata_get() {
   if (h) {
     h.getHumidity(
       function(humidity) {
-        console.log('Relative Humidity:\t' + humidity / 10 + ' %RH');
+        output_data[0] = ('Relative Humidity:\t' + humidity / 10 + ' %RH');
+        //console.log('Relative Humidity:\t' + humidity / 10 + ' %RH');
       },
       function(error) {
-        console.log('Relative Humidity:\t' + require('./error.js').error(error));
+        output_data[0] = ('Relative Humidity:\t' + require('./error.js').error(error));
       }
     );
   }
   if (b) {
     b.getAirPressure(
       function(air_pressure) {
-        console.log('Air pressure:\t\t' + air_pressure / 1000 + ' mbar');
+        output_data[1] = ('Air pressure:\t\t' + air_pressure / 1000 + ' mbar');
       },
       function(error) {
-        console.log('Air pressure:\t\t' + require('./error.js').error(error));
+        output_data[1] = ('Air pressure:\t\t' + require('./error.js').error(error));
       }
     );
     b.getChipTemperature(
       function(temperature) {
-        console.log('Temperature:\t\t' + temperature / 100 + ' \u00B0C');
+        output_data[2] = ('Temperature:\t\t' + temperature / 100 + ' \u00B0C');
       },
       function(error) {
-        console.log('Temperature:\t\t' + require('./error.js').error(error));
+        output_data[2] = ('Temperature:\t\t' + require('./error.js').error(error));
       }
     );
   }
   if (al) {
     al.getIlluminance(
       function(illuminance) {
-        console.log('Illuminance:\t\t' + illuminance / 10 + ' Lux');
+        output_data[3] = ('Illuminance:\t\t' + illuminance / 10 + ' Lux');
       },
       function(error) {
-        console.log('Illuminance:\t\t' + require('./error.js').error(error));
+        output_data[3] = ('Illuminance:\t\t' + require('./error.js').error(error));
       }
     );
   }
@@ -127,9 +129,11 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
           }
         );
         tfdata_get();
-        console.log('\nTime:\t\t\t' + getTime(new Date()));
         setInterval(function() {
           tfdata_get();
+          output_data.forEach(function(output) {
+            console.log(output);
+          });
           console.log('\nTime:\t\t\t' + getTime(new Date()));
           console.log('\033[2J');
         }, WAIT);
@@ -145,6 +149,9 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
       );
       setTimeout(function() {
         console.log('');
+        output_data.forEach(function(output) {
+          console.log(output);
+        });
         console.log('\nTime:\t\t\t' + getTime(new Date()));
         console.log('');
         ipcon.disconnect();
