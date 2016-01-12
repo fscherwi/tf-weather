@@ -13,6 +13,7 @@
   "author": "fscherwi",
   "license": "MIT",
   "keywords": [
+    "tf",
     "tinkerforge",
     "weather"
   ],
