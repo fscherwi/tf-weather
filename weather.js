@@ -1,4 +1,5 @@
-var Tinkerforge = require('tinkerforge'), LIGHT, LIGHT_2, BARO, HUMI, al, h, b, ipcon, output_data = [];
+var Tinkerforge = require('tinkerforge'),
+  LIGHT, LIGHT_2, BARO, HUMI, al, h, b, ipcon, output_data = [];
 /* istanbul ignore next */
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
@@ -100,7 +101,7 @@ function tfdata_get() {
 }
 /* istanbul ignore next */
 function getTime(date) {
-  return ((date.getHours() < 10 ? "0" : "") + date.getHours()) + ":" + ((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()) + ":" + ((date.getSeconds() < 10 ? "0" : "") + date.getSeconds());
+  return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 }
 /* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
