@@ -1,8 +1,0 @@
-{
-  "ignore": [
-    "Gruntfile.js"
-  ],
-  "critics": {
-    "wc": { "limit": 200 }
-    }
-}
