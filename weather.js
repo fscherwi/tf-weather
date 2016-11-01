@@ -127,7 +127,7 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         });
         console.log('\nTime:\t\t\t' + getTime(new Date()));
       }, WAIT);
-    }, 200);
+    }, 25);
   } else {
     setTimeout(function() {
       tfinit(HOST, PORT);
