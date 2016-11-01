@@ -26,7 +26,7 @@
     "tinkerforge": "^2.0.10"
   },
   "devDependencies": {
-    "grunt-contrib-uglify": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
     "grunt-jsbeautifier": "^0.2.10",
     "grunt-shell": "^2.0.0"
   },
