@@ -1,10 +1,13 @@
 language: node_js
 sudo: false
-node_js:
-  - "latest"
-  - "stable"
-  - "lts"
-  - "0.12"
+before_install:
+  - curl -L https://git.io/n-install | bash
+  - n $NODE_VERSION
+env:
+  - NODE_VERSION=latest
+  - NODE_VERSION=stable
+  - NODE_VERSION=lts
+  - NODE_VERSION=0.12
 install:
   - npm install -g
   - npm install
