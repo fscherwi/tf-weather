@@ -21,9 +21,9 @@ if (!program.args.length) {
     if (!program.wait) {
       program.wait = 1000;
     }
-    require('../weather.js').get(program.host, program.port, program.wait, true);
+    require('../src/weather.js').get(program.host, program.port, program.wait, true);
   } else {
-    require('../weather.js').get(program.host, program.port);
+    require('../src/weather.js').get(program.host, program.port);
   }
 } else {
   program.help();

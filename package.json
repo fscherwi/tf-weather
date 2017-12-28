@@ -22,14 +22,10 @@
   },
   "homepage": "https://github.com/fscherwi/tf-weather/blob/master/README.md",
   "dependencies": {
-    "commander": "^2.9.0",
-    "tinkerforge": "^2.0.10"
+    "commander": "^2.12.2",
+    "tinkerforge": "^2.0.16"
   },
-  "devDependencies": {
-    "grunt-contrib-uglify": "^3.0.1",
-    "grunt-jsbeautifier": "^0.2.10",
-    "grunt-shell": "^2.0.0"
-  },
+  "devDependencies": {},
   "preferGlobal": true,
   "bin": {
     "weather": "./bin/command.js"
