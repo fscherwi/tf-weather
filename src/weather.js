@@ -2,7 +2,7 @@ var Tinkerforge = require('tinkerforge'), LIGHT, LIGHT_2, BARO, HUMI, al, h, b, 
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
     function(error) {
-      console.log(require('./error.js').error(error));
+      console.log(error_output(error));
       process.exit();
     }
   );
@@ -62,7 +62,8 @@ function tfdata_get() {
         output_data[0] = ('Relative Humidity:\t' + humidity / 10 + ' %RH');
       },
       function(error) {
-        output_data[0] = ('Relative Humidity:\t' + require('./error.js').error(error));
+        output_data[0] = ('Relative Humidity:\t' + error_output(error)
+);
       }
     );
   }
@@ -72,7 +73,7 @@ function tfdata_get() {
         output_data[1] = ('Air pressure:\t\t' + air_pressure / 1000 + ' mbar');
       },
       function(error) {
-        output_data[1] = ('Air pressure:\t\t' + require('./error.js').error(error));
+        output_data[1] = ('Air pressure:\t\t' + error_output(error));
       }
     );
     b.getChipTemperature(
@@ -80,7 +81,7 @@ function tfdata_get() {
         output_data[2] = ('Temperature:\t\t' + temperature / 100 + ' \u00B0C');
       },
       function(error) {
-        output_data[2] = ('Temperature:\t\t' + require('./error.js').error(error));
+        output_data[2] = ('Temperature:\t\t' + error_output(error));
       }
     );
   }
@@ -90,7 +91,7 @@ function tfdata_get() {
         output_data[3] = ('Illuminance:\t\t' + illuminance / 10 + ' Lux');
       },
       function(error) {
-        output_data[3] = ('Illuminance:\t\t' + require('./error.js').error(error));
+        output_data[3] = ('Illuminance:\t\t' + error_output(error));
       }
     );
   }
@@ -141,5 +142,26 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         process.exit(0);
       }, 10);
     }, 25);
+  }
+};
+/* istanbul ignore next */
+function error_output(code) {
+  switch (code) {
+    case 11:
+      return 'Error: ALREADY CONNECTED';
+    case 12:
+      return 'Error: NOT CONNECTED';
+    case 13:
+      return 'Error: CONNECT FAILED';
+    case 21:
+      return 'Error: INVALID FUNCTION ID';
+    case 31:
+      return 'Error: TIMEOUT';
+    case 41:
+      return 'Error: INVALID PARAMETER';
+    case 42:
+      return 'Error: FUNCTION NOT SUPPORTED';
+    default:
+      return 'Error: UNKNOWN ERROR';
   }
 };
