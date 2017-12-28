@@ -1,6 +1,6 @@
 {
   "name": "tf-weather",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "a tool to show the weatehr data from Tinkerforge sensors",
   "main": "weather.js",
   "scripts": {
@@ -31,8 +31,7 @@
     "weather": "./bin/command.js"
   },
   "files": [
-    "weather.js",
-    "error.js",
+    "src/weather.js",
     "bin/command.js",
     "README.md",
     "LICENSE"
