@@ -1,4 +1,5 @@
-var Tinkerforge = require('tinkerforge'), LIGHT, LIGHT_2, BARO, HUMI, al, h, b, ipcon, output_data = []; /* istanbul ignore next */
+var Tinkerforge = require('tinkerforge'), LIGHT, LIGHT_2, BARO, HUMI, al, h, b, ipcon, output_data = [];
+/* istanbul ignore next */
 function ipcon_connect(HOST, PORT) {
   ipcon.connect(HOST, PORT,
     function(error) {
@@ -6,7 +7,8 @@ function ipcon_connect(HOST, PORT) {
       process.exit();
     }
   );
-}/* istanbul ignore next */
+}
+/* istanbul ignore next */
 function get_uid(HOST, PORT) {
   ipcon = new Tinkerforge.IPConnection();
   ipcon_connect(HOST, PORT);
@@ -54,7 +56,8 @@ function tfinit(HOST, PORT) {
     console.log('ERROR: nothing connected');
     process.exit();
   }
-}/* istanbul ignore next */
+}
+/* istanbul ignore next */
 function tfdata_get() {
   if (h) {
     h.getHumidity(
@@ -62,8 +65,7 @@ function tfdata_get() {
         output_data[0] = ('Relative Humidity:\t' + humidity / 10 + ' %RH');
       },
       function(error) {
-        output_data[0] = ('Relative Humidity:\t' + error_output(error)
-);
+        output_data[0] = ('Relative Humidity:\t' + error_output(error));
       }
     );
   }
@@ -95,10 +97,33 @@ function tfdata_get() {
       }
     );
   }
-}/* istanbul ignore next */
+}
+/* istanbul ignore next */
 function getTime(date) {
   return ((date.getHours() < 10 ? "0" : "") + date.getHours()) + ":" + ((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()) + ":" + ((date.getSeconds() < 10 ? "0" : "") + date.getSeconds());
-}/* istanbul ignore next */
+}
+/* istanbul ignore next */
+function error_output(code) {
+  switch (code) {
+    case 11:
+      return 'Error: ALREADY CONNECTED';
+    case 12:
+      return 'Error: NOT CONNECTED';
+    case 13:
+      return 'Error: CONNECT FAILED';
+    case 21:
+      return 'Error: INVALID FUNCTION ID';
+    case 31:
+      return 'Error: TIMEOUT';
+    case 41:
+      return 'Error: INVALID PARAMETER';
+    case 42:
+      return 'Error: FUNCTION NOT SUPPORTED';
+    default:
+      return 'Error: UNKNOWN ERROR';
+  }
+}
+/* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
   get_uid(HOST, PORT);
   if (live) {
@@ -142,26 +167,5 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
         process.exit(0);
       }, 10);
     }, 25);
-  }
-};
-/* istanbul ignore next */
-function error_output(code) {
-  switch (code) {
-    case 11:
-      return 'Error: ALREADY CONNECTED';
-    case 12:
-      return 'Error: NOT CONNECTED';
-    case 13:
-      return 'Error: CONNECT FAILED';
-    case 21:
-      return 'Error: INVALID FUNCTION ID';
-    case 31:
-      return 'Error: TIMEOUT';
-    case 41:
-      return 'Error: INVALID PARAMETER';
-    case 42:
-      return 'Error: FUNCTION NOT SUPPORTED';
-    default:
-      return 'Error: UNKNOWN ERROR';
   }
 };
