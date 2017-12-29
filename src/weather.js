@@ -125,48 +125,56 @@ function error_output(code) {
   }
 }
 /* istanbul ignore next */
+function simple(HOST, PORT, WAIT) {
+  setTimeout(function () {
+    tfinit(HOST, PORT);
+    ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+      function () {
+        tfdata_get();
+      }
+    );
+    setTimeout(function () {
+      console.log('\nRelative Humidity:\t' + output_data[0] + '\n' +
+        'Air pressure:\t\t' + output_data[1] + '\n' +
+        'Temperature:\t\t' + output_data[2] + '\n' +
+        'Illuminance:\t\t' + output_data[3] + '\n' +
+        '\nTime:\t\t\t' + getTime(new Date()) + '\n');
+      ipcon.disconnect();
+      process.exit(0);
+    }, 10);
+  }, 25);
+}
+/* istanbul ignore next */
+function live(HOST, PORT, WAIT) {
+  setTimeout(function () {
+    ipcon.disconnect();
+    tfinit(HOST, PORT);
+  }, 150);
+  setTimeout(function () {
+    process.stdin.on('data',
+      function () {
+        ipcon.disconnect();
+        process.exit();
+      }
+    );
+    tfdata_get();
+    setInterval(function () {
+      tfdata_get();
+      console.log('\033[2J');
+      console.log('\nRelative Humidity:\t' + output_data[0] + '\n' +
+        'Air pressure:\t\t' + output_data[1] + '\n' +
+        'Temperature:\t\t' + output_data[2] + '\n' +
+        'Illuminance:\t\t' + output_data[3] + '\n' +
+        '\nTime:\t\t\t' + getTime(new Date()) + '\n');
+    }, WAIT);
+  }, 25);
+}
+/* istanbul ignore next */
 exports.get = function tfget(HOST, PORT, WAIT, live) {
   get_uid(HOST, PORT);
   if (live) {
-    setTimeout(function () {
-      ipcon.disconnect();
-      tfinit(HOST, PORT);
-    }, 150);
-    setTimeout(function () {
-      process.stdin.on('data',
-        function () {
-          ipcon.disconnect();
-          process.exit();
-        }
-      );
-      tfdata_get();
-      setInterval(function () {
-        tfdata_get();
-        console.log('\033[2J');
-        console.log('\nRelative Humidity:\t' + output_data[0] + '\n' +
-          'Air pressure:\t\t' + output_data[1] + '\n' +
-          'Temperature:\t\t' + output_data[2] + '\n' +
-          'Illuminance:\t\t' + output_data[3] + '\n' +
-          '\nTime:\t\t\t' + getTime(new Date()) + '\n');
-      }, WAIT);
-    }, 25);
+    live(HOST, PORT, WAIT);
   } else {
-    setTimeout(function () {
-      tfinit(HOST, PORT);
-      ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-        function () {
-          tfdata_get();
-        }
-      );
-      setTimeout(function () {
-        console.log('\nRelative Humidity:\t' + output_data[0] + '\n' +
-          'Air pressure:\t\t' + output_data[1] + '\n' +
-          'Temperature:\t\t' + output_data[2] + '\n' +
-          'Illuminance:\t\t' + output_data[3] + '\n' +
-          '\nTime:\t\t\t' + getTime(new Date()) + '\n');
-        ipcon.disconnect();
-        process.exit(0);
-      }, 10);
-    }, 25);
+    simple(HOST, PORT, WAIT);
   }
 };
