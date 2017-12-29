@@ -63,45 +63,45 @@ function tfdata_get() {
   if (h) {
     h.getHumidity(
       function (humidity) {
-        output_data[0] = ('Relative Humidity:\t' + humidity / 10 + ' %RH');
+        output_data[0] =  humidity / 10 + ' %RH';
       },
       function (error) {
-        output_data[0] = ('Relative Humidity:\t' + error_output(error));
+        output_data[0] =  error_output(error);
       }
     );
   }
   if (b) {
     b.getAirPressure(
       function (air_pressure) {
-        output_data[1] = ('Air pressure:\t\t' + air_pressure / 1000 + ' mbar');
+        output_data[1] =  air_pressure / 1000 + ' mbar';
       },
       function (error) {
-        output_data[1] = ('Air pressure:\t\t' + error_output(error));
+        output_data[1] = error_output(error);
       }
     );
     b.getChipTemperature(
       function (temperature) {
-        output_data[2] = ('Temperature:\t\t' + temperature / 100 + ' \u00B0C');
+        output_data[2] =  temperature / 100 + ' \u00B0C';
       },
       function (error) {
-        output_data[2] = ('Temperature:\t\t' + error_output(error));
+        output_data[2] =  error_output(error);
       }
     );
   }
   if (al) {
     al.getIlluminance(
       function (illuminance) {
-        output_data[3] = ('Illuminance:\t\t' + illuminance / 10 + ' Lux');
+        output_data[3] =  illuminance / 10 + ' Lux';
       },
       function (error) {
-        output_data[3] = ('Illuminance:\t\t' + error_output(error));
+        output_data[3] =  error_output(error);
       }
     );
   }
 }
 /* istanbul ignore next */
 function getTime(date) {
-  return ((date.getHours() < 10 ? "0" : "") + date.getHours()) + ":" + ((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()) + ":" + ((date.getSeconds() < 10 ? "0" : "") + date.getSeconds());
+  return ((date.getHours() < 10 ? '0' : '') + date.getHours()) + ':' + ((date.getMinutes() < 10 ? '0' : '') + date.getMinutes()) + ':' + ((date.getSeconds() < 10 ? '0' : '') + date.getSeconds());
 }
 /* istanbul ignore next */
 function error_output(code) {
@@ -143,9 +143,10 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
       setInterval(function () {
         tfdata_get();
         console.log('\033[2J');
-        output_data.forEach(function (output) {
-          console.log(output);
-        });
+        console.log('Relative Humidity:\t' + output_data[0]);
+        console.log('Air pressure:\t\t' + output_data[1]);
+        console.log('Temperature:\t\t' + output_data[2]);
+        console.log('Illuminance:\t\t' + output_data[3]);
         console.log('\nTime:\t\t\t' + getTime(new Date()));
       }, WAIT);
     }, 25);
@@ -159,9 +160,10 @@ exports.get = function tfget(HOST, PORT, WAIT, live) {
       );
       setTimeout(function () {
         console.log('');
-        output_data.forEach(function (output) {
-          console.log(output);
-        });
+        console.log('Relative Humidity:\t' + output_data[0]);
+        console.log('Air pressure:\t\t' + output_data[1]);
+        console.log('Temperature:\t\t' + output_data[2]);
+        console.log('Illuminance:\t\t' + output_data[3]);
         console.log('\nTime:\t\t\t' + getTime(new Date()));
         console.log('');
         ipcon.disconnect();
