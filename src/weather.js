@@ -125,6 +125,14 @@ function error_output(code) {
   }
 }
 /* istanbul ignore next */
+function output(){
+  console.log('\nRelative Humidity:\t' + output_data[0] + '\n' +
+    'Air pressure:\t\t' + output_data[1] + '\n' +
+    'Temperature:\t\t' + output_data[2] + '\n' +
+    'Illuminance:\t\t' + output_data[3] + '\n' +
+    '\nTime:\t\t\t' + getTime(new Date()) + '\n');
+}
+/* istanbul ignore next */
 function simple(HOST, PORT, WAIT) {
   setTimeout(function () {
     tfinit(HOST, PORT);
@@ -134,11 +142,7 @@ function simple(HOST, PORT, WAIT) {
       }
     );
     setTimeout(function () {
-      console.log('\nRelative Humidity:\t' + output_data[0] + '\n' +
-        'Air pressure:\t\t' + output_data[1] + '\n' +
-        'Temperature:\t\t' + output_data[2] + '\n' +
-        'Illuminance:\t\t' + output_data[3] + '\n' +
-        '\nTime:\t\t\t' + getTime(new Date()) + '\n');
+      output();
       ipcon.disconnect();
       process.exit(0);
     }, 10);
@@ -161,11 +165,7 @@ function live(HOST, PORT, WAIT) {
     setInterval(function () {
       tfdata_get();
       console.log('\033[2J');
-      console.log('\nRelative Humidity:\t' + output_data[0] + '\n' +
-        'Air pressure:\t\t' + output_data[1] + '\n' +
-        'Temperature:\t\t' + output_data[2] + '\n' +
-        'Illuminance:\t\t' + output_data[3] + '\n' +
-        '\nTime:\t\t\t' + getTime(new Date()) + '\n');
+      output();
     }, WAIT);
   }, 25);
 }
