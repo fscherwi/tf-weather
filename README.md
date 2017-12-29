@@ -23,7 +23,7 @@ $ weather
 **Show live weather**
 
 ```shell
-$ weather live
+$ weather --live
 ```
 
 ## Options
