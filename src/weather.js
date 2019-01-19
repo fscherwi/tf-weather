@@ -179,13 +179,13 @@ function liveOutput(HOST, PORT, WAIT) {
 		tfdataGet();
 		setInterval(() => {
 			tfdataGet();
-			// Console.log('\033[2J');
+			console.clear();
 			output();
 		}, WAIT);
 	}, 25);
 }
 
-module.exports.name = function (HOST, PORT, WAIT, live) {
+module.exports.tfget = function (HOST, PORT, WAIT, live) {
 	getUid(HOST, PORT);
 	if (live) {
 		liveOutput(HOST, PORT, WAIT);
