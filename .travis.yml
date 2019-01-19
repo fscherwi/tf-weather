@@ -2,23 +2,16 @@ os:
   - osx
   - linux
 language: node_js
-sudo: false
 node_js:
   - "node"
   - "--lts"
-  - "0.12"
 notifications:
   email: false
 install:
-  - npm install -g
   - npm install
-  - npm install istanbul coveralls codecov.io
 script:
-  - weather
-  - weather --live
-  - weather --help
-  - weather -V
+  - npm run lint
+  - npm run test
 after_script:
   - node ./node_modules/.bin/istanbul cover --include-all-sources command.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  - cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js

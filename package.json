@@ -4,7 +4,8 @@
   "description": "a tool to show the weatehr data from Tinkerforge sensors",
   "main": "weather.js",
   "scripts": {
-    "test": "node ./bin/command.js"
+    "test": "node ./bin/command.js",
+    "lint": "xo"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,11 @@
     "commander": "^2.19.0",
     "tinkerforge": "^2.1.21"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "coveralls": "^3.0.2",
+    "istanbul": "^0.4.5",
+    "xo": "^0.24.0"
+  },
   "preferGlobal": true,
   "bin": {
     "weather": "./bin/command.js"
@@ -35,5 +40,11 @@
     "bin/command.js",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "xo": {
+    "rules": {
+      "unicorn/no-process-exit": false,
+      "max-params": 0
+    }
+  }
 }
