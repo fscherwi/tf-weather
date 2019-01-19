@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/fscherwi/tf-weather/blob/master/README.md",
   "dependencies": {
-    "commander": "^2.12.2",
-    "tinkerforge": "^2.0.16"
+    "commander": "^2.19.0",
+    "tinkerforge": "^2.1.21"
   },
   "devDependencies": {},
   "preferGlobal": true,
