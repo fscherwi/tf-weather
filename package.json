@@ -46,5 +46,8 @@
       "unicorn/no-process-exit": false,
       "max-params": 0
     }
+  },
+  "engines": {
+    "node": ">=8.3"
   }
 }
