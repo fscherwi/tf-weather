@@ -1,4 +1,5 @@
 const Tinkerforge = require('tinkerforge');
+const logUpdate = require('log-update');
 
 let LIGHT;
 let LIGHT_2;
@@ -141,11 +142,15 @@ function errorOutput(code) {
 }
 
 function output() {
-	console.log('\nRelative Humidity:\t' + outputData[0] + '\n' +
-    'Air pressure:\t\t' + outputData[1] + '\n' +
-    'Temperature:\t\t' + outputData[2] + '\n' +
-    'Illuminance:\t\t' + outputData[3] + '\n' +
-    '\nTime:\t\t\t' + getTime(new Date()) + '\n');
+	logUpdate(
+		`
+Relative Humidity: ${outputData[0]}
+Air pressure:      ${outputData[1]}
+Temperature:       ${outputData[2]}
+Illuminance:       ${outputData[3]}
+Time:              ${getTime(new Date())}
+`
+	);
 }
 
 function simpleOutput(HOST, PORT) {
@@ -176,10 +181,8 @@ function liveOutput(HOST, PORT, WAIT) {
 				process.exit();
 			}
 		);
-		tfdataGet();
 		setInterval(() => {
 			tfdataGet();
-			console.clear();
 			output();
 		}, WAIT);
 	}, 25);
