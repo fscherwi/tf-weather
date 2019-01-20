@@ -8,20 +8,19 @@ let HUMI;
 let al;
 let h;
 let b;
-let ipcon;
+let ipcon =new Tinkerforge.IPConnection();
 const outputData = [];
 
 function ipconConnect(HOST, PORT) {
 	ipcon.connect(HOST, PORT,
 		error => {
-			console.log(errorOutput(error));
+			console.error(errorText(error));
 			process.exit();
 		}
 	);
 }
 
-function getUid(HOST, PORT) {
-	ipcon = new Tinkerforge.IPConnection();
+function getUids(HOST, PORT) {
 	ipconConnect(HOST, PORT);
 	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
 		() => {
@@ -68,7 +67,7 @@ function tfinit(HOST, PORT) {
 
 		ipconConnect(HOST, PORT);
 	} else {
-		console.log('ERROR: nothing connected');
+		console.error('ERROR: nothing connected');
 		process.exit();
 	}
 }
@@ -80,7 +79,7 @@ function tfdataGet() {
 				outputData[0] = (humidity / 10) + ' %RH';
 			},
 			error => {
-				outputData[0] = errorOutput(error);
+				outputData[0] = errorText(error);
 			}
 		);
 	}
@@ -91,7 +90,7 @@ function tfdataGet() {
 				outputData[1] = (airPressure / 1000) + ' mbar';
 			},
 			error => {
-				outputData[1] = errorOutput(error);
+				outputData[1] = errorText(error);
 			}
 		);
 		b.getChipTemperature(
@@ -99,7 +98,7 @@ function tfdataGet() {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
 			},
 			error => {
-				outputData[2] = errorOutput(error);
+				outputData[2] = errorText(error);
 			}
 		);
 	}
@@ -110,7 +109,7 @@ function tfdataGet() {
 				outputData[3] = (illuminance / 10) + ' Lux';
 			},
 			error => {
-				outputData[3] = errorOutput(error);
+				outputData[3] = errorText(error);
 			}
 		);
 	}
@@ -120,7 +119,7 @@ function getTime(date) {
 	return ((date.getHours() < 10 ? '0' : '') + date.getHours()) + ':' + ((date.getMinutes() < 10 ? '0' : '') + date.getMinutes()) + ':' + ((date.getSeconds() < 10 ? '0' : '') + date.getSeconds());
 }
 
-function errorOutput(code) {
+function errorText(code) {
 	switch (code) {
 		case 11:
 			return 'Error: ALREADY CONNECTED';
@@ -171,25 +170,17 @@ function simpleOutput(HOST, PORT) {
 
 function liveOutput(HOST, PORT, WAIT) {
 	setTimeout(() => {
-		ipcon.disconnect();
+		// Ipcon.disconnect();
 		tfinit(HOST, PORT);
 	}, 150);
-	setTimeout(() => {
-		process.stdin.on('data',
-			() => {
-				ipcon.disconnect();
-				process.exit();
-			}
-		);
-		setInterval(() => {
-			tfdataGet();
-			output();
-		}, WAIT);
-	}, 25);
+	setInterval(() => {
+		tfdataGet();
+		output();
+	}, WAIT);
 }
 
 module.exports.tfget = function (HOST, PORT, WAIT, live) {
-	getUid(HOST, PORT);
+	getUids(HOST, PORT);
 	if (live) {
 		liveOutput(HOST, PORT, WAIT);
 	} else {
