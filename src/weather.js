@@ -8,7 +8,7 @@ let HUMI;
 let al;
 let h;
 let b;
-let ipcon =new Tinkerforge.IPConnection();
+let ipcon = new Tinkerforge.IPConnection();
 const outputData = [];
 
 function ipconConnect(HOST, PORT) {
@@ -170,7 +170,6 @@ function simpleOutput(HOST, PORT) {
 
 function liveOutput(HOST, PORT, WAIT) {
 	setTimeout(() => {
-		// Ipcon.disconnect();
 		tfinit(HOST, PORT);
 	}, 150);
 	setInterval(() => {
