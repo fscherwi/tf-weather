@@ -3,18 +3,25 @@ const logUpdate = require('log-update');
 
 let LIGHT;
 let LIGHT_2;
+let LIGHT_3;
 let BARO;
+let BARO_2;
 let HUMI;
+let HUMI_2;
 let al;
 let h;
 let b;
 let ipcon = new Tinkerforge.IPConnection();
 const outputData = [];
+let alDivider = 100;
+let hDivider = 100;
+
+const errorOutput = require('./error.js');
 
 function ipconConnect(HOST, PORT) {
 	ipcon.connect(HOST, PORT,
 		error => {
-			console.error(errorText(error));
+			console.error(errorOutput.error(error));
 			process.exit();
 		}
 	);
@@ -37,12 +44,24 @@ function getUids(HOST, PORT) {
 				LIGHT_2 = uid;
 			}
 
+			if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV3.DEVICE_IDENTIFIER) {
+				LIGHT_3 = uid;
+			}
+
 			if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
 				BARO = uid;
 			}
 
+			if (deviceIdentifier === Tinkerforge.BrickletBarometerV2.DEVICE_IDENTIFIER) {
+				BARO_2 = uid;
+			}
+
 			if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
 				HUMI = uid;
+			}
+
+			if (deviceIdentifier === Tinkerforge.BrickletHumidityV2.DEVICE_IDENTIFIER) {
+				HUMI_2 = uid;
 			}
 		}
 	);
@@ -51,18 +70,26 @@ function getUids(HOST, PORT) {
 function tfinit(HOST, PORT) {
 	if (LIGHT_2 || LIGHT || BARO || HUMI) {
 		ipcon = new Tinkerforge.IPConnection();
-		if (LIGHT_2) {
-			al = new Tinkerforge.BrickletAmbientLightV2(LIGHT, ipcon);
+		if (LIGHT_3) {
+			al = new Tinkerforge.BrickletAmbientLightV2(LIGHT_3, ipcon);
+		} else if (LIGHT_2) {
+			al = new Tinkerforge.BrickletAmbientLight(LIGHT_2, ipcon);
 		} else if (LIGHT) {
 			al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
+			alDivider = 10;
 		}
 
-		if (BARO) {
+		if (BARO_2) {
+			b = new Tinkerforge.BrickletBarometer(BARO_2, ipcon);
+		} else if (BARO) {
 			b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
 		}
 
-		if (HUMI) {
+		if (HUMI_2) {
+			h = new Tinkerforge.BrickletHumidityV2(HUMI_2, ipcon);
+		} else if (HUMI) {
 			h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
+			hDivider = 10;
 		}
 
 		ipconConnect(HOST, PORT);
@@ -76,10 +103,10 @@ function tfdataGet() {
 	if (h) {
 		h.getHumidity(
 			humidity => {
-				outputData[0] = (humidity / 10) + ' %RH';
+				outputData[0] = (humidity / hDivider) + ' %RH';
 			},
 			error => {
-				outputData[0] = errorText(error);
+				outputData[0] = errorOutput.error(error);
 			}
 		);
 	}
@@ -90,7 +117,7 @@ function tfdataGet() {
 				outputData[1] = (airPressure / 1000) + ' mbar';
 			},
 			error => {
-				outputData[1] = errorText(error);
+				outputData[1] = errorOutput.error(error);
 			}
 		);
 		b.getChipTemperature(
@@ -98,7 +125,7 @@ function tfdataGet() {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
 			},
 			error => {
-				outputData[2] = errorText(error);
+				outputData[2] = errorOutput.error(error);
 			}
 		);
 	}
@@ -106,10 +133,10 @@ function tfdataGet() {
 	if (al) {
 		al.getIlluminance(
 			illuminance => {
-				outputData[3] = (illuminance / 10) + ' Lux';
+				outputData[3] = (illuminance / alDivider) + ' Lux';
 			},
 			error => {
-				outputData[3] = errorText(error);
+				outputData[3] = errorOutput.error(error);
 			}
 		);
 	}
@@ -117,27 +144,6 @@ function tfdataGet() {
 
 function getTime(date) {
 	return ((date.getHours() < 10 ? '0' : '') + date.getHours()) + ':' + ((date.getMinutes() < 10 ? '0' : '') + date.getMinutes()) + ':' + ((date.getSeconds() < 10 ? '0' : '') + date.getSeconds());
-}
-
-function errorText(code) {
-	switch (code) {
-		case 11:
-			return 'Error: ALREADY CONNECTED';
-		case 12:
-			return 'Error: NOT CONNECTED';
-		case 13:
-			return 'Error: CONNECT FAILED';
-		case 21:
-			return 'Error: INVALID FUNCTION ID';
-		case 31:
-			return 'Error: TIMEOUT';
-		case 41:
-			return 'Error: INVALID PARAMETER';
-		case 42:
-			return 'Error: FUNCTION NOT SUPPORTED';
-		default:
-			return 'Error: UNKNOWN ERROR';
-	}
 }
 
 function output() {

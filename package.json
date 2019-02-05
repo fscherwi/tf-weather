@@ -4,7 +4,7 @@
   "description": "a tool to show the weather data from Tinkerforge sensors",
   "main": "weather.js",
   "scripts": {
-    "test": "node ./bin/command.js",
+    "test": "nyc node ./bin/command.js",
     "lint": "xo"
   },
   "repository": {
@@ -25,7 +25,7 @@
   "dependencies": {
     "commander": "^2.19.0",
     "log-update": "^2.3.0",
-    "tinkerforge": "^2.1.21"
+    "tinkerforge": "^2.1.22"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
@@ -38,6 +38,7 @@
   },
   "files": [
     "src/weather.js",
+    "src/error.js",
     "bin/command.js",
     "README.md",
     "LICENSE"
@@ -50,5 +51,10 @@
   },
   "engines": {
     "node": ">=4"
+  },
+  "nyc": {
+    "reporter": [
+      "lcov"
+    ]
   }
 }
