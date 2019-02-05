@@ -27,6 +27,36 @@ function ipconConnect(HOST, PORT) {
 	);
 }
 
+function defineBricklets(uid, deviceIdentifier) {
+	if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
+		LIGHT = uid;
+	}
+
+	if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER) {
+		LIGHT_2 = uid;
+	}
+
+	if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV3.DEVICE_IDENTIFIER) {
+		LIGHT_3 = uid;
+	}
+
+	if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
+		BARO = uid;
+	}
+
+	if (deviceIdentifier === Tinkerforge.BrickletBarometerV2.DEVICE_IDENTIFIER) {
+		BARO_2 = uid;
+	}
+
+	if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
+		HUMI = uid;
+	}
+
+	if (deviceIdentifier === Tinkerforge.BrickletHumidityV2.DEVICE_IDENTIFIER) {
+		HUMI_2 = uid;
+	}
+}
+
 function getUids(HOST, PORT) {
 	ipconConnect(HOST, PORT);
 	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
@@ -36,33 +66,7 @@ function getUids(HOST, PORT) {
 	);
 	ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
 		(uid, a, b, c, d, deviceIdentifier) => {
-			if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
-				LIGHT = uid;
-			}
-
-			if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER) {
-				LIGHT_2 = uid;
-			}
-
-			if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV3.DEVICE_IDENTIFIER) {
-				LIGHT_3 = uid;
-			}
-
-			if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
-				BARO = uid;
-			}
-
-			if (deviceIdentifier === Tinkerforge.BrickletBarometerV2.DEVICE_IDENTIFIER) {
-				BARO_2 = uid;
-			}
-
-			if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
-				HUMI = uid;
-			}
-
-			if (deviceIdentifier === Tinkerforge.BrickletHumidityV2.DEVICE_IDENTIFIER) {
-				HUMI_2 = uid;
-			}
+			defineBricklets(uid, deviceIdentifier);
 		}
 	);
 }
