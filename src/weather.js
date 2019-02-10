@@ -14,10 +14,9 @@ let ipcon = new Tinkerforge.IPConnection();
 const outputData = [];
 let alDivider = 100;
 let hDivider = 100;
-
 let WAIT = 1000;
 
-function tfinit(HOST, PORT) {
+async function tfinit(HOST, PORT) {
 	if (uidArray.LIGHT || uidArray.LIGHT_2 || uidArray.LIGHT_3 || uidArray.BARO || uidArray.BARO_2 || uidArray.HUMI || uidArray.HUMI_2 || uidArray.TEMP || uidArray.TEMP_2) {
 		ipcon = new Tinkerforge.IPConnection();
 		if (uidArray.LIGHT_3) {
@@ -211,30 +210,26 @@ function tfdataGet() {
 	}
 }
 
-function liveOutput(HOST, PORT) {
-	setTimeout(() => {
-		tfinit(HOST, PORT);
-	}, 150);
+async function liveOutput(HOST, PORT) {
+	await tfinit(HOST, PORT);
 	setTimeout(() => {
 		defineCallBack();
 		registerCallBack();
 	}, 200);
 }
 
-function simpleOutput(HOST, PORT) {
+async function simpleOutput(HOST, PORT) {
+	await tfinit(HOST, PORT);
+	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+		() => {
+			tfdataGet();
+		}
+	);
 	setTimeout(() => {
-		tfinit(HOST, PORT);
-		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-			() => {
-				tfdataGet();
-			}
-		);
-		setTimeout(() => {
-			output.output(outputData);
-			ipcon.disconnect();
-			process.exit(0);
-		}, 10);
-	}, 25);
+		output.output(outputData);
+		ipcon.disconnect();
+		process.exit(0);
+	}, 10);
 }
 
 module.exports.tfget = async function (HOST, PORT, WAITPeriod, live) {
