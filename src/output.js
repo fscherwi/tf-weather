@@ -1,7 +1,7 @@
 const logUpdate = require('log-update');
 const time = require('./time.js');
 
-function output(outputData) {
+module.exports.output = function (outputData) {
 	logUpdate(
 		`
 Relative Humidity: ${outputData[0]}
@@ -12,7 +12,3 @@ Time:              ${time.get()}
 `
 	);
 }
-
-module.exports = {
-	output
-};

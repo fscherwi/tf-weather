@@ -53,7 +53,7 @@ function defineBricklets(uid, deviceIdentifier) {
 	}
 }
 
-function get(HOST, PORT) {
+module.exports.get = function (HOST, PORT) {
 	return new Promise(resolve => {
 		ipconConnect.connect(ipcon, HOST, PORT);
 		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
@@ -69,10 +69,6 @@ function get(HOST, PORT) {
 		setTimeout(() => {
 			ipcon.disconnect();
 			resolve(uidArray);
-		}, 200);
+		}, 10);
 	});
-}
-
-module.exports = {
-	get
 };
