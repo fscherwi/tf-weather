@@ -14,7 +14,7 @@ let ipcon = new Tinkerforge.IPConnection();
 const outputData = [];
 let alDivider = 100;
 let hDivider = 100;
-let WAIT = 1000;
+let WAIT;
 
 function tfinit(HOST, PORT) {
 	if (uidArray.LIGHT || uidArray.LIGHT_2 || uidArray.LIGHT_3 || uidArray.BARO || uidArray.BARO_2 || uidArray.HUMI || uidArray.HUMI_2 || uidArray.TEMP || uidArray.TEMP_2) {
@@ -210,16 +210,14 @@ function tfdataGet() {
 	}
 }
 
-function liveOutput(HOST, PORT) {
-	tfinit(HOST, PORT);
+function liveOutput() {
 	setTimeout(() => {
 		defineCallBack();
 		registerCallBack();
-	}, 200);
+	}, 25);
 }
 
-function simpleOutput(HOST, PORT) {
-	tfinit(HOST, PORT);
+function simpleOutput() {
 	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
 		() => {
 			tfdataGet();
@@ -235,9 +233,10 @@ function simpleOutput(HOST, PORT) {
 module.exports.tfget = async function (HOST, PORT, WAITPeriod, live) {
 	WAIT = WAITPeriod;
 	uidArray = await getUids.get(HOST, PORT);
+	tfinit(HOST, PORT);
 	if (live) {
-		liveOutput(HOST, PORT);
+		liveOutput();
 	} else {
-		simpleOutput(HOST, PORT);
+		simpleOutput();
 	}
 };
