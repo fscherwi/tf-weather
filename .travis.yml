@@ -9,9 +9,16 @@ notifications:
   email: false
 cache: npm
 install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; wget http://download.tinkerforge.com/tools/brickd/linux/brickd_linux_latest_amd64.deb && dpkg -i brickd_linux_latest_amd64.deb; fi
   - npm ci
 script:
   - npm run lint
   - npm run test
 after_script:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+addons:
+  apt:
+    packages:
+      - libusb-1.0-0
+      - libudev0
+      - pm-utils
