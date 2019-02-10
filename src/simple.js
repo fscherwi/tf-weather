@@ -1,5 +1,6 @@
 const Tinkerforge = require('tinkerforge');
 const logUpdate = require('log-update');
+const time = require('./time.js');
 
 let LIGHT;
 let LIGHT_2;
@@ -146,10 +147,6 @@ function tfdataGet() {
 	}
 }
 
-function getTime(date) {
-	return ((date.getHours() < 10 ? '0' : '') + date.getHours()) + ':' + ((date.getMinutes() < 10 ? '0' : '') + date.getMinutes()) + ':' + ((date.getSeconds() < 10 ? '0' : '') + date.getSeconds());
-}
-
 function output() {
 	logUpdate(
 		`
@@ -157,7 +154,7 @@ Relative Humidity: ${outputData[0]}
 Air pressure:      ${outputData[1]}
 Temperature:       ${outputData[2]}
 Illuminance:       ${outputData[3]}
-Time:              ${getTime(new Date())}
+Time:              ${time.get()}
 `
 	);
 }
@@ -178,21 +175,7 @@ function simpleOutput(HOST, PORT) {
 	}, 25);
 }
 
-function liveOutput(HOST, PORT, WAIT) {
-	setTimeout(() => {
-		tfinit(HOST, PORT);
-	}, 150);
-	setInterval(() => {
-		tfdataGet();
-		output();
-	}, WAIT);
-}
-
-module.exports.tfget = function (HOST, PORT, WAIT, live) {
+module.exports.tfget = function (HOST, PORT) {
 	getUids(HOST, PORT);
-	if (live) {
-		liveOutput(HOST, PORT, WAIT);
-	} else {
-		simpleOutput(HOST, PORT);
-	}
+	simpleOutput(HOST, PORT);
 };

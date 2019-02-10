@@ -23,4 +23,8 @@ if (!program.wait) {
 	program.wait = 1000;
 }
 
-require('../src/weather.js').tfget(program.host, program.port, program.wait, program.live);
+if (program.live) {
+	require('../src/live.js').tfget(program.host, program.port, program.wait, program.live);
+} else {
+	require('../src/simple.js').tfget(program.host, program.port);
+}
