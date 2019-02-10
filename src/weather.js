@@ -1,15 +1,10 @@
 const Tinkerforge = require('tinkerforge');
 const output = require('./output.js');
+const errorOutput = require('./error.js');
+const getUids = require('./get-uid.js');
 
-let LIGHT;
-let LIGHT_2;
-let LIGHT_3;
-let BARO;
-let BARO_2;
-let HUMI;
-let HUMI_2;
-let TEMP;
-let TEMP_2;
+let uidArray = [];
+
 let al;
 let h;
 let b;
@@ -21,8 +16,6 @@ let hDivider = 100;
 
 let WAIT = 1000;
 
-const errorOutput = require('./error.js');
-
 function ipconConnect(HOST, PORT) {
 	ipcon.connect(HOST, PORT,
 		error => {
@@ -32,88 +25,35 @@ function ipconConnect(HOST, PORT) {
 	);
 }
 
-function defineBricklets(uid, deviceIdentifier) {
-	if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
-		LIGHT = uid;
-	}
-
-	if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER) {
-		LIGHT_2 = uid;
-	}
-
-	if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV3.DEVICE_IDENTIFIER) {
-		LIGHT_3 = uid;
-	}
-
-	if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
-		BARO = uid;
-	}
-
-	if (deviceIdentifier === Tinkerforge.BrickletBarometerV2.DEVICE_IDENTIFIER) {
-		BARO_2 = uid;
-	}
-
-	if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
-		HUMI = uid;
-	}
-
-	if (deviceIdentifier === Tinkerforge.BrickletHumidityV2.DEVICE_IDENTIFIER) {
-		HUMI_2 = uid;
-	}
-
-	if (deviceIdentifier === Tinkerforge.BrickletTemperature.DEVICE_IDENTIFIER) {
-		TEMP = uid;
-	}
-
-	if (deviceIdentifier === Tinkerforge.BrickletTemperatureV2.DEVICE_IDENTIFIER) {
-		TEMP_2 = uid;
-	}
-}
-
-function getUids(HOST, PORT) {
-	ipconConnect(HOST, PORT);
-	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-		() => {
-			ipcon.enumerate();
-		}
-	);
-	ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
-		(uid, a, b, c, d, deviceIdentifier) => {
-			defineBricklets(uid, deviceIdentifier);
-		}
-	);
-	// Ipcon.disconnect();
-}
-
 function tfinit(HOST, PORT) {
-	if (LIGHT_2 || LIGHT || BARO || HUMI) {
+	if (uidArray.LIGHT || uidArray.LIGHT_2 || uidArray.LIGHT_3 || uidArray.BARO || uidArray.BARO_2 || uidArray.HUMI || uidArray.HUMI_2 || uidArray.TEMP || uidArray.TEMP_2) {
 		ipcon = new Tinkerforge.IPConnection();
-		if (LIGHT_3) {
-			al = new Tinkerforge.BrickletAmbientLightV2(LIGHT_3, ipcon);
-		} else if (LIGHT_2) {
-			al = new Tinkerforge.BrickletAmbientLight(LIGHT_2, ipcon);
-		} else if (LIGHT) {
-			al = new Tinkerforge.BrickletAmbientLight(LIGHT, ipcon);
+		if (uidArray.LIGHT_3) {
+			al = new Tinkerforge.BrickletAmbientLightV2(uidArray.LIGHT_3, ipcon);
+		} else if (uidArray.LIGHT_2) {
+			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT_2, ipcon);
+		} else if (uidArray.LIGHT) {
+			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT, ipcon);
 			alDivider = 10;
 		}
 
-		if (BARO_2) {
-			b = new Tinkerforge.BrickletBarometer(BARO_2, ipcon);
-		} else if (BARO) {
-			b = new Tinkerforge.BrickletBarometer(BARO, ipcon);
+		if (uidArray.BARO_2) {
+			b = new Tinkerforge.BrickletBarometer(uidArray.BARO_2, ipcon);
+		} else if (uidArray.BARO) {
+			b = new Tinkerforge.BrickletBarometer(uidArray.BARO, ipcon);
 		}
 
-		if (HUMI_2) {
-			h = new Tinkerforge.BrickletHumidityV2(HUMI_2, ipcon);
-		} else if (HUMI) {
-			h = new Tinkerforge.BrickletHumidity(HUMI, ipcon);
+		if (uidArray.HUMI_2) {
+			h = new Tinkerforge.BrickletHumidityV2(uidArray.HUMI_2, ipcon);
+		} else if (uidArray.HUMI) {
+			h = new Tinkerforge.BrickletHumidity(uidArray.HUMI, ipcon);
 			hDivider = 10;
 		}
 
-		if (TEMP_2) {
-			t = new Tinkerforge.BrickletTemperatureV2(TEMP_2, ipcon);
-		} else if (TEMP) {
-			t = new Tinkerforge.BrickletTemperature(TEMP, ipcon);
+		if (uidArray.TEMP_2) {
+			t = new Tinkerforge.BrickletTemperatureV2(uidArray.TEMP_2, ipcon);
+		} else if (uidArray.TEMP) {
+			t = new Tinkerforge.BrickletTemperature(uidArray.TEMP, ipcon);
 		}
 
 		ipconConnect(HOST, PORT);
@@ -124,47 +64,47 @@ function tfinit(HOST, PORT) {
 }
 
 function defineCallBack() {
-	if (LIGHT_3) {
+	if (uidArray.LIGHT_3) {
 		al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
-	} else if (LIGHT_2 || LIGHT) {
+	} else if (uidArray.LIGHT_2 || uidArray.LIGHT) {
 		al.setIlluminanceCallbackPeriod(WAIT);
 	}
 
-	if (BARO_2) {
+	if (uidArray.BARO_2) {
 		b.setAirPressureCallbackConfiguration(WAIT, false, 'x', 0, 0);
-	} else if (BARO) {
+	} else if (uidArray.BARO) {
 		b.setAirPressureCallbackPeriod(WAIT);
 	}
 
-	if (HUMI_2) {
+	if (uidArray.HUMI_2) {
 		h.setHumidityCallbackConfiguration(WAIT, false, 'x', 0, 0);
-	} else if (HUMI) {
+	} else if (uidArray.HUMI) {
 		h.setHumidityCallbackPeriod(WAIT);
 	}
 
-	if (TEMP_2) {
+	if (uidArray.TEMP_2) {
 		t.setTemperatureCallbackConfiguration(WAIT, false, 'x', 0, 0);
-	} else if (TEMP) {
+	} else if (uidArray.TEMP) {
 		t.setTemperatureCallbackPeriod(WAIT);
 	}
 }
 
 function registerCallBack() {
-	if (LIGHT_3) {
+	if (uidArray.LIGHT_3) {
 		al.on(Tinkerforge.BrickletAmbientLightV3.CALLBACK_ILLUMINANCE,
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
 				output.output(outputData);
 			}
 		);
-	} else if (LIGHT_2) {
+	} else if (uidArray.LIGHT_2) {
 		al.on(Tinkerforge.BrickletAmbientLightV2.CALLBACK_ILLUMINANCE,
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
 				output.output(outputData);
 			}
 		);
-	} else if (LIGHT) {
+	} else if (uidArray.LIGHT) {
 		if (al) {
 			al.on(Tinkerforge.BrickletAmbientLight.CALLBACK_ILLUMINANCE,
 				illuminance => {
@@ -175,14 +115,14 @@ function registerCallBack() {
 		}
 	}
 
-	if (BARO_2) {
+	if (uidArray.BARO_2) {
 		b.on(Tinkerforge.BrickletBarometerV2.CALLBACK_AIR_PRESSURE,
 			airPressure => {
 				outputData[1] = (airPressure / 1000) + ' mbar';
 				output.output(outputData);
 			}
 		);
-	} else if (BARO) {
+	} else if (uidArray.BARO) {
 		b.on(Tinkerforge.BrickletBarometer.CALLBACK_AIR_PRESSURE,
 			airPressure => {
 				outputData[1] = (airPressure / 1000) + ' mbar';
@@ -191,14 +131,14 @@ function registerCallBack() {
 		);
 	}
 
-	if (HUMI_2) {
+	if (uidArray.HUMI_2) {
 		h.on(Tinkerforge.BrickletHumidityV2.CALLBACK_HUMIDITY,
 			humidity => {
 				outputData[0] = (humidity / hDivider) + ' %RH';
 				output.output(outputData);
 			}
 		);
-	} else if (HUMI) {
+	} else if (uidArray.HUMI) {
 		h.on(Tinkerforge.BrickletHumidity.CALLBACK_HUMIDITY,
 			humidity => {
 				outputData[0] = (humidity / hDivider) + ' %RH';
@@ -207,14 +147,14 @@ function registerCallBack() {
 		);
 	}
 
-	if (TEMP_2) {
+	if (uidArray.TEMP_2) {
 		t.on(Tinkerforge.BrickletTemperatureV2.CALLBACK_TEMPERATURE,
 			temperature => {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
 				output.output(outputData);
 			}
 		);
-	} else if (TEMP) {
+	} else if (uidArray.TEMP) {
 		t.on(Tinkerforge.BrickletTemperature.CALLBACK_TEMPERATURE,
 			temperature => {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
@@ -286,7 +226,7 @@ function liveOutput(HOST, PORT) {
 	setTimeout(() => {
 		defineCallBack();
 		registerCallBack();
-	}, 250);
+	}, 200);
 }
 
 function simpleOutput(HOST, PORT) {
@@ -305,12 +245,14 @@ function simpleOutput(HOST, PORT) {
 	}, 25);
 }
 
-module.exports.tfget = function (HOST, PORT, WAITPeriod, live) {
+module.exports.tfget = async function (HOST, PORT, WAITPeriod, live) {
 	WAIT = WAITPeriod;
-	getUids(HOST, PORT);
+	uidArray = await getUids.get(HOST, PORT);
+	// SetTimeout(() => {
 	if (live) {
 		liveOutput(HOST, PORT);
 	} else {
 		simpleOutput(HOST, PORT);
 	}
+	// }, 5000);
 };
