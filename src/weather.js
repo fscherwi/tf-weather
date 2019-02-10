@@ -10,10 +10,10 @@ let al;
 let h;
 let b;
 let t;
-let ipcon = new Tinkerforge.IPConnection();
+let ipcon;
 const outputData = [];
-let alDivider = 100;
-let hDivider = 100;
+let alDivider = 100.0;
+let hDivider = 100.0;
 let WAIT;
 
 function tfinit(HOST, PORT) {
@@ -25,7 +25,7 @@ function tfinit(HOST, PORT) {
 			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT_2, ipcon);
 		} else if (uidArray.LIGHT) {
 			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT, ipcon);
-			alDivider = 10;
+			alDivider = 10.0;
 		}
 
 		if (uidArray.BARO_2) {
@@ -38,7 +38,7 @@ function tfinit(HOST, PORT) {
 			h = new Tinkerforge.BrickletHumidityV2(uidArray.HUMI_2, ipcon);
 		} else if (uidArray.HUMI) {
 			h = new Tinkerforge.BrickletHumidity(uidArray.HUMI, ipcon);
-			hDivider = 10;
+			hDivider = 10.0;
 		}
 
 		if (uidArray.TEMP_2) {
@@ -109,14 +109,14 @@ function registerCallBack() {
 	if (uidArray.BARO_2) {
 		b.on(Tinkerforge.BrickletBarometerV2.CALLBACK_AIR_PRESSURE,
 			airPressure => {
-				outputData[1] = (airPressure / 1000) + ' mbar';
+				outputData[1] = (airPressure / 1000.0) + ' mbar';
 				output.output(outputData);
 			}
 		);
 	} else if (uidArray.BARO) {
 		b.on(Tinkerforge.BrickletBarometer.CALLBACK_AIR_PRESSURE,
 			airPressure => {
-				outputData[1] = (airPressure / 1000) + ' mbar';
+				outputData[1] = (airPressure / 1000.0) + ' mbar';
 				output.output(outputData);
 			}
 		);
@@ -141,14 +141,14 @@ function registerCallBack() {
 	if (uidArray.TEMP_2) {
 		t.on(Tinkerforge.BrickletTemperatureV2.CALLBACK_TEMPERATURE,
 			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
+				outputData[2] = (temperature / 100.0) + ' \u00B0C';
 				output.output(outputData);
 			}
 		);
 	} else if (uidArray.TEMP) {
 		t.on(Tinkerforge.BrickletTemperature.CALLBACK_TEMPERATURE,
 			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
+				outputData[2] = (temperature / 100.0) + ' \u00B0C';
 				output.output(outputData);
 			}
 		);
@@ -170,7 +170,7 @@ function tfdataGet() {
 	if (t) {
 		t.getTemperature(
 			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
+				outputData[2] = (temperature / 100.0) + ' \u00B0C';
 			},
 			error => {
 				outputData[2] = errorOutput.error(error);
@@ -179,7 +179,7 @@ function tfdataGet() {
 	} else if (b) {
 		b.getChipTemperature(
 			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
+				outputData[2] = (temperature / 100.0) + ' \u00B0C';
 			},
 			error => {
 				outputData[2] = errorOutput.error(error);
@@ -190,7 +190,7 @@ function tfdataGet() {
 	if (b) {
 		b.getAirPressure(
 			airPressure => {
-				outputData[1] = (airPressure / 1000) + ' mbar';
+				outputData[1] = (airPressure / 1000.0) + ' mbar';
 			},
 			error => {
 				outputData[1] = errorOutput.error(error);
