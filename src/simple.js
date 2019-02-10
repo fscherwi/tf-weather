@@ -9,9 +9,12 @@ let BARO;
 let BARO_2;
 let HUMI;
 let HUMI_2;
+let TEMP;
+let TEMP_2;
 let al;
 let h;
 let b;
+let t;
 let ipcon = new Tinkerforge.IPConnection();
 const outputData = [];
 let alDivider = 100;
@@ -56,6 +59,14 @@ function defineBricklets(uid, deviceIdentifier) {
 	if (deviceIdentifier === Tinkerforge.BrickletHumidityV2.DEVICE_IDENTIFIER) {
 		HUMI_2 = uid;
 	}
+
+	if (deviceIdentifier === Tinkerforge.BrickletTemperature.DEVICE_IDENTIFIER) {
+		TEMP = uid;
+	}
+
+	if (deviceIdentifier === Tinkerforge.BrickletTemperatureV2.DEVICE_IDENTIFIER) {
+		TEMP_2 = uid;
+	}
 }
 
 function getUids(HOST, PORT) {
@@ -97,6 +108,12 @@ function tfinit(HOST, PORT) {
 			hDivider = 10;
 		}
 
+		if (TEMP_2) {
+			t = new Tinkerforge.BrickletTemperatureV2(TEMP_2, ipcon);
+		} else if (TEMP) {
+			t = new Tinkerforge.BrickletTemperature(TEMP, ipcon);
+		}
+
 		ipconConnect(HOST, PORT);
 	} else {
 		console.error('ERROR: nothing connected');
@@ -116,6 +133,26 @@ function tfdataGet() {
 		);
 	}
 
+	if (t) {
+		t.getTemperature(
+			temperature => {
+				outputData[2] = (temperature / 100) + ' \u00B0C';
+			},
+			error => {
+				outputData[2] = errorOutput.error(error);
+			}
+		);
+	} else if (b) {
+		b.getChipTemperature(
+			temperature => {
+				outputData[2] = (temperature / 100) + ' \u00B0C';
+			},
+			error => {
+				outputData[2] = errorOutput.error(error);
+			}
+		);
+	}
+
 	if (b) {
 		b.getAirPressure(
 			airPressure => {
@@ -123,14 +160,6 @@ function tfdataGet() {
 			},
 			error => {
 				outputData[1] = errorOutput.error(error);
-			}
-		);
-		b.getChipTemperature(
-			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
-			},
-			error => {
-				outputData[2] = errorOutput.error(error);
 			}
 		);
 	}
