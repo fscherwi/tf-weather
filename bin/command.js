@@ -24,7 +24,7 @@ if (!program.wait) {
 }
 
 if (program.live) {
-	require('../src/live.js').tfget(program.host, program.port, program.wait, program.live);
+	require('../src/weather.js').tfget(program.host, program.port, program.wait, program.live);
 } else {
-	require('../src/simple.js').tfget(program.host, program.port);
+	require('../src/weather.js').tfget(program.host, program.port);
 }

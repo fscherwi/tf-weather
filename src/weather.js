@@ -1,6 +1,5 @@
 const Tinkerforge = require('tinkerforge');
-const logUpdate = require('log-update');
-const time = require('./time.js');
+const output = require('./output.js');
 
 let LIGHT;
 let LIGHT_2;
@@ -155,14 +154,14 @@ function registerCallBack() {
 		al.on(Tinkerforge.BrickletAmbientLightV3.CALLBACK_ILLUMINANCE,
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
-				output();
+				output.output(outputData);
 			}
 		);
 	} else if (LIGHT_2) {
 		al.on(Tinkerforge.BrickletAmbientLightV2.CALLBACK_ILLUMINANCE,
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
-				output();
+				output.output(outputData);
 			}
 		);
 	} else if (LIGHT) {
@@ -170,7 +169,7 @@ function registerCallBack() {
 			al.on(Tinkerforge.BrickletAmbientLight.CALLBACK_ILLUMINANCE,
 				illuminance => {
 					outputData[3] = (illuminance / alDivider) + ' Lux';
-					output();
+					output.output(outputData);
 				}
 			);
 		}
@@ -180,14 +179,14 @@ function registerCallBack() {
 		b.on(Tinkerforge.BrickletBarometerV2.CALLBACK_AIR_PRESSURE,
 			airPressure => {
 				outputData[1] = (airPressure / 1000) + ' mbar';
-				output();
+				output.output(outputData);
 			}
 		);
 	} else if (BARO) {
 		b.on(Tinkerforge.BrickletBarometer.CALLBACK_AIR_PRESSURE,
 			airPressure => {
 				outputData[1] = (airPressure / 1000) + ' mbar';
-				output();
+				output.output(outputData);
 			}
 		);
 	}
@@ -196,14 +195,14 @@ function registerCallBack() {
 		h.on(Tinkerforge.BrickletHumidityV2.CALLBACK_HUMIDITY,
 			humidity => {
 				outputData[0] = (humidity / hDivider) + ' %RH';
-				output();
+				output.output(outputData);
 			}
 		);
 	} else if (HUMI) {
 		h.on(Tinkerforge.BrickletHumidity.CALLBACK_HUMIDITY,
 			humidity => {
 				outputData[0] = (humidity / hDivider) + ' %RH';
-				output();
+				output.output(outputData);
 			}
 		);
 	}
@@ -212,29 +211,72 @@ function registerCallBack() {
 		t.on(Tinkerforge.BrickletTemperatureV2.CALLBACK_TEMPERATURE,
 			temperature => {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
-				output();
+				output.output(outputData);
 			}
 		);
 	} else if (TEMP) {
 		t.on(Tinkerforge.BrickletTemperature.CALLBACK_TEMPERATURE,
 			temperature => {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
-				output();
+				output.output(outputData);
 			}
 		);
 	}
 }
 
-function output() {
-	logUpdate(
-		`
-Relative Humidity: ${outputData[0]}
-Air pressure:      ${outputData[1]}
-Temperature:       ${outputData[2]}
-Illuminance:       ${outputData[3]}
-Time:              ${time.get()}
-`
-	);
+function tfdataGet() {
+	if (h) {
+		h.getHumidity(
+			humidity => {
+				outputData[0] = (humidity / hDivider) + ' %RH';
+			},
+			error => {
+				outputData[0] = errorOutput.error(error);
+			}
+		);
+	}
+
+	if (t) {
+		t.getTemperature(
+			temperature => {
+				outputData[2] = (temperature / 100) + ' \u00B0C';
+			},
+			error => {
+				outputData[2] = errorOutput.error(error);
+			}
+		);
+	} else if (b) {
+		b.getChipTemperature(
+			temperature => {
+				outputData[2] = (temperature / 100) + ' \u00B0C';
+			},
+			error => {
+				outputData[2] = errorOutput.error(error);
+			}
+		);
+	}
+
+	if (b) {
+		b.getAirPressure(
+			airPressure => {
+				outputData[1] = (airPressure / 1000) + ' mbar';
+			},
+			error => {
+				outputData[1] = errorOutput.error(error);
+			}
+		);
+	}
+
+	if (al) {
+		al.getIlluminance(
+			illuminance => {
+				outputData[3] = (illuminance / alDivider) + ' Lux';
+			},
+			error => {
+				outputData[3] = errorOutput.error(error);
+			}
+		);
+	}
 }
 
 function liveOutput(HOST, PORT) {
@@ -247,10 +289,28 @@ function liveOutput(HOST, PORT) {
 	}, 250);
 }
 
+function simpleOutput(HOST, PORT) {
+	setTimeout(() => {
+		tfinit(HOST, PORT);
+		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
+			() => {
+				tfdataGet();
+			}
+		);
+		setTimeout(() => {
+			output.output(outputData);
+			ipcon.disconnect();
+			process.exit(0);
+		}, 10);
+	}, 25);
+}
+
 module.exports.tfget = function (HOST, PORT, WAITPeriod, live) {
 	WAIT = WAITPeriod;
 	getUids(HOST, PORT);
 	if (live) {
 		liveOutput(HOST, PORT);
+	} else {
+		simpleOutput(HOST, PORT);
 	}
 };
