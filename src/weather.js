@@ -2,6 +2,7 @@ const Tinkerforge = require('tinkerforge');
 const output = require('./output.js');
 const errorOutput = require('./error.js');
 const getUids = require('./get-uid.js');
+const ipconConnect = require('./ipcon-connect.js');
 
 let uidArray = [];
 
@@ -15,15 +16,6 @@ let alDivider = 100;
 let hDivider = 100;
 
 let WAIT = 1000;
-
-function ipconConnect(HOST, PORT) {
-	ipcon.connect(HOST, PORT,
-		error => {
-			console.error(errorOutput.error(error));
-			process.exit();
-		}
-	);
-}
 
 function tfinit(HOST, PORT) {
 	if (uidArray.LIGHT || uidArray.LIGHT_2 || uidArray.LIGHT_3 || uidArray.BARO || uidArray.BARO_2 || uidArray.HUMI || uidArray.HUMI_2 || uidArray.TEMP || uidArray.TEMP_2) {
@@ -56,7 +48,7 @@ function tfinit(HOST, PORT) {
 			t = new Tinkerforge.BrickletTemperature(uidArray.TEMP, ipcon);
 		}
 
-		ipconConnect(HOST, PORT);
+		ipconConnect.connect(ipcon, HOST, PORT);
 	} else {
 		console.error('ERROR: nothing connected');
 		process.exit();

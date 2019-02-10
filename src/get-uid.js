@@ -1,5 +1,5 @@
 const Tinkerforge = require('tinkerforge');
-const errorOutput = require('./error.js');
+const ipconConnect = require('./ipcon-connect.js');
 
 const ipcon = new Tinkerforge.IPConnection();
 
@@ -14,15 +14,6 @@ const uidArray = {
 	TEMP: '',
 	TEMP_2: ''
 };
-
-function ipconConnect(HOST, PORT) {
-	ipcon.connect(HOST, PORT,
-		error => {
-			console.error(errorOutput.error(error));
-			process.exit();
-		}
-	);
-}
 
 function defineBricklets(uid, deviceIdentifier) {
 	if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
@@ -64,7 +55,7 @@ function defineBricklets(uid, deviceIdentifier) {
 
 function get(HOST, PORT) {
 	return new Promise(resolve => {
-		ipconConnect(HOST, PORT);
+		ipconConnect.connect(ipcon, HOST, PORT);
 		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
 			() => {
 				ipcon.enumerate();
