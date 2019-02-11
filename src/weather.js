@@ -211,18 +211,23 @@ function tfdataGet() {
 }
 
 function liveOutput() {
+	simpleGet();
 	setTimeout(() => {
 		defineCallBack();
 		registerCallBack();
 	}, 25);
 }
 
-function simpleOutput() {
+function simpleGet() {
 	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
 		() => {
 			tfdataGet();
 		}
 	);
+}
+
+function simpleOutput() {
+	simpleGet();
 	setTimeout(() => {
 		output.output(outputData);
 		ipcon.disconnect();
