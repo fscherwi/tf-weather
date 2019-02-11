@@ -19,7 +19,7 @@ if (!program.port) {
 	program.port = 4223;
 }
 
-if (!program.wait) {
+if (program.live && !program.wait) {
 	program.wait = 1000;
 }
 
