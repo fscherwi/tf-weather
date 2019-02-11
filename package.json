@@ -1,6 +1,6 @@
 {
   "name": "tf-weather",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "a tool to show the weather data from Tinkerforge sensors",
   "main": "weather.js",
   "scripts": {
@@ -37,9 +37,13 @@
     "weather": "./bin/command.js"
   },
   "files": [
-    "src/weather.js",
-    "src/error.js",
     "bin/command.js",
+    "src/error.js",
+    "src/get-uid.js",
+    "src/ipcon-connect.js",
+    "src/output.js",
+    "src/time.js",
+    "src/weather.js",
     "README.md",
     "LICENSE"
   ],
