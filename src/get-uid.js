@@ -69,6 +69,6 @@ module.exports.get = function (HOST, PORT) {
 		setTimeout(() => {
 			ipcon.disconnect();
 			resolve(uidArray);
-		}, 10);
+		}, 25);
 	});
 };
