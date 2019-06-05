@@ -5,14 +5,14 @@ const ipcon = new Tinkerforge.IPConnection();
 
 const uidArray = {
 	LIGHT: '',
-	LIGHT_2: '',
-	LIGHT_3: '',
+	LIGHTV2: '',
+	LIGHTV3: '',
 	BARO: '',
-	BARO_2: '',
+	BAROV2: '',
 	HUMI: '',
-	HUMI_2: '',
+	HUMIV2: '',
 	TEMP: '',
-	TEMP_2: ''
+	TEMPV2: ''
 };
 
 function defineBricklets(uid, deviceIdentifier) {
@@ -21,11 +21,11 @@ function defineBricklets(uid, deviceIdentifier) {
 	}
 
 	if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER) {
-		uidArray.LIGHT_2 = uid;
+		uidArray.LIGHTV2 = uid;
 	}
 
 	if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV3.DEVICE_IDENTIFIER) {
-		uidArray.LIGHT_3 = uid;
+		uidArray.LIGHTV3 = uid;
 	}
 
 	if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
@@ -33,7 +33,7 @@ function defineBricklets(uid, deviceIdentifier) {
 	}
 
 	if (deviceIdentifier === Tinkerforge.BrickletBarometerV2.DEVICE_IDENTIFIER) {
-		uidArray.BARO_2 = uid;
+		uidArray.BAROV2 = uid;
 	}
 
 	if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
@@ -41,7 +41,7 @@ function defineBricklets(uid, deviceIdentifier) {
 	}
 
 	if (deviceIdentifier === Tinkerforge.BrickletHumidityV2.DEVICE_IDENTIFIER) {
-		uidArray.HUMI_2 = uid;
+		uidArray.HUMIV2 = uid;
 	}
 
 	if (deviceIdentifier === Tinkerforge.BrickletTemperature.DEVICE_IDENTIFIER) {
@@ -49,7 +49,7 @@ function defineBricklets(uid, deviceIdentifier) {
 	}
 
 	if (deviceIdentifier === Tinkerforge.BrickletTemperatureV2.DEVICE_IDENTIFIER) {
-		uidArray.TEMP_2 = uid;
+		uidArray.TEMPV2 = uid;
 	}
 }
 

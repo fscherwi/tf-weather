@@ -17,32 +17,32 @@ let hDivider = 100.0;
 let WAIT;
 
 function tfinit(HOST, PORT) {
-	if (uidArray.LIGHT || uidArray.LIGHT_2 || uidArray.LIGHT_3 || uidArray.BARO || uidArray.BARO_2 || uidArray.HUMI || uidArray.HUMI_2 || uidArray.TEMP || uidArray.TEMP_2) {
+	if (uidArray.LIGHT || uidArray.LIGHTV2 || uidArray.LIGHTV3 || uidArray.BARO || uidArray.BAROV2 || uidArray.HUMI || uidArray.HUMIV2 || uidArray.TEMP || uidArray.TEMPV2) {
 		ipcon = new Tinkerforge.IPConnection();
-		if (uidArray.LIGHT_3) {
-			al = new Tinkerforge.BrickletAmbientLightV2(uidArray.LIGHT_3, ipcon);
-		} else if (uidArray.LIGHT_2) {
-			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT_2, ipcon);
+		if (uidArray.LIGHTV3) {
+			al = new Tinkerforge.BrickletAmbientLightV2(uidArray.LIGHTV3, ipcon);
+		} else if (uidArray.LIGHTV2) {
+			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHTV2, ipcon);
 		} else if (uidArray.LIGHT) {
 			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT, ipcon);
 			alDivider = 10.0;
 		}
 
-		if (uidArray.BARO_2) {
-			b = new Tinkerforge.BrickletBarometer(uidArray.BARO_2, ipcon);
+		if (uidArray.BAROV2) {
+			b = new Tinkerforge.BrickletBarometer(uidArray.BAROV2, ipcon);
 		} else if (uidArray.BARO) {
 			b = new Tinkerforge.BrickletBarometer(uidArray.BARO, ipcon);
 		}
 
-		if (uidArray.HUMI_2) {
-			h = new Tinkerforge.BrickletHumidityV2(uidArray.HUMI_2, ipcon);
+		if (uidArray.HUMIV2) {
+			h = new Tinkerforge.BrickletHumidityV2(uidArray.HUMIV2, ipcon);
 		} else if (uidArray.HUMI) {
 			h = new Tinkerforge.BrickletHumidity(uidArray.HUMI, ipcon);
 			hDivider = 10.0;
 		}
 
-		if (uidArray.TEMP_2) {
-			t = new Tinkerforge.BrickletTemperatureV2(uidArray.TEMP_2, ipcon);
+		if (uidArray.TEMPV2) {
+			t = new Tinkerforge.BrickletTemperatureV2(uidArray.TEMPV2, ipcon);
 		} else if (uidArray.TEMP) {
 			t = new Tinkerforge.BrickletTemperature(uidArray.TEMP, ipcon);
 		}
@@ -55,25 +55,25 @@ function tfinit(HOST, PORT) {
 }
 
 function defineCallBack() {
-	if (uidArray.LIGHT_3) {
+	if (uidArray.LIGHTV3) {
 		al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
-	} else if (uidArray.LIGHT_2 || uidArray.LIGHT) {
+	} else if (uidArray.LIGHTV2 || uidArray.LIGHT) {
 		al.setIlluminanceCallbackPeriod(WAIT);
 	}
 
-	if (uidArray.BARO_2) {
+	if (uidArray.BAROV2) {
 		b.setAirPressureCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.BARO) {
 		b.setAirPressureCallbackPeriod(WAIT);
 	}
 
-	if (uidArray.HUMI_2) {
+	if (uidArray.HUMIV2) {
 		h.setHumidityCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.HUMI) {
 		h.setHumidityCallbackPeriod(WAIT);
 	}
 
-	if (uidArray.TEMP_2) {
+	if (uidArray.TEMPV2) {
 		t.setTemperatureCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.TEMP) {
 		t.setTemperatureCallbackPeriod(WAIT);
@@ -81,14 +81,14 @@ function defineCallBack() {
 }
 
 function registerCallBack() {
-	if (uidArray.LIGHT_3) {
+	if (uidArray.LIGHTV3) {
 		al.on(Tinkerforge.BrickletAmbientLightV3.CALLBACK_ILLUMINANCE,
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
 				output.output(outputData);
 			}
 		);
-	} else if (uidArray.LIGHT_2) {
+	} else if (uidArray.LIGHTV2) {
 		al.on(Tinkerforge.BrickletAmbientLightV2.CALLBACK_ILLUMINANCE,
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
@@ -106,7 +106,7 @@ function registerCallBack() {
 		}
 	}
 
-	if (uidArray.BARO_2) {
+	if (uidArray.BAROV2) {
 		b.on(Tinkerforge.BrickletBarometerV2.CALLBACK_AIR_PRESSURE,
 			airPressure => {
 				outputData[1] = (airPressure / 1000.0) + ' mbar';
@@ -122,7 +122,7 @@ function registerCallBack() {
 		);
 	}
 
-	if (uidArray.HUMI_2) {
+	if (uidArray.HUMIV2) {
 		h.on(Tinkerforge.BrickletHumidityV2.CALLBACK_HUMIDITY,
 			humidity => {
 				outputData[0] = (humidity / hDivider) + ' %RH';
@@ -138,7 +138,7 @@ function registerCallBack() {
 		);
 	}
 
-	if (uidArray.TEMP_2) {
+	if (uidArray.TEMPV2) {
 		t.on(Tinkerforge.BrickletTemperatureV2.CALLBACK_TEMPERATURE,
 			temperature => {
 				outputData[2] = (temperature / 100.0) + ' \u00B0C';
