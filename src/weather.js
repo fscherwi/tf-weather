@@ -235,8 +235,8 @@ function simpleOutput() {
 	}, 10);
 }
 
-module.exports.tfget = async function (HOST, PORT, WAITPeriod, live) {
-	WAIT = WAITPeriod;
+module.exports.tfget = async function (HOST = 'localhost', PORT = 4223, WaitPeriod = 1000, live = false) {
+	WAIT = WaitPeriod;
 	uidArray = await getUids.get(HOST, PORT);
 	tfinit(HOST, PORT);
 	if (live) {

@@ -11,20 +11,4 @@ program
 	.option('-w, --wait [time]', 'The Callback time in milliseconds, default to "1000" ms', parseInt)
 	.parse(process.argv);
 
-if (!program.host) {
-	program.host = 'localhost';
-}
-
-if (!program.port) {
-	program.port = 4223;
-}
-
-if (program.live && !program.wait) {
-	program.wait = 1000;
-}
-
-if (program.live) {
-	require('../src/weather.js').tfget(program.host, program.port, program.wait, program.live);
-} else {
-	require('../src/weather.js').tfget(program.host, program.port);
-}
+require('../src/weather.js').tfget(program.host, program.port, program.wait, program.live);

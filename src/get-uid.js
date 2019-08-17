@@ -3,53 +3,45 @@ const ipconConnect = require('./ipcon-connect.js');
 
 const ipcon = new Tinkerforge.IPConnection();
 
-const uidArray = {
-	LIGHT: '',
-	LIGHTV2: '',
-	LIGHTV3: '',
-	BARO: '',
-	BAROV2: '',
-	HUMI: '',
-	HUMIV2: '',
-	TEMP: '',
-	TEMPV2: ''
-};
+const uidArray = { LIGHT: '', LIGHTV2: '', LIGHTV3: '', BARO: '', BAROV2: '', HUMI: '', HUMIV2: '', TEMP: '', TEMPV2: '' };
 
 function defineBricklets(uid, deviceIdentifier) {
-	if (deviceIdentifier === Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER) {
-		uidArray.LIGHT = uid;
-	}
+	switch (deviceIdentifier) {
+		case Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER:
+			uidArray.LIGHT = uid;
+			break;
 
-	if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER) {
-		uidArray.LIGHTV2 = uid;
-	}
+		case Tinkerforge.BrickletAmbientLightV2.DEVICE_IDENTIFIER:
+			uidArray.LIGHTV2 = uid;
+			break;
 
-	if (deviceIdentifier === Tinkerforge.BrickletAmbientLightV3.DEVICE_IDENTIFIER) {
-		uidArray.LIGHTV3 = uid;
-	}
+		case Tinkerforge.BrickletAmbientLightV3.DEVICE_IDENTIFIER:
+			uidArray.LIGHTV3 = uid;
+			break;
 
-	if (deviceIdentifier === Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER) {
-		uidArray.BARO = uid;
-	}
+		case Tinkerforge.BrickletBarometer.DEVICE_IDENTIFIER:
+			uidArray.BARO = uid;
+			break;
 
-	if (deviceIdentifier === Tinkerforge.BrickletBarometerV2.DEVICE_IDENTIFIER) {
-		uidArray.BAROV2 = uid;
-	}
+		case Tinkerforge.BrickletBarometerV2.DEVICE_IDENTIFIER:
+			uidArray.BAROV2 = uid;
+			break;
 
-	if (deviceIdentifier === Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER) {
-		uidArray.HUMI = uid;
-	}
+		case Tinkerforge.BrickletHumidity.DEVICE_IDENTIFIER:
+			uidArray.HUMI = uid;
+			break;
 
-	if (deviceIdentifier === Tinkerforge.BrickletHumidityV2.DEVICE_IDENTIFIER) {
-		uidArray.HUMIV2 = uid;
-	}
+		case Tinkerforge.BrickletHumidityV2.DEVICE_IDENTIFIER:
+			uidArray.HUMIV2 = uid;
+			break;
 
-	if (deviceIdentifier === Tinkerforge.BrickletTemperature.DEVICE_IDENTIFIER) {
-		uidArray.TEMP = uid;
-	}
+		case Tinkerforge.BrickletTemperature.DEVICE_IDENTIFIER:
+			uidArray.TEMP = uid;
+			break;
 
-	if (deviceIdentifier === Tinkerforge.BrickletTemperatureV2.DEVICE_IDENTIFIER) {
-		uidArray.TEMPV2 = uid;
+		case Tinkerforge.BrickletTemperatureV2.DEVICE_IDENTIFIER:
+			uidArray.TEMPV2 = uid;
+			break;
 	}
 }
 
