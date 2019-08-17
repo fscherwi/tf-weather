@@ -3,7 +3,7 @@ const ipconConnect = require('./ipcon-connect.js');
 
 const ipcon = new Tinkerforge.IPConnection();
 
-const uidArray = { LIGHT: '', LIGHTV2: '', LIGHTV3: '', BARO: '', BAROV2: '', HUMI: '', HUMIV2: '', TEMP: '', TEMPV2: '' };
+const uidArray = {LIGHT: '', LIGHTV2: '', LIGHTV3: '', BARO: '', BAROV2: '', HUMI: '', HUMIV2: '', TEMP: '', TEMPV2: ''};
 
 function defineBricklets(uid, deviceIdentifier) {
 	switch (deviceIdentifier) {
@@ -41,6 +41,9 @@ function defineBricklets(uid, deviceIdentifier) {
 
 		case Tinkerforge.BrickletTemperatureV2.DEVICE_IDENTIFIER:
 			uidArray.TEMPV2 = uid;
+			break;
+
+		default:
 			break;
 	}
 }
