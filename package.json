@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/fscherwi/tf-weather/blob/master/README.md",
   "dependencies": {
-    "commander": "^3.0.1",
+    "commander": "^3.0.2",
     "log-update": "^3.3.0",
     "tinkerforge": "^2.1.24"
   },
