@@ -1,24 +1,16 @@
 const logUpdate = require('log-update');
-const time = require('./time.js');
 
 module.exports.output = function (outputData) {
-	let outputString = '\n';
-	if (outputData[0]) {
-		outputString = outputString + 'Relative Humidity: ' + outputData[0] + '\n';
-	}
+	logUpdate(`
+${(outputData[0] ? ('Relative Humidity: ' + outputData[0]) : '')} %RH
+${(outputData[1] ? ('Air pressure:      ' + outputData[1]) : '')} mbar
+${(outputData[2] ? ('Temperature:       ' + outputData[2]) : '')} \u00B0C
+${(outputData[3] ? ('Illuminance:       ' + outputData[3]) : '')} Lux
+Time:              ${time()}
+`);
+};
 
-	if (outputData[1]) {
-		outputString = outputString + 'Air pressure:      ' + outputData[1] + '\n';
-	}
-
-	if (outputData[2]) {
-		outputString = outputString + 'Temperature:       ' + outputData[2] + '\n';
-	}
-
-	if (outputData[3]) {
-		outputString = outputString + 'Illuminance:       ' + outputData[3] + '\n';
-	}
-
-	outputString = outputString + 'Time:              ' + time.get() + '\n';
-	logUpdate(outputString);
+function time() {
+	const date = new Date();
+	return ((date.getHours() < 10 ? '0' : '') + date.getHours()) + ':' + ((date.getMinutes() < 10 ? '0' : '') + date.getMinutes()) + ':' + ((date.getSeconds() < 10 ? '0' : '') + date.getSeconds());
 };

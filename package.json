@@ -4,7 +4,7 @@
   "description": "a tool to show the weather data from Tinkerforge sensors",
   "main": "weather.js",
   "scripts": {
-    "test": "nyc node ./bin/tf-weather.js",
+    "test": "nyc node ./bin/weather.js",
     "lint": "xo"
   },
   "repository": {
@@ -41,7 +41,6 @@
     "src/get-uid.js",
     "src/ipcon-connect.js",
     "src/output.js",
-    "src/time.js",
     "src/get-weather.js",
     "README.md",
     "LICENSE"
