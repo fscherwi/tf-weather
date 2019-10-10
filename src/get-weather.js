@@ -1,6 +1,6 @@
 const Tinkerforge = require('tinkerforge');
 const output = require('./output.js');
-const errorOutput = require('./error.js');
+const errorText = require('./error-text.js').error;
 const getUids = require('./get-uid.js');
 const ipconConnect = require('./ipcon-connect.js');
 
@@ -140,7 +140,7 @@ function tfdataGet() {
 				outputData[0] = (humidity / hDivider) + ' %RH';
 			},
 			error => {
-				outputData[0] = errorOutput.error(error);
+				outputData[0] = errorText(error);
 			}
 		);
 	}
@@ -151,7 +151,7 @@ function tfdataGet() {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
 			},
 			error => {
-				outputData[2] = errorOutput.error(error);
+				outputData[2] = errorText(error);
 			}
 		);
 	} else if (bricklets.b) {
@@ -160,7 +160,7 @@ function tfdataGet() {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
 			},
 			error => {
-				outputData[2] = errorOutput.error(error);
+				outputData[2] = errorText(error);
 			}
 		);
 	}
@@ -171,7 +171,7 @@ function tfdataGet() {
 				outputData[1] = (airPressure / 1000) + ' mbar';
 			},
 			error => {
-				outputData[1] = errorOutput.error(error);
+				outputData[1] = errorText(error);
 			}
 		);
 	}
@@ -182,7 +182,7 @@ function tfdataGet() {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
 			},
 			error => {
-				outputData[3] = errorOutput.error(error);
+				outputData[3] = errorText(error);
 			}
 		);
 	}
