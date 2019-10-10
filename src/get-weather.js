@@ -1,11 +1,11 @@
 const Tinkerforge = require('tinkerforge');
-const output = require('./output.js').output;
+const {output} = require('./output.js');
 const getUids = require('./get-uid.js');
 const ipconConnect = require('./ipcon-connect.js');
 
 let uidArray = [];
 
-const bricklets = { al: null, h: null, b: null, t: null };
+const bricklets = {al: null, h: null, b: null, t: null};
 let ipcon;
 const outputData = [];
 let alDivider = 100;
