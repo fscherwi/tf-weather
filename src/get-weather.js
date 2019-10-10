@@ -16,6 +16,8 @@ let CALLBACK_HUMIDITY;
 let CALLBACK_TEMPERATURE;
 
 /**
+ * Init Tinkerforge connection
+ *
  * @param {string} HOST Tinkerforge connection HOST
  * @param {number} PORT Tinkerforge connection PORT
  */
@@ -67,6 +69,8 @@ function tfinit(HOST, PORT) {
 }
 
 /**
+ * Define Tinkerforge callbacks
+ *
  * @param {number} WAIT callback wait period
  */
 function defineCallBack(WAIT) {
@@ -96,6 +100,7 @@ function defineCallBack(WAIT) {
 }
 
 /**
+ * Register Tinkerforge callbacks
  *
  */
 function registerCallBack() {
@@ -129,44 +134,37 @@ function registerCallBack() {
 }
 
 /**
- *
- */
-function tfdataGet() {
-	if (bricklets.h) {
-		bricklets.h.getHumidity(humidity => {
-			outputData[0] = humidity / hDivider;
-		});
-	}
-
-	if (bricklets.b) {
-		bricklets.b.getAirPressure(airPressure => {
-			outputData[1] = airPressure / 1000;
-		});
-	}
-
-	if (bricklets.t) {
-		bricklets.t.getTemperature(temperature => {
-			outputData[2] = temperature / 100;
-		});
-	} else if (bricklets.b) {
-		bricklets.b.getChipTemperature(temperature => {
-			outputData[2] = temperature / 100;
-		});
-	}
-
-	if (bricklets.al) {
-		bricklets.al.getIlluminance(illuminance => {
-			outputData[3] = illuminance / alDivider;
-		});
-	}
-}
-
-/**
- *
+ * Get weather data
  */
 function simpleGet() {
 	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
-		tfdataGet();
+		if (bricklets.h) {
+			bricklets.h.getHumidity(humidity => {
+				outputData[0] = humidity / hDivider;
+			});
+		}
+
+		if (bricklets.b) {
+			bricklets.b.getAirPressure(airPressure => {
+				outputData[1] = airPressure / 1000;
+			});
+		}
+
+		if (bricklets.t) {
+			bricklets.t.getTemperature(temperature => {
+				outputData[2] = temperature / 100;
+			});
+		} else if (bricklets.b) {
+			bricklets.b.getChipTemperature(temperature => {
+				outputData[2] = temperature / 100;
+			});
+		}
+
+		if (bricklets.al) {
+			bricklets.al.getIlluminance(illuminance => {
+				outputData[3] = illuminance / alDivider;
+			});
+		}
 	});
 }
 

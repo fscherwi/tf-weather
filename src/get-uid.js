@@ -6,10 +6,12 @@ const ipcon = new Tinkerforge.IPConnection();
 const uidArray = {LIGHT: '', LIGHTV2: '', LIGHTV3: '', BARO: '', BAROV2: '', HUMI: '', HUMIV2: '', TEMP: '', TEMPV2: ''};
 
 /**
+ * Find and define Bricklet
+ *
  * @param {string} uid Bricklet uid
  * @param {string} deviceIdentifier Bricklet deviceIdentifier
  */
-function defineBricklets(uid, deviceIdentifier) {
+function defineBricklet(uid, deviceIdentifier) {
 	switch (deviceIdentifier) {
 		case Tinkerforge.BrickletAmbientLight.DEVICE_IDENTIFIER:
 			uidArray.LIGHT = uid;
@@ -53,6 +55,8 @@ function defineBricklets(uid, deviceIdentifier) {
 }
 
 /**
+ * Define Tinkerforge Bricklet uids
+ *
  * @param {string} HOST Tinkerforge connection HOST
  * @param {number} PORT Tinkerforge connection PORT
  * @returns {object} ctPromise
@@ -64,7 +68,7 @@ function get(HOST, PORT) {
 			ipcon.enumerate();
 		});
 		ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE, (uid, a, b, c, d, deviceIdentifier) => {
-			defineBricklets(uid, deviceIdentifier);
+			defineBricklet(uid, deviceIdentifier);
 		});
 		setTimeout(() => {
 			ipcon.disconnect();
