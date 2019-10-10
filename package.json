@@ -37,13 +37,12 @@
     "weather": "./bin/weather.js"
   },
   "files": [
-    "bin/command.js",
-    "src/error.js",
+    "bin/weather.js",
     "src/get-uid.js",
     "src/ipcon-connect.js",
     "src/output.js",
     "src/time.js",
-    "src/weather.js",
+    "src/get-weather.js",
     "README.md",
     "LICENSE"
   ],

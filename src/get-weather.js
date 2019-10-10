@@ -1,6 +1,5 @@
 const Tinkerforge = require('tinkerforge');
 const output = require('./output.js');
-const errorText = require('./error-text.js').error;
 const getUids = require('./get-uid.js');
 const ipconConnect = require('./ipcon-connect.js');
 
@@ -97,94 +96,61 @@ function defineCallBack(WAIT) {
 
 function registerCallBack() {
 	if (bricklets.al) {
-		bricklets.al.on(CALLBACK_ILLUMINANCE,
-			illuminance => {
-				outputData[3] = (illuminance / alDivider) + ' Lux';
-				output.output(outputData);
-			}
-		);
+		bricklets.al.on(CALLBACK_ILLUMINANCE, illuminance => {
+			outputData[3] = (illuminance / alDivider) + ' Lux';
+			output.output(outputData);
+		});
 	}
 
 	if (bricklets.b) {
-		bricklets.b.on(CALLBACK_AIR_PRESSURE,
-			airPressure => {
-				outputData[1] = (airPressure / 1000) + ' mbar';
-				output.output(outputData);
-			}
-		);
+		bricklets.b.on(CALLBACK_AIR_PRESSURE, airPressure => {
+			outputData[1] = (airPressure / 1000) + ' mbar';
+			output.output(outputData);
+		});
 	}
 
 	if (bricklets.h) {
-		bricklets.h.on(CALLBACK_HUMIDITY,
-			humidity => {
-				outputData[0] = (humidity / hDivider) + ' %RH';
-				output.output(outputData);
-			}
-		);
+		bricklets.h.on(CALLBACK_HUMIDITY, humidity => {
+			outputData[0] = (humidity / hDivider) + ' %RH';
+			output.output(outputData);
+		});
 	}
 
 	if (bricklets.t) {
-		bricklets.t.on(CALLBACK_TEMPERATURE,
-			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
-				output.output(outputData);
-			}
-		);
+		bricklets.t.on(CALLBACK_TEMPERATURE, temperature => {
+			outputData[2] = (temperature / 100) + ' \u00B0C';
+			output.output(outputData);
+		});
 	}
 }
 
 function tfdataGet() {
 	if (bricklets.h) {
-		bricklets.h.getHumidity(
-			humidity => {
-				outputData[0] = (humidity / hDivider) + ' %RH';
-			},
-			error => {
-				outputData[0] = errorText(error);
-			}
-		);
+		bricklets.h.getHumidity(humidity => {
+			outputData[0] = (humidity / hDivider) + ' %RH';
+		});
 	}
 
 	if (bricklets.t) {
-		bricklets.t.getTemperature(
-			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
-			},
-			error => {
-				outputData[2] = errorText(error);
-			}
-		);
+		bricklets.t.getTemperature(temperature => {
+			outputData[2] = (temperature / 100) + ' \u00B0C';
+		});
 	} else if (bricklets.b) {
-		bricklets.b.getChipTemperature(
-			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
-			},
-			error => {
-				outputData[2] = errorText(error);
-			}
-		);
+		bricklets.b.getChipTemperature(temperature => {
+			outputData[2] = (temperature / 100) + ' \u00B0C';
+		});
 	}
 
 	if (bricklets.b) {
-		bricklets.b.getAirPressure(
-			airPressure => {
-				outputData[1] = (airPressure / 1000) + ' mbar';
-			},
-			error => {
-				outputData[1] = errorText(error);
-			}
-		);
+		bricklets.b.getAirPressure(airPressure => {
+			outputData[1] = (airPressure / 1000) + ' mbar';
+		});
 	}
 
 	if (bricklets.al) {
-		bricklets.al.getIlluminance(
-			illuminance => {
-				outputData[3] = (illuminance / alDivider) + ' Lux';
-			},
-			error => {
-				outputData[3] = errorText(error);
-			}
-		);
+		bricklets.al.getIlluminance(illuminance => {
+			outputData[3] = (illuminance / alDivider) + ' Lux';
+		});
 	}
 }
 
