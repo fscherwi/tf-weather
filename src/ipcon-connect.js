@@ -1,10 +1,23 @@
-module.exports.connect = function (ipcon, HOST, PORT) {
+/**
+ * Connect to Tinkerforge
+ *
+ * @param {object} ipcon Tinkerforge IP Connection
+ * @param {string} HOST Tinkerforge connection HOST
+ * @param {number} PORT Tinkerforge connection PORT
+ */
+function connect(ipcon, HOST, PORT) {
 	ipcon.connect(HOST, PORT, error => {
 		console.error(errorText(error));
 		process.exit();
 	});
-};
+}
 
+/**
+ * Get the error text
+ *
+ * @param {number} code error code
+ * @returns {string} error text
+ */
 function errorText(code) {
 	switch (code) {
 		case 11:
@@ -25,3 +38,5 @@ function errorText(code) {
 			return 'UNKNOWN Error';
 	}
 }
+
+module.exports.connect = connect;

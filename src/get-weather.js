@@ -15,6 +15,10 @@ let CALLBACK_AIR_PRESSURE;
 let CALLBACK_HUMIDITY;
 let CALLBACK_TEMPERATURE;
 
+/**
+ * @param {string} HOST Tinkerforge connection HOST
+ * @param {number} PORT Tinkerforge connection PORT
+ */
 function tfinit(HOST, PORT) {
 	if (uidArray.LIGHT || uidArray.LIGHTV2 || uidArray.LIGHTV3 || uidArray.BARO || uidArray.BAROV2 || uidArray.HUMI || uidArray.HUMIV2 || uidArray.TEMP || uidArray.TEMPV2) {
 		ipcon = new Tinkerforge.IPConnection();
@@ -62,6 +66,9 @@ function tfinit(HOST, PORT) {
 	}
 }
 
+/**
+ * @param {number} WAIT callback wait period
+ */
 function defineCallBack(WAIT) {
 	if (uidArray.LIGHTV3) {
 		bricklets.al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
@@ -88,6 +95,9 @@ function defineCallBack(WAIT) {
 	}
 }
 
+/**
+ *
+ */
 function registerCallBack() {
 	if (bricklets.al) {
 		bricklets.al.on(CALLBACK_ILLUMINANCE, illuminance => {
@@ -118,6 +128,9 @@ function registerCallBack() {
 	}
 }
 
+/**
+ *
+ */
 function tfdataGet() {
 	if (bricklets.h) {
 		bricklets.h.getHumidity(humidity => {
@@ -148,13 +161,22 @@ function tfdataGet() {
 	}
 }
 
+/**
+ *
+ */
 function simpleGet() {
 	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
 		tfdataGet();
 	});
 }
 
-module.exports.tfget = async function (HOST = 'localhost', PORT = 4223, WAIT = 1000, live = false) {
+/**
+ * @param {string} HOST Tinkerforge connection HOST
+ * @param {number} PORT Tinkerforge connection PORT
+ * @param {number} WAIT callback wait period
+ * @param {boolean} live live output
+ */
+async function tfget(HOST = 'localhost', PORT = 4223, WAIT = 1000, live = false) {
 	uidArray = await getUids.get(HOST, PORT);
 	tfinit(HOST, PORT);
 	simpleGet();
@@ -169,4 +191,6 @@ module.exports.tfget = async function (HOST = 'localhost', PORT = 4223, WAIT = 1
 			ipcon.disconnect();
 		}, 10);
 	}
-};
+}
+
+module.exports.tfget = tfget;

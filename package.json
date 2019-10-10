@@ -2,7 +2,7 @@
   "name": "tf-weather",
   "version": "6.1.0",
   "description": "a tool to show the weather data from Tinkerforge sensors",
-  "main": "weather.js",
+  "main": "bin/weather.js",
   "scripts": {
     "test": "nyc node ./bin/weather.js",
     "lint": "xo"
@@ -29,10 +29,10 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.6",
+    "eslint-plugin-jsdoc": "^15.10.0",
     "nyc": "^14.1.1",
     "xo": "^0.25.3"
   },
-  "preferGlobal": true,
   "bin": {
     "weather": "./bin/weather.js"
   },
@@ -49,7 +49,11 @@
     "rules": {
       "unicorn/no-process-exit": 0,
       "max-params": 0
-    }
+    },
+    "plugins": [
+      "jsdoc"
+    ],
+    "extends": ["plugin:jsdoc/recommended"]
   },
   "engines": {
     "node": ">=8"
