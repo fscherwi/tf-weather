@@ -4,7 +4,7 @@
   "description": "a tool to show the weather data from Tinkerforge sensors",
   "main": "weather.js",
   "scripts": {
-    "test": "nyc node ./bin/command.js",
+    "test": "nyc node ./bin/tf-weather.js",
     "lint": "xo"
   },
   "repository": {
@@ -34,7 +34,7 @@
   },
   "preferGlobal": true,
   "bin": {
-    "weather": "./bin/command.js"
+    "weather": "./bin/weather.js"
   },
   "files": [
     "bin/command.js",

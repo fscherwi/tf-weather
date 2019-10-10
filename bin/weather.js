@@ -11,4 +11,4 @@ program
 	.option('-w, --wait [time]', 'The Callback time in milliseconds, default to "1000" ms', parseInt)
 	.parse(process.argv);
 
-require('../src/weather.js').tfget(program.host, program.port, program.wait, program.live);
+require('../src/get-weather.js').tfget(program.host, program.port, program.wait, program.live);

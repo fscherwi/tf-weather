@@ -16,7 +16,6 @@ let ipcon;
 const outputData = [];
 let alDivider = 100;
 let hDivider = 100;
-let WAIT;
 
 let CALLBACK_ILLUMINANCE;
 let CALLBACK_AIR_PRESSURE;
@@ -70,7 +69,7 @@ function tfinit(HOST, PORT) {
 	}
 }
 
-function defineCallBack() {
+function defineCallBack(WAIT) {
 	if (uidArray.LIGHTV3) {
 		bricklets.al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.LIGHTV2 || uidArray.LIGHT) {
@@ -97,7 +96,7 @@ function defineCallBack() {
 }
 
 function registerCallBack() {
-	if (uidArray.LIGHTV3 || uidArray.LIGHTV2 || uidArray.LIGHT) {
+	if (bricklets.al) {
 		bricklets.al.on(CALLBACK_ILLUMINANCE,
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
@@ -106,7 +105,7 @@ function registerCallBack() {
 		);
 	}
 
-	if (uidArray.BAROV2 || uidArray.BARO) {
+	if (bricklets.b) {
 		bricklets.b.on(CALLBACK_AIR_PRESSURE,
 			airPressure => {
 				outputData[1] = (airPressure / 1000) + ' mbar';
@@ -115,7 +114,7 @@ function registerCallBack() {
 		);
 	}
 
-	if (uidArray.HUMIV2 || uidArray.HUMI) {
+	if (bricklets.h) {
 		bricklets.h.on(CALLBACK_HUMIDITY,
 			humidity => {
 				outputData[0] = (humidity / hDivider) + ' %RH';
@@ -124,7 +123,7 @@ function registerCallBack() {
 		);
 	}
 
-	if (uidArray.TEMPV2 || uidArray.TEMP) {
+	if (bricklets.t) {
 		bricklets.t.on(CALLBACK_TEMPERATURE,
 			temperature => {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
@@ -189,37 +188,35 @@ function tfdataGet() {
 	}
 }
 
-function liveOutput() {
+function liveOutput(WAIT) {
 	simpleGet();
 	setTimeout(() => {
-		defineCallBack();
+		defineCallBack(WAIT);
 		registerCallBack();
 	}, 25);
 }
 
 function simpleGet() {
-	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-		() => {
-			tfdataGet();
-		}
-	);
+	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
+		tfdataGet();
+	});
 }
 
 function simpleOutput() {
-	simpleGet();
+	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
+		tfdataGet();
+	});
 	setTimeout(() => {
 		output.output(outputData);
 		ipcon.disconnect();
-		process.exit(0);
 	}, 10);
 }
 
-module.exports.tfget = async function (HOST = 'localhost', PORT = 4223, WaitPeriod = 1000, live = false) {
-	WAIT = WaitPeriod;
+module.exports.tfget = async function (HOST = 'localhost', PORT = 4223, WAIT = 1000, live = false) {
 	uidArray = await getUids.get(HOST, PORT);
 	tfinit(HOST, PORT);
 	if (live) {
-		liveOutput();
+		liveOutput(WAIT);
 	} else {
 		simpleOutput();
 	}

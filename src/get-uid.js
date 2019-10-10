@@ -3,7 +3,7 @@ const ipconConnect = require('./ipcon-connect.js');
 
 const ipcon = new Tinkerforge.IPConnection();
 
-const uidArray = {LIGHT: '', LIGHTV2: '', LIGHTV3: '', BARO: '', BAROV2: '', HUMI: '', HUMIV2: '', TEMP: '', TEMPV2: ''};
+const uidArray = { LIGHT: '', LIGHTV2: '', LIGHTV3: '', BARO: '', BAROV2: '', HUMI: '', HUMIV2: '', TEMP: '', TEMPV2: '' };
 
 function defineBricklets(uid, deviceIdentifier) {
 	switch (deviceIdentifier) {
@@ -51,16 +51,12 @@ function defineBricklets(uid, deviceIdentifier) {
 module.exports.get = function (HOST, PORT) {
 	return new Promise(resolve => {
 		ipconConnect.connect(ipcon, HOST, PORT);
-		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-			() => {
-				ipcon.enumerate();
-			}
-		);
-		ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE,
-			(uid, a, b, c, d, deviceIdentifier) => {
-				defineBricklets(uid, deviceIdentifier);
-			}
-		);
+		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
+			ipcon.enumerate();
+		});
+		ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE, (uid, a, b, c, d, deviceIdentifier) => {
+			defineBricklets(uid, deviceIdentifier);
+		});
 		setTimeout(() => {
 			ipcon.disconnect();
 			resolve(uidArray);
