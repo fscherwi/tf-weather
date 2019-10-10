@@ -6,45 +6,61 @@ const ipconConnect = require('./ipcon-connect.js');
 
 let uidArray = [];
 
-let al;
-let h;
-let b;
-let t;
+const bricklets = {
+	al: null,
+	h: null,
+	b: null,
+	t: null
+};
 let ipcon;
 const outputData = [];
 let alDivider = 100;
 let hDivider = 100;
 let WAIT;
 
+let CALLBACK_ILLUMINANCE;
+let CALLBACK_AIR_PRESSURE;
+let CALLBACK_HUMIDITY;
+let CALLBACK_TEMPERATURE;
+
 function tfinit(HOST, PORT) {
 	if (uidArray.LIGHT || uidArray.LIGHTV2 || uidArray.LIGHTV3 || uidArray.BARO || uidArray.BAROV2 || uidArray.HUMI || uidArray.HUMIV2 || uidArray.TEMP || uidArray.TEMPV2) {
 		ipcon = new Tinkerforge.IPConnection();
 		if (uidArray.LIGHTV3) {
-			al = new Tinkerforge.BrickletAmbientLightV2(uidArray.LIGHTV3, ipcon);
+			bricklets.al = new Tinkerforge.BrickletAmbientLightV3(uidArray.LIGHTV3, ipcon);
+			CALLBACK_ILLUMINANCE = Tinkerforge.BrickletAmbientLightV3.CALLBACK_ILLUMINANCE;
 		} else if (uidArray.LIGHTV2) {
-			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHTV2, ipcon);
+			bricklets.al = new Tinkerforge.BrickletAmbientLightV2(uidArray.LIGHTV2, ipcon);
+			CALLBACK_ILLUMINANCE = Tinkerforge.BrickletAmbientLightV2.CALLBACK_ILLUMINANCE;
 		} else if (uidArray.LIGHT) {
-			al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT, ipcon);
+			bricklets.al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT, ipcon);
 			alDivider = 10;
+			CALLBACK_ILLUMINANCE = Tinkerforge.BrickletAmbientLight.CALLBACK_ILLUMINANCE;
 		}
 
 		if (uidArray.BAROV2) {
-			b = new Tinkerforge.BrickletBarometer(uidArray.BAROV2, ipcon);
+			bricklets.b = new Tinkerforge.BrickletBarometer(uidArray.BAROV2, ipcon);
+			CALLBACK_AIR_PRESSURE = Tinkerforge.BrickletBarometerV2.CALLBACK_AIR_PRESSURE;
 		} else if (uidArray.BARO) {
-			b = new Tinkerforge.BrickletBarometer(uidArray.BARO, ipcon);
+			bricklets.b = new Tinkerforge.BrickletBarometer(uidArray.BARO, ipcon);
+			CALLBACK_AIR_PRESSURE = Tinkerforge.BrickletBarometer.CALLBACK_AIR_PRESSURE;
 		}
 
 		if (uidArray.HUMIV2) {
-			h = new Tinkerforge.BrickletHumidityV2(uidArray.HUMIV2, ipcon);
+			bricklets.h = new Tinkerforge.BrickletHumidityV2(uidArray.HUMIV2, ipcon);
+			CALLBACK_HUMIDITY = Tinkerforge.BrickletHumidityV2.CALLBACK_HUMIDITY;
 		} else if (uidArray.HUMI) {
-			h = new Tinkerforge.BrickletHumidity(uidArray.HUMI, ipcon);
+			bricklets.h = new Tinkerforge.BrickletHumidity(uidArray.HUMI, ipcon);
 			hDivider = 10;
+			CALLBACK_HUMIDITY = Tinkerforge.BrickletHumidity.CALLBACK_HUMIDITY;
 		}
 
 		if (uidArray.TEMPV2) {
-			t = new Tinkerforge.BrickletTemperatureV2(uidArray.TEMPV2, ipcon);
+			bricklets.t = new Tinkerforge.BrickletTemperatureV2(uidArray.TEMPV2, ipcon);
+			CALLBACK_TEMPERATURE = Tinkerforge.BrickletTemperatureV2.CALLBACK_TEMPERATURE;
 		} else if (uidArray.TEMP) {
-			t = new Tinkerforge.BrickletTemperature(uidArray.TEMP, ipcon);
+			bricklets.t = new Tinkerforge.BrickletTemperature(uidArray.TEMP, ipcon);
+			CALLBACK_TEMPERATURE = Tinkerforge.BrickletTemperature.CALLBACK_TEMPERATURE;
 		}
 
 		ipconConnect.connect(ipcon, HOST, PORT);
@@ -56,65 +72,42 @@ function tfinit(HOST, PORT) {
 
 function defineCallBack() {
 	if (uidArray.LIGHTV3) {
-		al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
+		bricklets.al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.LIGHTV2 || uidArray.LIGHT) {
-		al.setIlluminanceCallbackPeriod(WAIT);
+		bricklets.al.setIlluminanceCallbackPeriod(WAIT);
 	}
 
 	if (uidArray.BAROV2) {
-		b.setAirPressureCallbackConfiguration(WAIT, false, 'x', 0, 0);
+		bricklets.b.setAirPressureCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.BARO) {
-		b.setAirPressureCallbackPeriod(WAIT);
+		bricklets.b.setAirPressureCallbackPeriod(WAIT);
 	}
 
 	if (uidArray.HUMIV2) {
-		h.setHumidityCallbackConfiguration(WAIT, false, 'x', 0, 0);
+		bricklets.h.setHumidityCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.HUMI) {
-		h.setHumidityCallbackPeriod(WAIT);
+		bricklets.h.setHumidityCallbackPeriod(WAIT);
 	}
 
 	if (uidArray.TEMPV2) {
-		t.setTemperatureCallbackConfiguration(WAIT, false, 'x', 0, 0);
+		bricklets.t.setTemperatureCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.TEMP) {
-		t.setTemperatureCallbackPeriod(WAIT);
+		bricklets.t.setTemperatureCallbackPeriod(WAIT);
 	}
 }
 
 function registerCallBack() {
-	if (uidArray.LIGHTV3) {
-		al.on(Tinkerforge.BrickletAmbientLightV3.CALLBACK_ILLUMINANCE,
+	if (uidArray.LIGHTV3 || uidArray.LIGHTV2 || uidArray.LIGHT) {
+		bricklets.al.on(CALLBACK_ILLUMINANCE,
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
 				output.output(outputData);
 			}
 		);
-	} else if (uidArray.LIGHTV2) {
-		al.on(Tinkerforge.BrickletAmbientLightV2.CALLBACK_ILLUMINANCE,
-			illuminance => {
-				outputData[3] = (illuminance / alDivider) + ' Lux';
-				output.output(outputData);
-			}
-		);
-	} else if (uidArray.LIGHT) {
-		if (al) {
-			al.on(Tinkerforge.BrickletAmbientLight.CALLBACK_ILLUMINANCE,
-				illuminance => {
-					outputData[3] = (illuminance / alDivider) + ' Lux';
-					output.output(outputData);
-				}
-			);
-		}
 	}
 
-	if (uidArray.BAROV2) {
-		b.on(Tinkerforge.BrickletBarometerV2.CALLBACK_AIR_PRESSURE,
-			airPressure => {
-				outputData[1] = (airPressure / 1000) + ' mbar';
-				output.output(outputData);
-			}
-		);
-	} else if (uidArray.BARO) {
-		b.on(Tinkerforge.BrickletBarometer.CALLBACK_AIR_PRESSURE,
+	if (uidArray.BAROV2 || uidArray.BARO) {
+		bricklets.b.on(CALLBACK_AIR_PRESSURE,
 			airPressure => {
 				outputData[1] = (airPressure / 1000) + ' mbar';
 				output.output(outputData);
@@ -122,15 +115,8 @@ function registerCallBack() {
 		);
 	}
 
-	if (uidArray.HUMIV2) {
-		h.on(Tinkerforge.BrickletHumidityV2.CALLBACK_HUMIDITY,
-			humidity => {
-				outputData[0] = (humidity / hDivider) + ' %RH';
-				output.output(outputData);
-			}
-		);
-	} else if (uidArray.HUMI) {
-		h.on(Tinkerforge.BrickletHumidity.CALLBACK_HUMIDITY,
+	if (uidArray.HUMIV2 || uidArray.HUMI) {
+		bricklets.h.on(CALLBACK_HUMIDITY,
 			humidity => {
 				outputData[0] = (humidity / hDivider) + ' %RH';
 				output.output(outputData);
@@ -138,15 +124,8 @@ function registerCallBack() {
 		);
 	}
 
-	if (uidArray.TEMPV2) {
-		t.on(Tinkerforge.BrickletTemperatureV2.CALLBACK_TEMPERATURE,
-			temperature => {
-				outputData[2] = (temperature / 100) + ' \u00B0C';
-				output.output(outputData);
-			}
-		);
-	} else if (uidArray.TEMP) {
-		t.on(Tinkerforge.BrickletTemperature.CALLBACK_TEMPERATURE,
+	if (uidArray.TEMPV2 || uidArray.TEMP) {
+		bricklets.t.on(CALLBACK_TEMPERATURE,
 			temperature => {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
 				output.output(outputData);
@@ -156,8 +135,8 @@ function registerCallBack() {
 }
 
 function tfdataGet() {
-	if (h) {
-		h.getHumidity(
+	if (bricklets.h) {
+		bricklets.h.getHumidity(
 			humidity => {
 				outputData[0] = (humidity / hDivider) + ' %RH';
 			},
@@ -167,8 +146,8 @@ function tfdataGet() {
 		);
 	}
 
-	if (t) {
-		t.getTemperature(
+	if (bricklets.t) {
+		bricklets.t.getTemperature(
 			temperature => {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
 			},
@@ -176,8 +155,8 @@ function tfdataGet() {
 				outputData[2] = errorOutput.error(error);
 			}
 		);
-	} else if (b) {
-		b.getChipTemperature(
+	} else if (bricklets.b) {
+		bricklets.b.getChipTemperature(
 			temperature => {
 				outputData[2] = (temperature / 100) + ' \u00B0C';
 			},
@@ -187,8 +166,8 @@ function tfdataGet() {
 		);
 	}
 
-	if (b) {
-		b.getAirPressure(
+	if (bricklets.b) {
+		bricklets.b.getAirPressure(
 			airPressure => {
 				outputData[1] = (airPressure / 1000) + ' mbar';
 			},
@@ -198,8 +177,8 @@ function tfdataGet() {
 		);
 	}
 
-	if (al) {
-		al.getIlluminance(
+	if (bricklets.al) {
+		bricklets.al.getIlluminance(
 			illuminance => {
 				outputData[3] = (illuminance / alDivider) + ' Lux';
 			},
