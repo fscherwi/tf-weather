@@ -57,17 +57,17 @@ function defineBricklet(uid, deviceIdentifier) {
 /**
  * Define Tinkerforge Bricklet uids
  *
- * @param {string} HOST Tinkerforge connection HOST
- * @param {number} PORT Tinkerforge connection PORT
+ * @param {string} host Tinkerforge connection HOST
+ * @param {number} port Tinkerforge connection PORT
  * @returns {object} ctPromise
  */
-function get(HOST, PORT) {
+function get(host, port) {
 	return new Promise(resolve => {
-		ipconConnect.connect(ipcon, HOST, PORT);
+		ipconConnect.connect(ipcon, host, port);
 		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
 			ipcon.enumerate();
 		});
-		ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE, (uid, a, b, c, d, deviceIdentifier) => {
+		ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE, (uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) => {
 			defineBricklet(uid, deviceIdentifier);
 		});
 		setTimeout(() => {

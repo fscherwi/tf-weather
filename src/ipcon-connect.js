@@ -2,11 +2,11 @@
  * Connect to Tinkerforge
  *
  * @param {object} ipcon Tinkerforge IP Connection
- * @param {string} HOST Tinkerforge connection HOST
- * @param {number} PORT Tinkerforge connection PORT
+ * @param {string} host Tinkerforge connection HOST
+ * @param {number} port Tinkerforge connection PORT
  */
-function connect(ipcon, HOST, PORT) {
-	ipcon.connect(HOST, PORT, error => {
+function connect(ipcon, host, port) {
+	ipcon.connect(host, port, error => {
 		console.error(errorText(error));
 		process.exit();
 	});

@@ -18,10 +18,10 @@ let CALLBACK_TEMPERATURE;
 /**
  * Init Tinkerforge connection
  *
- * @param {string} HOST Tinkerforge connection HOST
- * @param {number} PORT Tinkerforge connection PORT
+ * @param {string} host Tinkerforge connection HOST
+ * @param {number} port Tinkerforge connection PORT
  */
-function tfinit(HOST, PORT) {
+function tfinit(host, port) {
 	if (uidArray.LIGHT || uidArray.LIGHTV2 || uidArray.LIGHTV3 || uidArray.BARO || uidArray.BAROV2 || uidArray.HUMI || uidArray.HUMIV2 || uidArray.TEMP || uidArray.TEMPV2) {
 		ipcon = new Tinkerforge.IPConnection();
 		if (uidArray.LIGHTV3) {
@@ -61,7 +61,7 @@ function tfinit(HOST, PORT) {
 			CALLBACK_TEMPERATURE = Tinkerforge.BrickletTemperature.CALLBACK_TEMPERATURE;
 		}
 
-		ipconConnect.connect(ipcon, HOST, PORT);
+		ipconConnect.connect(ipcon, host, port);
 	} else {
 		console.error('ERROR: nothing connected');
 		process.exit();
@@ -169,14 +169,14 @@ function simpleGet() {
 }
 
 /**
- * @param {string} HOST Tinkerforge connection HOST
- * @param {number} PORT Tinkerforge connection PORT
+ * @param {string} host Tinkerforge connection HOST
+ * @param {number} port Tinkerforge connection PORT
  * @param {number} WAIT callback wait period
  * @param {boolean} live live output
  */
-async function tfget(HOST = 'localhost', PORT = 4223, WAIT = 1000, live = false) {
-	uidArray = await getUids.get(HOST, PORT);
-	tfinit(HOST, PORT);
+async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live = false) {
+	uidArray = await getUids.get(host, port);
+	tfinit(host, port);
 	simpleGet();
 	if (live) {
 		setTimeout(() => {
