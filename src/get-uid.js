@@ -67,7 +67,7 @@ function get(host, port) {
 		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
 			ipcon.enumerate();
 		});
-		ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE, (uid, connectedUid, position, hardwareVersion, firmwareVersion, deviceIdentifier) => {
+		ipcon.on(Tinkerforge.IPConnection.CALLBACK_ENUMERATE, (uid, _connectedUid, _position, _hardwareVersion, _firmwareVersion, deviceIdentifier) => {
 			defineBricklet(uid, deviceIdentifier);
 		});
 		setTimeout(() => {

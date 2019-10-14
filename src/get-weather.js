@@ -175,19 +175,27 @@ function simpleGet() {
  * @param {boolean} live live output
  */
 async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live = false) {
-	uidArray = await getUids.get(host, port);
-	tfinit(host, port);
-	simpleGet();
-	if (live) {
-		setTimeout(() => {
-			defineCallBack(WAIT);
-			registerCallBack();
-		}, 25);
+	if (port >= 0 && port < 65536) {
+		uidArray = await getUids.get(host, port);
+		tfinit(host, port);
+		simpleGet();
+		if (live && WAIT >= 0 && WAIT <= 4294967295) {
+			setTimeout(() => {
+				defineCallBack(WAIT);
+				registerCallBack();
+			}, 25);
+		} else if (live) {
+			console.error('\nPlease check your inserted Callback time\n');
+			process.exit(1);
+		} else {
+			setTimeout(() => {
+				output(outputData);
+				ipcon.disconnect();
+			}, 10);
+		}
 	} else {
-		setTimeout(() => {
-			output(outputData);
-			ipcon.disconnect();
-		}, 10);
+		console.error('\nPlease check your inserted PORT\n');
+		process.exit(1);
 	}
 }
 
