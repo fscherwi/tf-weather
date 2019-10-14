@@ -1,6 +1,6 @@
 {
   "name": "tf-weather",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "a tool to show the weather data from Tinkerforge sensors",
   "main": "bin/weather.js",
   "scripts": {
