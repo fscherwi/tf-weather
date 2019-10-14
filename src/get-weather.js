@@ -5,7 +5,7 @@ const ipconConnect = require('./ipcon-connect.js');
 
 let uidArray = [];
 
-const bricklets = {al: null, h: null, b: null, t: null};
+const bricklets = [];
 let ipcon;
 const outputData = [];
 let alDivider = 100;
@@ -101,7 +101,6 @@ function defineCallBack(WAIT) {
 
 /**
  * Register Tinkerforge callbacks
- *
  */
 function registerCallBack() {
 	if (bricklets.al) {
@@ -174,7 +173,7 @@ function simpleGet() {
  * @param {number} WAIT callback wait period
  * @param {boolean} live live output
  */
-async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live = false) {
+module.exports.tfget = async (host = 'localhost', port = 4223, WAIT = 1000, live = false) => {
 	if (port >= 0 && port < 65536) {
 		uidArray = await getUids.get(host, port);
 		tfinit(host, port);
@@ -197,6 +196,4 @@ async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live = false)
 		console.error('\nPlease check your inserted PORT\n');
 		process.exit(1);
 	}
-}
-
-module.exports.tfget = tfget;
+};

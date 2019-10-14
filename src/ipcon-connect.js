@@ -1,18 +1,4 @@
 /**
- * Connect to Tinkerforge
- *
- * @param {object} ipcon Tinkerforge IP Connection
- * @param {string} host Tinkerforge connection HOST
- * @param {number} port Tinkerforge connection PORT
- */
-function connect(ipcon, host, port) {
-	ipcon.connect(host, port, error => {
-		console.error(errorText(error));
-		process.exit();
-	});
-}
-
-/**
  * Get the error text
  *
  * @param {number} code error code
@@ -39,4 +25,16 @@ function errorText(code) {
 	}
 }
 
-module.exports.connect = connect;
+/**
+ * Connect to Tinkerforge
+ *
+ * @param {object} ipcon Tinkerforge IP Connection
+ * @param {string} host Tinkerforge connection HOST
+ * @param {number} port Tinkerforge connection PORT
+ */
+module.exports.connect = (ipcon, host, port) => {
+	ipcon.connect(host, port, error => {
+		console.error(errorText(error));
+		process.exit();
+	});
+};

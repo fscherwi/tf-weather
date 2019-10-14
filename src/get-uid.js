@@ -2,8 +2,7 @@ const Tinkerforge = require('tinkerforge');
 const ipconConnect = require('./ipcon-connect.js');
 
 const ipcon = new Tinkerforge.IPConnection();
-
-const uidArray = {LIGHT: '', LIGHTV2: '', LIGHTV3: '', BARO: '', BAROV2: '', HUMI: '', HUMIV2: '', TEMP: '', TEMPV2: ''};
+const uidArray = [];
 
 /**
  * Find and define Bricklet
@@ -61,7 +60,7 @@ function defineBricklet(uid, deviceIdentifier) {
  * @param {number} port Tinkerforge connection PORT
  * @returns {object} ctPromise
  */
-function get(host, port) {
+module.exports.get = (host, port) => {
 	return new Promise(resolve => {
 		ipconConnect.connect(ipcon, host, port);
 		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
@@ -75,6 +74,4 @@ function get(host, port) {
 			resolve(uidArray);
 		}, 50);
 	});
-}
-
-module.exports.get = get;
+};
