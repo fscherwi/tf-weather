@@ -1,12 +1,11 @@
 const Tinkerforge = require('tinkerforge');
-const {output} = require('./output.js');
-const getUids = require('./get-uid.js');
-const ipconConnect = require('./ipcon-connect.js');
+const { output } = require('./output');
+const getUids = require('./get-uid');
+const ipconConnect = require('./ipcon-connect');
 
-let uidArray = [];
-
-const bricklets = [];
 let ipcon;
+let uidArray = [];
+const bricklets = [];
 const outputData = [];
 let alDivider = 100;
 let hDivider = 100;
@@ -22,7 +21,7 @@ let CALLBACK_TEMPERATURE;
  * @param {number} port Tinkerforge connection PORT
  */
 function tfinit(host, port) {
-	if (uidArray.LIGHT || uidArray.LIGHTV2 || uidArray.LIGHTV3 || uidArray.BARO || uidArray.BAROV2 || uidArray.HUMI || uidArray.HUMIV2 || uidArray.TEMP || uidArray.TEMPV2) {
+	if (Object.keys(uidArray).length > 0) {
 		ipcon = new Tinkerforge.IPConnection();
 		if (uidArray.LIGHTV3) {
 			bricklets.al = new Tinkerforge.BrickletAmbientLightV3(uidArray.LIGHTV3, ipcon);
@@ -32,8 +31,8 @@ function tfinit(host, port) {
 			CALLBACK_ILLUMINANCE = Tinkerforge.BrickletAmbientLightV2.CALLBACK_ILLUMINANCE;
 		} else if (uidArray.LIGHT) {
 			bricklets.al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT, ipcon);
-			alDivider = 10;
 			CALLBACK_ILLUMINANCE = Tinkerforge.BrickletAmbientLight.CALLBACK_ILLUMINANCE;
+			alDivider = 10;
 		}
 
 		if (uidArray.BAROV2) {
@@ -49,8 +48,8 @@ function tfinit(host, port) {
 			CALLBACK_HUMIDITY = Tinkerforge.BrickletHumidityV2.CALLBACK_HUMIDITY;
 		} else if (uidArray.HUMI) {
 			bricklets.h = new Tinkerforge.BrickletHumidity(uidArray.HUMI, ipcon);
-			hDivider = 10;
 			CALLBACK_HUMIDITY = Tinkerforge.BrickletHumidity.CALLBACK_HUMIDITY;
+			hDivider = 10;
 		}
 
 		if (uidArray.TEMPV2) {
@@ -63,7 +62,7 @@ function tfinit(host, port) {
 
 		ipconConnect.connect(ipcon, host, port);
 	} else {
-		console.error('ERROR: nothing connected');
+		console.error('\nERROR: nothing connected\n');
 		process.exit();
 	}
 }
@@ -153,7 +152,7 @@ function simpleGet() {
 			bricklets.t.getTemperature(temperature => {
 				outputData[2] = temperature / 100;
 			});
-		} else if (bricklets.b) {
+		} else if (bricklets.b && uidArray.BARO) {
 			bricklets.b.getChipTemperature(temperature => {
 				outputData[2] = temperature / 100;
 			});

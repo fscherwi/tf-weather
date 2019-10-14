@@ -1,5 +1,5 @@
 const Tinkerforge = require('tinkerforge');
-const ipconConnect = require('./ipcon-connect.js');
+const ipconConnect = require('./ipcon-connect');
 
 const ipcon = new Tinkerforge.IPConnection();
 const uidArray = [];
@@ -58,7 +58,7 @@ function defineBricklet(uid, deviceIdentifier) {
  *
  * @param {string} host Tinkerforge connection HOST
  * @param {number} port Tinkerforge connection PORT
- * @returns {object} ctPromise
+ * @returns {string[]} UID Array
  */
 module.exports.get = (host, port) => {
 	return new Promise(resolve => {
