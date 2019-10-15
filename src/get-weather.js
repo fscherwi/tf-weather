@@ -1,6 +1,6 @@
 const Tinkerforge = require('tinkerforge');
 const {output} = require('./output');
-const getUids = require('./get-uid');
+const {getUids} = require('./get-uid');
 const ipconConnect = require('./ipcon-connect');
 
 let ipcon;
@@ -174,7 +174,7 @@ function simpleGet() {
  */
 module.exports.tfget = async (host = 'localhost', port = 4223, WAIT = 1000, live = false) => {
 	if (port >= 0 && port < 65536) {
-		uidArray = await getUids.get(host, port);
+		uidArray = await getUids(host, port);
 		tfinit(host, port);
 		simpleGet();
 		if (live && WAIT >= 0 && WAIT <= 4294967295) {

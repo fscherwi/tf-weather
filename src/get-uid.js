@@ -60,7 +60,7 @@ function defineBricklet(uid, deviceIdentifier) {
  * @param {number} port Tinkerforge connection PORT
  * @returns {string[]} UID Array
  */
-module.exports.get = (host, port) => {
+module.exports.getUids = (host, port) => {
 	return new Promise(resolve => {
 		ipconConnect.connect(ipcon, host, port);
 		ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
