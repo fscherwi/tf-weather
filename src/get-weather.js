@@ -1,5 +1,5 @@
 const Tinkerforge = require('tinkerforge');
-const { output } = require('./output');
+const {output} = require('./output');
 const getUids = require('./get-uid');
 const ipconConnect = require('./ipcon-connect');
 
