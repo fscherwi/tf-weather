@@ -23,13 +23,13 @@
   },
   "homepage": "https://github.com/fscherwi/tf-weather/blob/master/README.md",
   "dependencies": {
-    "commander": "^4.0.0-0",
+    "commander": "^4.0.0",
     "log-update": "^3.3.0",
     "tinkerforge": "^2.1.24"
   },
   "devDependencies": {
     "coveralls": "^3.0.7",
-    "eslint-plugin-jsdoc": "^15.12.1",
+    "eslint-plugin-jsdoc": "^17.0.0",
     "nyc": "^15.0.0-beta.0",
     "xo": "^0.25.3"
   },

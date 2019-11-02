@@ -14,10 +14,10 @@ const errors = [
  * @param {number} code error code
  * @returns {string} error text
  */
-module.exports.errorText = code => {
+function errorText(code) {
 	const error = errors.find(errors => errors[0] === code);
 	return error ? error[1] : 'UNKNOWN';
-};
+}
 
 /**
  * Connect to Tinkerforge
