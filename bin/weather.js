@@ -11,7 +11,7 @@ program
 	.option('-w, --wait [time]', 'The Callback time in milliseconds, default to "1000" ms')
 	.parse(process.argv);
 
-if (program.port >= 0 && program.port < 65536) {
+if (!program.port || (program.port >= 0 && program.port < 65536)) {
 	require('../src/get-weather.js').tfget(program.host, program.port, program.wait, program.live);
 } else {
 	console.error('\nPlease check your inserted PORT\n');
