@@ -12,7 +12,7 @@ program
 	.parse(process.argv);
 
 if (!program.port || (program.port >= 0 && program.port < 65536)) {
-	require('../src/get-weather.js').tfget(program.host, program.port, program.wait, program.live);
+	require('../src/get-weather').tfget(program.host, program.port, program.wait, program.live);
 } else {
 	console.error('\nPlease check your inserted PORT\n');
 	process.exit(1);
