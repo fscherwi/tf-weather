@@ -25,7 +25,7 @@
   "dependencies": {
     "commander": "^5.0.0",
     "log-update": "^4.0.0",
-    "tinkerforge": "^2.1.25"
+    "tinkerforge": "^2.1.26"
   },
   "devDependencies": {
     "coveralls": "^3.0.11",
