@@ -1,4 +1,4 @@
-const errors = [
+const errors: Array<[number, string]> = [
 	[11, 'ALREADY CONNECTED'],
 	[12, 'NOT CONNECTED'],
 	[13, 'CONNECT FAILED'],
@@ -14,7 +14,7 @@ const errors = [
  * @param {number} code error code
  * @returns {string} error text
  */
-function errorText(code: number) {
+function errorText(code: number): string {
 	const error = errors.find(errors => errors[0] === code);
 	return error ? error[1] : 'UNKNOWN';
 }

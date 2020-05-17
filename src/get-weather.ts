@@ -3,16 +3,16 @@ import {output} from './output';
 import {getUids} from './get-uid';
 import {connect} from './ipcon-connect';
 
-let ipcon;
+let ipcon: { on: (arg0: any, arg1: () => void) => void; disconnect: () => void };
 let uidArray: any = [];
 const bricklets: any = [];
 const outputData = [];
 let alDivider = 100;
 let hDivider = 100;
-let CALLBACK_ILLUMINANCE;
-let CALLBACK_AIR_PRESSURE;
-let CALLBACK_HUMIDITY;
-let CALLBACK_TEMPERATURE;
+let CALLBACK_ILLUMINANCE: number;
+let CALLBACK_AIR_PRESSURE: number;
+let CALLBACK_HUMIDITY: number;
+let CALLBACK_TEMPERATURE: number;
 
 /**
  * Init Tinkerforge connection
@@ -103,28 +103,28 @@ function defineCallBack(WAIT: number) {
  */
 function registerCallBack() {
 	if (bricklets.al) {
-		bricklets.al.on(CALLBACK_ILLUMINANCE, illuminance => {
+		bricklets.al.on(CALLBACK_ILLUMINANCE, (illuminance: number) => {
 			outputData[3] = illuminance / alDivider;
 			output(outputData);
 		});
 	}
 
 	if (bricklets.b) {
-		bricklets.b.on(CALLBACK_AIR_PRESSURE, airPressure => {
+		bricklets.b.on(CALLBACK_AIR_PRESSURE, (airPressure: number) => {
 			outputData[1] = airPressure / 1000;
 			output(outputData);
 		});
 	}
 
 	if (bricklets.h) {
-		bricklets.h.on(CALLBACK_HUMIDITY, humidity => {
+		bricklets.h.on(CALLBACK_HUMIDITY, (humidity: number) => {
 			outputData[0] = humidity / hDivider;
 			output(outputData);
 		});
 	}
 
 	if (bricklets.t) {
-		bricklets.t.on(CALLBACK_TEMPERATURE, temperature => {
+		bricklets.t.on(CALLBACK_TEMPERATURE, (temperature: number) => {
 			outputData[2] = temperature / 100;
 			output(outputData);
 		});
@@ -137,29 +137,29 @@ function registerCallBack() {
 function simpleGet() {
 	ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
 		if (bricklets.h) {
-			bricklets.h.getHumidity(humidity => {
+			bricklets.h.getHumidity((humidity: number) => {
 				outputData[0] = humidity / hDivider;
 			});
 		}
 
 		if (bricklets.b) {
-			bricklets.b.getAirPressure(airPressure => {
+			bricklets.b.getAirPressure((airPressure: number) => {
 				outputData[1] = airPressure / 1000;
 			});
 		}
 
 		if (bricklets.t) {
-			bricklets.t.getTemperature(temperature => {
+			bricklets.t.getTemperature((temperature: number) => {
 				outputData[2] = temperature / 100;
 			});
 		} else if (bricklets.b && uidArray.BARO) {
-			bricklets.b.getChipTemperature(temperature => {
+			bricklets.b.getChipTemperature((temperature: number) => {
 				outputData[2] = temperature / 100;
 			});
 		}
 
 		if (bricklets.al) {
-			bricklets.al.getIlluminance(illuminance => {
+			bricklets.al.getIlluminance((illuminance: number) => {
 				outputData[3] = illuminance / alDivider;
 			});
 		}
