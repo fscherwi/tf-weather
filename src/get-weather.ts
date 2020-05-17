@@ -1,11 +1,11 @@
-const Tinkerforge = require('tinkerforge');
-const {output} = require('./output');
-const {getUids} = require('./get-uid');
-const ipconConnect = require('./ipcon-connect');
+import {IPConnection, BrickletAmbientLightV3, BrickletAmbientLightV2, BrickletAmbientLight, BrickletBarometer, BrickletBarometerV2, BrickletHumidityV2, BrickletHumidity, BrickletTemperatureV2, BrickletTemperature} from 'tinkerforge';
+import {output} from './output';
+import {getUids} from './get-uid';
+import {connect} from './ipcon-connect';
 
 let ipcon;
-let uidArray = [];
-const bricklets = [];
+let uidArray: any = [];
+const bricklets: any = [];
 const outputData = [];
 let alDivider = 100;
 let hDivider = 100;
@@ -20,47 +20,47 @@ let CALLBACK_TEMPERATURE;
  * @param {string} host Tinkerforge connection HOST
  * @param {number} port Tinkerforge connection PORT
  */
-function tfinit(host, port) {
+function tfinit(host: string, port: number) {
 	if (Object.keys(uidArray).length > 0) {
-		ipcon = new Tinkerforge.IPConnection();
+		ipcon = new IPConnection();
 		if (uidArray.LIGHTV3) {
-			bricklets.al = new Tinkerforge.BrickletAmbientLightV3(uidArray.LIGHTV3, ipcon);
-			CALLBACK_ILLUMINANCE = Tinkerforge.BrickletAmbientLightV3.CALLBACK_ILLUMINANCE;
+			bricklets.al = new BrickletAmbientLightV3(uidArray.LIGHTV3, ipcon);
+			CALLBACK_ILLUMINANCE = BrickletAmbientLightV3.CALLBACK_ILLUMINANCE;
 		} else if (uidArray.LIGHTV2) {
-			bricklets.al = new Tinkerforge.BrickletAmbientLightV2(uidArray.LIGHTV2, ipcon);
-			CALLBACK_ILLUMINANCE = Tinkerforge.BrickletAmbientLightV2.CALLBACK_ILLUMINANCE;
+			bricklets.al = new BrickletAmbientLightV2(uidArray.LIGHTV2, ipcon);
+			CALLBACK_ILLUMINANCE = BrickletAmbientLightV2.CALLBACK_ILLUMINANCE;
 		} else if (uidArray.LIGHT) {
-			bricklets.al = new Tinkerforge.BrickletAmbientLight(uidArray.LIGHT, ipcon);
-			CALLBACK_ILLUMINANCE = Tinkerforge.BrickletAmbientLight.CALLBACK_ILLUMINANCE;
+			bricklets.al = new BrickletAmbientLight(uidArray.LIGHT, ipcon);
+			CALLBACK_ILLUMINANCE = BrickletAmbientLight.CALLBACK_ILLUMINANCE;
 			alDivider = 10;
 		}
 
 		if (uidArray.BAROV2) {
-			bricklets.b = new Tinkerforge.BrickletBarometer(uidArray.BAROV2, ipcon);
-			CALLBACK_AIR_PRESSURE = Tinkerforge.BrickletBarometerV2.CALLBACK_AIR_PRESSURE;
+			bricklets.b = new BrickletBarometer(uidArray.BAROV2, ipcon);
+			CALLBACK_AIR_PRESSURE = BrickletBarometerV2.CALLBACK_AIR_PRESSURE;
 		} else if (uidArray.BARO) {
-			bricklets.b = new Tinkerforge.BrickletBarometer(uidArray.BARO, ipcon);
-			CALLBACK_AIR_PRESSURE = Tinkerforge.BrickletBarometer.CALLBACK_AIR_PRESSURE;
+			bricklets.b = new BrickletBarometer(uidArray.BARO, ipcon);
+			CALLBACK_AIR_PRESSURE = BrickletBarometer.CALLBACK_AIR_PRESSURE;
 		}
 
 		if (uidArray.HUMIV2) {
-			bricklets.h = new Tinkerforge.BrickletHumidityV2(uidArray.HUMIV2, ipcon);
-			CALLBACK_HUMIDITY = Tinkerforge.BrickletHumidityV2.CALLBACK_HUMIDITY;
+			bricklets.h = new BrickletHumidityV2(uidArray.HUMIV2, ipcon);
+			CALLBACK_HUMIDITY = BrickletHumidityV2.CALLBACK_HUMIDITY;
 		} else if (uidArray.HUMI) {
-			bricklets.h = new Tinkerforge.BrickletHumidity(uidArray.HUMI, ipcon);
-			CALLBACK_HUMIDITY = Tinkerforge.BrickletHumidity.CALLBACK_HUMIDITY;
+			bricklets.h = new BrickletHumidity(uidArray.HUMI, ipcon);
+			CALLBACK_HUMIDITY = BrickletHumidity.CALLBACK_HUMIDITY;
 			hDivider = 10;
 		}
 
 		if (uidArray.TEMPV2) {
-			bricklets.t = new Tinkerforge.BrickletTemperatureV2(uidArray.TEMPV2, ipcon);
-			CALLBACK_TEMPERATURE = Tinkerforge.BrickletTemperatureV2.CALLBACK_TEMPERATURE;
+			bricklets.t = new BrickletTemperatureV2(uidArray.TEMPV2, ipcon);
+			CALLBACK_TEMPERATURE = BrickletTemperatureV2.CALLBACK_TEMPERATURE;
 		} else if (uidArray.TEMP) {
-			bricklets.t = new Tinkerforge.BrickletTemperature(uidArray.TEMP, ipcon);
-			CALLBACK_TEMPERATURE = Tinkerforge.BrickletTemperature.CALLBACK_TEMPERATURE;
+			bricklets.t = new BrickletTemperature(uidArray.TEMP, ipcon);
+			CALLBACK_TEMPERATURE = BrickletTemperature.CALLBACK_TEMPERATURE;
 		}
 
-		ipconConnect.connect(ipcon, host, port);
+		connect(ipcon, host, port);
 	} else {
 		console.error('\nERROR: nothing connected\n');
 		process.exit();
@@ -72,7 +72,7 @@ function tfinit(host, port) {
  *
  * @param {number} WAIT callback wait period
  */
-function defineCallBack(WAIT) {
+function defineCallBack(WAIT: number) {
 	if (uidArray.LIGHTV3) {
 		bricklets.al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.LIGHTV2 || uidArray.LIGHT) {
@@ -135,7 +135,7 @@ function registerCallBack() {
  * Get weather data
  */
 function simpleGet() {
-	ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED, () => {
+	ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
 		if (bricklets.h) {
 			bricklets.h.getHumidity(humidity => {
 				outputData[0] = humidity / hDivider;
@@ -172,7 +172,7 @@ function simpleGet() {
  * @param {number} WAIT callback wait period
  * @param {boolean} live live output
  */
-module.exports.tfget = async (host = 'localhost', port = 4223, WAIT = 1000, live = false) => {
+export async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live = false) {
 	uidArray = await getUids(host, port);
 	tfinit(host, port);
 	simpleGet();
@@ -190,4 +190,4 @@ module.exports.tfget = async (host = 'localhost', port = 4223, WAIT = 1000, live
 			ipcon.disconnect();
 		}, 10);
 	}
-};
+}

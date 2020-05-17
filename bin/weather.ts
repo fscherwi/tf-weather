@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
-const program = require('commander');
+import program from 'commander';
+import {tfget} from '../src/get-weather';
+import {version} from '../package.json';
 
 program
-	.version(require('../package.json').version)
+	.version(version)
 	.usage('[options]')
 	.option('-l, --live', 'Shows the live weather')
 	.option('-h, --host [host]', 'The HOST, default to "localhost"')
@@ -12,7 +14,9 @@ program
 	.parse(process.argv);
 
 if (!program.port || (program.port >= 0 && program.port < 65536)) {
-	require('../src/get-weather').tfget(program.host, program.port, program.wait, program.live);
+	(async () => {
+		await tfget(program.host, program.port, program.wait, program.live);
+	})();
 } else {
 	console.error('\nPlease check your inserted PORT\n');
 	process.exit(1);

@@ -14,7 +14,7 @@ const errors = [
  * @param {number} code error code
  * @returns {string} error text
  */
-function errorText(code) {
+function errorText(code: number) {
 	const error = errors.find(errors => errors[0] === code);
 	return error ? error[1] : 'UNKNOWN';
 }
@@ -22,13 +22,13 @@ function errorText(code) {
 /**
  * Connect to Tinkerforge
  *
- * @param {object} ipcon Tinkerforge IP Connection
+ * @param ipcon Tinkerforge IP Connection
  * @param {string} host Tinkerforge connection HOST
  * @param {number} port Tinkerforge connection PORT
  */
-module.exports.connect = (ipcon, host, port) => {
-	ipcon.connect(host, port, error => {
+export function connect(ipcon, host: string, port: number) {
+	ipcon.connect(host, port, (error: number) => {
 		console.error(errorText(error));
 		process.exit();
 	});
-};
+}

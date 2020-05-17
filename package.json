@@ -31,6 +31,8 @@
     "coveralls": "^3.1.0",
     "eslint-plugin-jsdoc": "^25.4.1",
     "nyc": "^15.0.1",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.2",
     "xo": "^0.30.0"
   },
   "bin": {
@@ -48,7 +50,8 @@
   "xo": {
     "rules": {
       "unicorn/no-process-exit": 0,
-      "max-params": 0
+      "max-params": 0,
+      "@typescript-eslint/prefer-readonly-parameter-types": 0
     },
     "extends": [
       "plugin:jsdoc/recommended"
