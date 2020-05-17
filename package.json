@@ -1,11 +1,12 @@
 {
   "name": "tf-weather",
-  "version": "7.0.1",
+  "version": "8.0.0",
   "description": "a tool to show the weather data from Tinkerforge sensors",
-  "main": "bin/weather.js",
+  "main": "dist/bin/weather.js",
   "scripts": {
     "test": "nyc node ./bin/weather.js",
-    "lint": "xo"
+    "lint": "xo",
+    "build": "tsc -p ."
   },
   "repository": {
     "type": "git",
@@ -28,24 +29,22 @@
     "tinkerforge": "^2.1.27"
   },
   "devDependencies": {
+    "@types/node": "^14.0.1",
     "coveralls": "^3.1.0",
     "eslint-plugin-jsdoc": "^25.4.1",
     "nyc": "^15.0.1",
-    "ts-node": "^8.10.1",
     "typescript": "^3.9.2",
     "xo": "^0.30.0"
   },
   "bin": {
-    "weather": "./bin/weather.js"
+    "weather": "./dist/bin/weather.js"
   },
   "files": [
-    "bin/weather.js",
-    "src/get-uid.js",
-    "src/ipcon-connect.js",
-    "src/output.js",
-    "src/get-weather.js",
-    "README.md",
-    "LICENSE"
+    "dist/bin/weather.js",
+    "dist/src/get-uid.js",
+    "dist/src/ipcon-connect.js",
+    "dist/src/output.js",
+    "dist/src/get-weather.js"
   ],
   "xo": {
     "rules": {
