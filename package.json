@@ -29,7 +29,7 @@
     "tinkerforge": "^2.1.28"
   },
   "devDependencies": {
-    "@types/node": "^14.0.1",
+    "@types/node": "^14.0.6",
     "coveralls": "^3.1.0",
     "eslint-plugin-jsdoc": "^25.4.1",
     "nyc": "^15.1.0",
