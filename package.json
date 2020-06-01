@@ -4,7 +4,7 @@
   "description": "a tool to show the weather data from Tinkerforge sensors",
   "main": "dist/bin/weather.js",
   "scripts": {
-    "test": "nyc node ./bin/weather.js",
+    "test": "npm run build && nyc node ./dist/bin/weather.js",
     "lint": "xo",
     "build": "tsc -p ."
   },
