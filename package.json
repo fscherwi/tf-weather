@@ -33,7 +33,7 @@
     "coveralls": "^3.1.0",
     "eslint-plugin-jsdoc": "^28.6.0",
     "nyc": "^15.1.0",
-    "typescript": "^3.9.5",
+    "typescript": "^3.9.7",
     "xo": "^0.32.0"
   },
   "bin": {
