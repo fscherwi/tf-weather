@@ -13,9 +13,11 @@ program
 	.option('-w, --wait [time]', 'The Callback time in milliseconds, default to "1000" ms')
 	.parse(process.argv);
 
-if (!program.port || (program.port >= 0 && program.port < 65536)) {
+const options = program.opts();
+
+if (!options.port || (options.port >= 0 && options.port < 65536)) {
 	(async () => {
-		await tfget(program.host, program.port, program.wait, program.live);
+		await tfget(options.host, options.port, options.wait, options.live);
 	})();
 } else {
 	console.error('\nPlease check your inserted PORT\n');
