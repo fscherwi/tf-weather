@@ -5,12 +5,12 @@ const ipcon = new IPConnection();
 const uidArray: any = [];
 
 /**
- * Find and define Bricklet
+ * Find and define Bricklet uid's
  *
  * @param {string} uid Bricklet uid
  * @param {string} deviceIdentifier Bricklet deviceIdentifier
  */
-function defineBricklet(uid: string, deviceIdentifier: string) {
+function defineBricklet(uid: string, deviceIdentifier: string): void {
 	switch (deviceIdentifier) {
 		case BrickletAmbientLight.DEVICE_IDENTIFIER:
 			uidArray.LIGHT = uid;

@@ -3,7 +3,7 @@ import { output } from './output';
 import { getUids } from './get-uid';
 import { connect } from './ipcon-connect';
 
-let ipcon: { on: (arg0: any, arg1: () => void) => void; disconnect: () => void };
+let ipcon: any;
 let uidArray: any = [];
 const bricklets: any = [];
 const outputData = [];
@@ -20,7 +20,7 @@ let CALLBACK_TEMPERATURE: number;
  * @param {string} host Tinkerforge connection HOST
  * @param {number} port Tinkerforge connection PORT
  */
-function tfinit(host: string, port: number) {
+function tfinit(host: string, port: number): void {
 	if (Object.keys(uidArray).length > 0) {
 		ipcon = new IPConnection();
 		if (uidArray.LIGHTV3) {
@@ -63,7 +63,7 @@ function tfinit(host: string, port: number) {
 		connect(ipcon, host, port);
 	} else {
 		console.error('\nERROR: nothing connected\n');
-		process.exit();
+		process.exit(0);
 	}
 }
 
@@ -72,7 +72,7 @@ function tfinit(host: string, port: number) {
  *
  * @param {number} WAIT callback wait period
  */
-function defineCallBack(WAIT: number) {
+function defineCallBack(WAIT: number): void {
 	if (uidArray.LIGHTV3) {
 		bricklets.al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
 	} else if (uidArray.LIGHTV2 || uidArray.LIGHT) {
@@ -101,7 +101,7 @@ function defineCallBack(WAIT: number) {
 /**
  * Register Tinkerforge callbacks
  */
-function registerCallBack() {
+function registerCallBack(): void {
 	if (bricklets.al) {
 		bricklets.al.on(CALLBACK_ILLUMINANCE, (illuminance: number) => {
 			outputData[3] = illuminance / alDivider;
@@ -134,7 +134,7 @@ function registerCallBack() {
 /**
  * Get weather data
  */
-function simpleGet() {
+function simpleGet(): void {
 	ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
 		if (bricklets.h) {
 			bricklets.h.getHumidity((humidity: number) => {
@@ -172,7 +172,7 @@ function simpleGet() {
  * @param {number} WAIT callback wait period
  * @param {boolean} live live output
  */
-export async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live = false) {
+export async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live = false): Promise<void> {
 	uidArray = await getUids(host, port);
 	tfinit(host, port);
 	simpleGet();

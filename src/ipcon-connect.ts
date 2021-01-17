@@ -28,7 +28,7 @@ function errorText(code: number): string {
  * @param {string} host Tinkerforge connection HOST
  * @param {number} port Tinkerforge connection PORT
  */
-export function connect(ipcon, host: string, port: number) {
+export function connect(ipcon, host: string, port: number): void {
 	ipcon.connect(host, port, (error: number) => {
 		console.error(errorText(error));
 		process.exit();
