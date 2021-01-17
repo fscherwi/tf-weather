@@ -1,11 +1,13 @@
-const errors: Array<[number, string]> = [
-	[11, 'ALREADY CONNECTED'],
-	[12, 'NOT CONNECTED'],
-	[13, 'CONNECT FAILED'],
-	[21, 'INVALID FUNCTION ID'],
-	[31, 'TIMEOUT'],
-	[41, 'INVALID PARAMETER'],
-	[42, 'FUNCTION NOT SUPPORTED']
+import IPConnection from 'tinkerforge';
+
+const errors = [
+	{ code: IPConnection.ERROR_ALREADY_CONNECTED, message: 'ALREADY CONNECTED' },
+	{ code: IPConnection.ERROR_NOT_CONNECTED, message: 'NOT CONNECTED' },
+	{ code: IPConnection.ERROR_CONNECT_FAILED, message: 'CONNECT FAILED' },
+	{ code: IPConnection.ERROR_INVALID_FUNCTION_ID, message: 'INVALID FUNCTION ID' },
+	{ code: IPConnection.ERROR_TIMEOUT, message: 'TIMEOUT' },
+	{ code: IPConnection.ERROR_INVALID_PARAMETER, message: 'INVALID PARAMETER' },
+	{ code: IPConnection.ERROR_FUNCTION_NOT_SUPPORTED, message: 'FUNCTION NOT SUPPORTED' }
 ];
 
 /**
@@ -15,14 +17,14 @@ const errors: Array<[number, string]> = [
  * @returns {string} error text
  */
 function errorText(code: number): string {
-	const error = errors.find(errors => errors[0] === code);
-	return error ? error[1] : 'UNKNOWN';
+	const error = errors.find(errors => errors.code === code);
+	return error ? error.message : 'UNKNOWN';
 }
 
 /**
  * Connect to Tinkerforge
  *
- * @param ipcon Tinkerforge IP Connection
+ * @param {any} ipcon Tinkerforge IP Connection
  * @param {string} host Tinkerforge connection HOST
  * @param {number} port Tinkerforge connection PORT
  */
