@@ -1,5 +1,5 @@
-import {IPConnection, BrickletAmbientLight, BrickletAmbientLightV2, BrickletAmbientLightV3, BrickletBarometer, BrickletBarometerV2, BrickletHumidity, BrickletHumidityV2, BrickletTemperature, BrickletTemperatureV2} from 'tinkerforge';
-import {connect} from './ipcon-connect';
+import { IPConnection, BrickletAmbientLight, BrickletAmbientLightV2, BrickletAmbientLightV3, BrickletBarometer, BrickletBarometerV2, BrickletHumidity, BrickletHumidityV2, BrickletTemperature, BrickletTemperatureV2 } from 'tinkerforge';
+import { connect } from './ipcon-connect';
 
 const ipcon = new IPConnection();
 const uidArray: any = [];

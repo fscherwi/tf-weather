@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import program from 'commander';
-import {tfget} from '../src/get-weather';
-import {version} from '../package.json';
+import { tfget } from '../src/get-weather';
+import { version } from '../package.json';
 
 program
 	.version(version)

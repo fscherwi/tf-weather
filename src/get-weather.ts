@@ -1,7 +1,7 @@
-import {IPConnection, BrickletAmbientLightV3, BrickletAmbientLightV2, BrickletAmbientLight, BrickletBarometer, BrickletBarometerV2, BrickletHumidityV2, BrickletHumidity, BrickletTemperatureV2, BrickletTemperature} from 'tinkerforge';
-import {output} from './output';
-import {getUids} from './get-uid';
-import {connect} from './ipcon-connect';
+import { IPConnection, BrickletAmbientLightV3, BrickletAmbientLightV2, BrickletAmbientLight, BrickletBarometer, BrickletBarometerV2, BrickletHumidityV2, BrickletHumidity, BrickletTemperatureV2, BrickletTemperature } from 'tinkerforge';
+import { output } from './output';
+import { getUids } from './get-uid';
+import { connect } from './ipcon-connect';
 
 let ipcon: { on: (arg0: any, arg1: () => void) => void; disconnect: () => void };
 let uidArray: any = [];
