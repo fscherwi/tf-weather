@@ -50,7 +50,6 @@
     "rules": {
       "unicorn/no-process-exit": 0,
       "max-params": 0,
-      "@typescript-eslint/prefer-readonly-parameter-types": 0,
       "object-curly-spacing": [
         "error",
         "always"

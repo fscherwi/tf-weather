@@ -17,7 +17,7 @@ function time(): string {
  */
 export function output(outputData: string[]): void {
 	logUpdate(`
-${(outputData[0] ? ('Relative Humidity: ' + outputData[0] + ' %RH\n') : '')}${(outputData[1] ? ('Air pressure:      ' + outputData[1] + ' mbar\n') : '')}${(outputData[2] ? ('Temperature:       ' + outputData[2] + ' \u00B0C\n') : '')}${(outputData[3] ? ('Illuminance:       ' + outputData[3] + ' Lux\n') : '')}
-Time:              ${time()}
+${(outputData[0] ? ('Relative Humidity:\t' + outputData[0] + ' %RH\n') : '')}${(outputData[1] ? ('Air pressure:\t\t' + outputData[1] + ' mbar\n') : '')}${(outputData[2] ? ('Temperature:\t\t' + outputData[2] + ' \u00B0C\n') : '')}${(outputData[3] ? ('Illuminance:\t\t' + outputData[3] + ' Lux\n') : '')}
+Time:\t\t\t${time()}
 `);
 }
