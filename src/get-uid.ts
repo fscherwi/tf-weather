@@ -1,16 +1,14 @@
 import { IPConnection, BrickletAmbientLight, BrickletAmbientLightV2, BrickletAmbientLightV3, BrickletBarometer, BrickletBarometerV2, BrickletHumidity, BrickletHumidityV2, BrickletTemperature, BrickletTemperatureV2 } from 'tinkerforge';
 import { connect } from './ipcon-connect';
 
-const ipcon = new IPConnection();
-const uidArray: any = [];
-
 /**
  * Find and define Bricklet uid's
  *
+ * @param {any} uidArray UID array
  * @param {string} uid Bricklet uid
  * @param {string} deviceIdentifier Bricklet deviceIdentifier
  */
-function defineBricklet(uid: string, deviceIdentifier: string): void {
+function defineBricklet(uidArray: any, uid: string, deviceIdentifier: string): void {
 	switch (deviceIdentifier) {
 		case BrickletAmbientLight.DEVICE_IDENTIFIER:
 			uidArray.LIGHT = uid;
@@ -62,12 +60,14 @@ function defineBricklet(uid: string, deviceIdentifier: string): void {
  */
 export async function getUids(host: string, port: number): Promise<string[]> {
 	return new Promise(resolve => {
+		const ipcon = new IPConnection();
+		const uidArray: string[] = [];
 		connect(ipcon, host, port);
 		ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
 			ipcon.enumerate();
 		});
 		ipcon.on(IPConnection.CALLBACK_ENUMERATE, (uid: string, _connectedUid, _position, _hardwareVersion, _firmwareVersion, deviceIdentifier: string) => {
-			defineBricklet(uid, deviceIdentifier);
+			defineBricklet(uidArray, uid, deviceIdentifier);
 		});
 		setTimeout(() => {
 			ipcon.disconnect();
