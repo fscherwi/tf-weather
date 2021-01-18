@@ -2,11 +2,12 @@ import { IPConnection, BrickletAmbientLightV3, BrickletAmbientLightV2, BrickletA
 import { output } from './output';
 import { getUids } from './get-uid';
 import { connect } from './ipcon-connect';
+import { WeatherData } from '../types/weather-data';
 
 let ipcon: any;
 let uidArray: any = [];
 const bricklets: any = [];
-const outputData = [];
+let weatherData: WeatherData;
 let alDivider = 100;
 let hDivider = 100;
 let CALLBACK_ILLUMINANCE: number;
@@ -104,29 +105,29 @@ function defineCallBack(WAIT: number): void {
 function registerCallBack(): void {
 	if (bricklets.al) {
 		bricklets.al.on(CALLBACK_ILLUMINANCE, (illuminance: number) => {
-			outputData[3] = illuminance / alDivider;
-			output(outputData);
+			weatherData = { ...weatherData, illuminance: illuminance / alDivider };
+			output(weatherData);
 		});
 	}
 
 	if (bricklets.b) {
 		bricklets.b.on(CALLBACK_AIR_PRESSURE, (airPressure: number) => {
-			outputData[1] = airPressure / 1000;
-			output(outputData);
+			weatherData = { ...weatherData, airPressure: airPressure / 1000 };
+			output(weatherData);
 		});
 	}
 
 	if (bricklets.h) {
 		bricklets.h.on(CALLBACK_HUMIDITY, (humidity: number) => {
-			outputData[0] = humidity / hDivider;
-			output(outputData);
+			weatherData = { ...weatherData, humidity: humidity / hDivider };
+			output(weatherData);
 		});
 	}
 
 	if (bricklets.t) {
 		bricklets.t.on(CALLBACK_TEMPERATURE, (temperature: number) => {
-			outputData[2] = temperature / 100;
-			output(outputData);
+			weatherData = { ...weatherData, temperature: temperature / 100 };
+			output(weatherData);
 		});
 	}
 }
@@ -138,29 +139,29 @@ function simpleGet(): void {
 	ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
 		if (bricklets.h) {
 			bricklets.h.getHumidity((humidity: number) => {
-				outputData[0] = humidity / hDivider;
+				weatherData = { ...weatherData, humidity: humidity / hDivider };
 			});
 		}
 
 		if (bricklets.b) {
 			bricklets.b.getAirPressure((airPressure: number) => {
-				outputData[1] = airPressure / 1000;
+				weatherData = { ...weatherData, airPressure: airPressure / 1000 };
 			});
 		}
 
 		if (bricklets.t) {
 			bricklets.t.getTemperature((temperature: number) => {
-				outputData[2] = temperature / 100;
+				weatherData = { ...weatherData, temperature: temperature / 100 };
 			});
 		} else if (bricklets.b && uidArray.BARO) {
 			bricklets.b.getChipTemperature((temperature: number) => {
-				outputData[2] = temperature / 100;
+				weatherData = { ...weatherData, temperature: temperature / 100 };
 			});
 		}
 
 		if (bricklets.al) {
 			bricklets.al.getIlluminance((illuminance: number) => {
-				outputData[3] = illuminance / alDivider;
+				weatherData = { ...weatherData, illuminance: illuminance / alDivider };
 			});
 		}
 	});
@@ -186,7 +187,7 @@ export async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live =
 		process.exit(1);
 	} else {
 		setTimeout(() => {
-			output(outputData);
+			output(weatherData);
 			ipcon.disconnect();
 		}, 10);
 	}

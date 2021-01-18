@@ -1,4 +1,5 @@
 import logUpdate from 'log-update';
+import { WeatherData } from '../types/weather-data';
 
 /**
  * Get the current time
@@ -13,11 +14,11 @@ function time(): string {
 /**
  * Output the weather data
  *
- * @param {string[]} outputData Weather data array
+ * @param {WeatherData} weatherData Weather data
  */
-export function output(outputData: string[]): void {
+export function output(weatherData: WeatherData): void {
 	logUpdate(`
-${(outputData[0] ? ('Relative Humidity:\t' + outputData[0] + ' %RH\n') : '')}${(outputData[1] ? ('Air pressure:\t\t' + outputData[1] + ' mbar\n') : '')}${(outputData[2] ? ('Temperature:\t\t' + outputData[2] + ' \u00B0C\n') : '')}${(outputData[3] ? ('Illuminance:\t\t' + outputData[3] + ' Lux\n') : '')}
+${(weatherData.humidity ? ('Relative Humidity:\t' + weatherData.humidity.toString() + '\t%RH\n') : '')}${(weatherData.airPressure ? ('Air pressure:\t\t' + weatherData.airPressure.toString() + '\tmbar\n') : '')}${(weatherData.temperature ? ('Temperature:\t\t' + weatherData.temperature.toString() + '\t\u00B0C\n') : '')}${(weatherData.illuminance ? ('Illuminance:\t\t' + weatherData.illuminance.toString() + '\tLux\n') : '')}
 Time:\t\t\t${time()}
 `);
 }

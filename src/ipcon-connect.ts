@@ -1,6 +1,6 @@
 import IPConnection from 'tinkerforge';
 
-const errors = [
+const errors: Array<{ code: number; message: string }> = [
 	{ code: IPConnection.ERROR_ALREADY_CONNECTED, message: 'ALREADY CONNECTED' },
 	{ code: IPConnection.ERROR_NOT_CONNECTED, message: 'NOT CONNECTED' },
 	{ code: IPConnection.ERROR_CONNECT_FAILED, message: 'CONNECT FAILED' },
@@ -28,7 +28,7 @@ function errorText(code: number): string {
  * @param {string} host Tinkerforge connection HOST
  * @param {number} port Tinkerforge connection PORT
  */
-export function connect(ipcon, host: string, port: number): void {
+export function connect(ipcon: any, host: string, port: number): void {
 	ipcon.connect(host, port, (error: number) => {
 		console.error(errorText(error));
 		process.exit();
