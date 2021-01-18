@@ -7,7 +7,6 @@ import { Callbacks } from '../types/callbacks';
 
 let uidArray: any = [];
 const bricklets: any = [];
-let weatherData: WeatherData;
 let alDivider = 100;
 let hDivider = 100;
 
@@ -98,8 +97,9 @@ function defineCallBack(WAIT: number): void {
  * Register Tinkerforge callbacks
  *
  * @param {Callbacks} callbacks Tinkforge Callbacks
+ * @param {WeatherData} weatherData weather data
  */
-function registerCallBack(callbacks: Callbacks): void {
+function registerCallBack(callbacks: Callbacks, weatherData: WeatherData): void {
 	if (bricklets.al) {
 		bricklets.al.on(callbacks.CALLBACK_ILLUMINANCE, (illuminance: number) => {
 			weatherData = { ...weatherData, illuminance: illuminance / alDivider };
@@ -133,34 +133,35 @@ function registerCallBack(callbacks: Callbacks): void {
  * Get weather data
  *
  * @param {any} ipcon Tinkerforge IP Connection
+ * @param {WeatherData} weatherData weather data
  */
-function simpleGet(ipcon: any): void {
+function simpleGet(ipcon: any, weatherData: WeatherData): void {
 	ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
 		if (bricklets.h) {
 			bricklets.h.getHumidity((humidity: number) => {
-				weatherData = { ...weatherData, humidity: humidity / hDivider };
+				weatherData.humidity = humidity / hDivider;
 			});
 		}
 
 		if (bricklets.b) {
 			bricklets.b.getAirPressure((airPressure: number) => {
-				weatherData = { ...weatherData, airPressure: airPressure / 1000 };
+				weatherData.airPressure = airPressure / 1000;
 			});
 		}
 
 		if (bricklets.t) {
 			bricklets.t.getTemperature((temperature: number) => {
-				weatherData = { ...weatherData, temperature: temperature / 100 };
+				weatherData.temperature = temperature / 100;
 			});
 		} else if (bricklets.b && uidArray.BARO) {
 			bricklets.b.getChipTemperature((temperature: number) => {
-				weatherData = { ...weatherData, temperature: temperature / 100 };
+				weatherData.temperature = temperature / 100;
 			});
 		}
 
 		if (bricklets.al) {
 			bricklets.al.getIlluminance((illuminance: number) => {
-				weatherData = { ...weatherData, illuminance: illuminance / alDivider };
+				weatherData.illuminance = illuminance / alDivider;
 			});
 		}
 	});
@@ -179,13 +180,15 @@ export async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live =
 		process.exit(0);
 	}
 
-	let callbacks: Callbacks = {};
+	const callbacks: Callbacks = {};
+	const weatherData: WeatherData = {};
+
 	const ipcon = tfinit(host, port, callbacks);
-	simpleGet(ipcon);
+	simpleGet(ipcon, weatherData);
 	if (live && WAIT >= 0 && WAIT <= 4294967295) {
 		setTimeout(() => {
 			defineCallBack(WAIT);
-			registerCallBack(callbacks);
+			registerCallBack(callbacks, weatherData);
 		}, 25);
 	} else if (live) {
 		console.error('\nPlease check your inserted Callback time\n');
