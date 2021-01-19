@@ -1,49 +1,50 @@
 import { IPConnection, BrickletAmbientLight, BrickletAmbientLightV2, BrickletAmbientLightV3, BrickletBarometer, BrickletBarometerV2, BrickletHumidity, BrickletHumidityV2, BrickletTemperature, BrickletTemperatureV2 } from 'tinkerforge';
+import { BrickletData } from '../types/bricklet-data';
 import { connect } from './ipcon-connect';
 
 /**
  * Find and define Bricklet uid's
  *
- * @param {any} uidArray UID array
+ * @param {BrickletData} brickletData UID array with versions
  * @param {string} uid Bricklet uid
  * @param {string} deviceIdentifier Bricklet deviceIdentifier
  */
-function defineBricklet(uidArray: any, uid: string, deviceIdentifier: string): void {
+function defineBricklet(brickletData: BrickletData, uid: string, deviceIdentifier: string): void {
 	switch (deviceIdentifier) {
 		case BrickletAmbientLight.DEVICE_IDENTIFIER:
-			uidArray.LIGHT = uid;
+			brickletData.LIGHT = brickletData.LIGHT ? brickletData.LIGHT : { UID: uid, VERSION: 1 };
 			break;
 
 		case BrickletAmbientLightV2.DEVICE_IDENTIFIER:
-			uidArray.LIGHTV2 = uid;
+			brickletData.LIGHT = brickletData.LIGHT.VERSION < 2 ? { UID: uid, VERSION: 2 } : brickletData.LIGHT;
 			break;
 
 		case BrickletAmbientLightV3.DEVICE_IDENTIFIER:
-			uidArray.LIGHTV3 = uid;
+			brickletData.LIGHT = { UID: uid, VERSION: 3 };
 			break;
 
 		case BrickletBarometer.DEVICE_IDENTIFIER:
-			uidArray.BARO = uid;
+			brickletData.BARO = brickletData.BARO ? brickletData.BARO : { UID: uid, VERSION: 1 };
 			break;
 
 		case BrickletBarometerV2.DEVICE_IDENTIFIER:
-			uidArray.BAROV2 = uid;
+			brickletData.BARO = { UID: uid, VERSION: 2 };
 			break;
 
 		case BrickletHumidity.DEVICE_IDENTIFIER:
-			uidArray.HUMI = uid;
+			brickletData.HUMI = brickletData.HUMI ? brickletData.HUMI : { UID: uid, VERSION: 1 };
 			break;
 
 		case BrickletHumidityV2.DEVICE_IDENTIFIER:
-			uidArray.HUMIV2 = uid;
+			brickletData.HUMI = { UID: uid, VERSION: 2 };
 			break;
 
 		case BrickletTemperature.DEVICE_IDENTIFIER:
-			uidArray.TEMP = uid;
+			brickletData.TEMP = brickletData.TEMP ? brickletData.TEMP : { UID: uid, VERSION: 1 };
 			break;
 
 		case BrickletTemperatureV2.DEVICE_IDENTIFIER:
-			uidArray.TEMPV2 = uid;
+			brickletData.TEMP = { UID: uid, VERSION: 2 };
 			break;
 
 		default:
@@ -58,20 +59,20 @@ function defineBricklet(uidArray: any, uid: string, deviceIdentifier: string): v
  * @param {number} port Tinkerforge connection PORT
  * @returns {string[]} UID Array
  */
-export async function getUids(host: string, port: number): Promise<string[]> {
+export async function getUids(host: string, port: number): Promise<BrickletData> {
 	return new Promise(resolve => {
 		const ipcon = new IPConnection();
-		const uidArray: string[] = [];
+		const brickletData: BrickletData = {};
 		connect(ipcon, host, port);
 		ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
 			ipcon.enumerate();
 		});
 		ipcon.on(IPConnection.CALLBACK_ENUMERATE, (uid: string, _connectedUid, _position, _hardwareVersion, _firmwareVersion, deviceIdentifier: string) => {
-			defineBricklet(uidArray, uid, deviceIdentifier);
+			defineBricklet(brickletData, uid, deviceIdentifier);
 		});
 		setTimeout(() => {
 			ipcon.disconnect();
-			resolve(uidArray);
+			resolve(brickletData);
 		}, 50);
 	});
 }

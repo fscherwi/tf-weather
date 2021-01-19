@@ -30,7 +30,7 @@ function errorText(code: number): string {
  */
 export function connect(ipcon: any, host: string, port: number): void {
 	ipcon.connect(host, port, (error: number) => {
-		console.error(errorText(error));
+		console.error('Error: ' + errorText(error));
 		process.exit();
 	});
 }
