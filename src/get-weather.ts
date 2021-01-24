@@ -102,33 +102,25 @@ function defineCallBack(brickletData: BrickletData, WAIT: number): void {
  * @param {WeatherData} weatherData weather data
  */
 function registerCallBack(callbacks: Callbacks, weatherData: WeatherData): void {
-	if (bricklets.al) {
-		bricklets.al.on(callbacks.CALLBACK_ILLUMINANCE, (illuminance: number) => {
-			weatherData = { ...weatherData, illuminance: illuminance / alDivider };
-			output(weatherData);
-		});
-	}
+	bricklets.al?.on(callbacks.CALLBACK_ILLUMINANCE, (illuminance: number) => {
+		weatherData = { ...weatherData, illuminance: illuminance / alDivider };
+		output(weatherData);
+	});
 
-	if (bricklets.b) {
-		bricklets.b.on(callbacks.CALLBACK_AIR_PRESSURE, (airPressure: number) => {
-			weatherData = { ...weatherData, airPressure: airPressure / 1000 };
-			output(weatherData);
-		});
-	}
+	bricklets.b?.on(callbacks.CALLBACK_AIR_PRESSURE, (airPressure: number) => {
+		weatherData = { ...weatherData, airPressure: airPressure / 1000 };
+		output(weatherData);
+	});
 
-	if (bricklets.h) {
-		bricklets.h.on(callbacks.CALLBACK_HUMIDITY, (humidity: number) => {
-			weatherData = { ...weatherData, humidity: humidity / hDivider };
-			output(weatherData);
-		});
-	}
+	bricklets.h?.on(callbacks.CALLBACK_HUMIDITY, (humidity: number) => {
+		weatherData = { ...weatherData, humidity: humidity / hDivider };
+		output(weatherData);
+	});
 
-	if (bricklets.t) {
-		bricklets.t.on(callbacks.CALLBACK_TEMPERATURE, (temperature: number) => {
-			weatherData = { ...weatherData, temperature: temperature / 100 };
-			output(weatherData);
-		});
-	}
+	bricklets.t?.on(callbacks.CALLBACK_TEMPERATURE, (temperature: number) => {
+		weatherData = { ...weatherData, temperature: temperature / 100 };
+		output(weatherData);
+	});
 }
 
 /**
@@ -139,17 +131,13 @@ function registerCallBack(callbacks: Callbacks, weatherData: WeatherData): void 
  */
 function simpleGet(ipcon: any, weatherData: WeatherData): void {
 	ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
-		if (bricklets.h) {
-			bricklets.h.getHumidity((humidity: number) => {
-				weatherData.humidity = humidity / hDivider;
-			});
-		}
+		bricklets.h?.getHumidity((humidity: number) => {
+			weatherData.humidity = humidity / hDivider;
+		});
 
-		if (bricklets.b) {
-			bricklets.b.getAirPressure((airPressure: number) => {
-				weatherData.airPressure = airPressure / 1000;
-			});
-		}
+		bricklets.b?.getAirPressure((airPressure: number) => {
+			weatherData.airPressure = airPressure / 1000;
+		});
 
 		if (bricklets.t) {
 			bricklets.t.getTemperature((temperature: number) => {
@@ -161,11 +149,9 @@ function simpleGet(ipcon: any, weatherData: WeatherData): void {
 			});
 		}
 
-		if (bricklets.al) {
-			bricklets.al.getIlluminance((illuminance: number) => {
-				weatherData.illuminance = illuminance / alDivider;
-			});
-		}
+		bricklets.al?.getIlluminance((illuminance: number) => {
+			weatherData.illuminance = illuminance / alDivider;
+		});
 	});
 }
 
@@ -175,7 +161,7 @@ function simpleGet(ipcon: any, weatherData: WeatherData): void {
  * @param {number} WAIT callback wait period
  * @param {boolean} live live output
  */
-export async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live = false): Promise<void> {
+export async function tfget(host: string, port: number, WAIT: number, live: boolean): Promise<void> {
 	const brickletData = await getUids(host, port);
 	if (Object.keys(brickletData).length === 0) {
 		console.error('\nERROR: nothing connected\n');
@@ -187,14 +173,11 @@ export async function tfget(host = 'localhost', port = 4223, WAIT = 1000, live =
 
 	const ipcon = tfinit(host, port, brickletData, callbacks);
 	simpleGet(ipcon, weatherData);
-	if (live && WAIT >= 0 && WAIT <= 4294967295) {
+	if (live) {
 		setTimeout(() => {
 			defineCallBack(brickletData, WAIT);
 			registerCallBack(callbacks, weatherData);
 		}, 25);
-	} else if (live) {
-		console.error('\nPlease check your inserted Callback time\n');
-		process.exit(1);
 	} else {
 		setTimeout(() => {
 			output(weatherData);
