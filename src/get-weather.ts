@@ -5,10 +5,7 @@ import { connect } from './ipcon-connect';
 import { WeatherData } from '../types/weather-data';
 import { Callbacks } from '../types/callbacks';
 import { BrickletData } from '../types/bricklet-data';
-
-const bricklets: any = [];
-let alDivider = 100;
-let hDivider = 100;
+import { Bricklets } from '../types/bricklets';
 
 /**
  * Init Tinkerforge connection
@@ -16,10 +13,11 @@ let hDivider = 100;
  * @param {string} host Tinkerforge connection HOST
  * @param {number} port Tinkerforge connection PORT
  * @param {BrickletData} brickletData UID array with versions
+ * @param {Bricklets} bricklets the bricklet objects
  * @param {Callbacks} callbacks Tinkforge Callbacks
  * @returns {any} Tinkerforge IP Connection
  */
-function tfinit(host: string, port: number, brickletData: BrickletData, callbacks: Callbacks): any {
+function tfinit(host: string, port: number, brickletData: BrickletData, bricklets: Bricklets, callbacks: Callbacks): any {
 	const ipcon = new IPConnection();
 	if (brickletData.LIGHT.VERSION === 3) {
 		bricklets.al = new BrickletAmbientLightV3(brickletData.LIGHT.UID, ipcon);
@@ -30,7 +28,6 @@ function tfinit(host: string, port: number, brickletData: BrickletData, callback
 	} else if (brickletData.LIGHT.VERSION === 1) {
 		bricklets.al = new BrickletAmbientLight(brickletData.LIGHT.UID, ipcon);
 		callbacks.CALLBACK_ILLUMINANCE = BrickletAmbientLight.CALLBACK_ILLUMINANCE;
-		alDivider = 10;
 	}
 
 	if (brickletData.BARO.VERSION === 2) {
@@ -47,7 +44,6 @@ function tfinit(host: string, port: number, brickletData: BrickletData, callback
 	} else if (brickletData.HUMI.VERSION === 1) {
 		bricklets.h = new BrickletHumidity(brickletData.HUMI.UID, ipcon);
 		callbacks.CALLBACK_HUMIDITY = BrickletHumidity.CALLBACK_HUMIDITY;
-		hDivider = 10;
 	}
 
 	if (brickletData.TEMP.VERSION === 2) {
@@ -67,12 +63,13 @@ function tfinit(host: string, port: number, brickletData: BrickletData, callback
  * Define Tinkerforge callbacks
  *
  * @param {BrickletData} brickletData UID array with versions
+ * @param {Bricklets} bricklets the bricklet objects
  * @param {number} WAIT callback wait period
  */
-function defineCallBack(brickletData: BrickletData, WAIT: number): void {
+function defineCallBack(brickletData: BrickletData, bricklets: Bricklets, WAIT: number): void {
 	if (brickletData.LIGHT.VERSION === 3) {
 		bricklets.al.setIlluminanceCallbackConfiguration(WAIT, false, 'x', 0, 0);
-	} else if (brickletData.LIGHT) {
+	} else if (brickletData.LIGHT.VERSION === (1 || 2)) {
 		bricklets.al.setIlluminanceCallbackPeriod(WAIT);
 	}
 
@@ -98,10 +95,13 @@ function defineCallBack(brickletData: BrickletData, WAIT: number): void {
 /**
  * Register Tinkerforge callbacks
  *
+ * @param {Bricklets} bricklets the bricklet objects
  * @param {Callbacks} callbacks Tinkforge Callbacks
  * @param {WeatherData} weatherData weather data
+ * @param {number} alDivider the divider for the Ambient Light value
+ * @param {number} hDivider the divider for the Humidity value
  */
-function registerCallBack(callbacks: Callbacks, weatherData: WeatherData): void {
+function registerCallBack(bricklets: Bricklets, callbacks: Callbacks, weatherData: WeatherData, alDivider: number, hDivider: number): void {
 	bricklets.al?.on(callbacks.CALLBACK_ILLUMINANCE, (illuminance: number) => {
 		weatherData = { ...weatherData, illuminance: illuminance / alDivider };
 		output(weatherData);
@@ -127,9 +127,12 @@ function registerCallBack(callbacks: Callbacks, weatherData: WeatherData): void 
  * Get weather data
  *
  * @param {any} ipcon Tinkerforge IP Connection
+ * @param {Bricklets} bricklets the bricklet objects
  * @param {WeatherData} weatherData weather data
+ * @param {number} alDivider the divider for the Ambient Light value
+ * @param {number} hDivider the divider for the Humidity value
  */
-function simpleGet(ipcon: any, weatherData: WeatherData): void {
+function simpleGet(ipcon: any, bricklets: Bricklets, weatherData: WeatherData, alDivider: number, hDivider: number): void {
 	ipcon.on(IPConnection.CALLBACK_CONNECTED, () => {
 		bricklets.h?.getHumidity((humidity: number) => {
 			weatherData.humidity = humidity / hDivider;
@@ -170,13 +173,16 @@ export async function tfget(host: string, port: number, WAIT: number, live: bool
 
 	const callbacks: Callbacks = {};
 	const weatherData: WeatherData = {};
+	const bricklets: Bricklets = {};
 
-	const ipcon = tfinit(host, port, brickletData, callbacks);
-	simpleGet(ipcon, weatherData);
+	const ipcon = tfinit(host, port, brickletData, bricklets, callbacks);
+	const alDivider = brickletData.LIGHT.VERSION === 1 ? 10 : 100;
+	const hDivider = brickletData.HUMI.VERSION === 1 ? 10 : 100;
+	simpleGet(ipcon, bricklets, weatherData, alDivider, hDivider);
 	if (live) {
 		setTimeout(() => {
-			defineCallBack(brickletData, WAIT);
-			registerCallBack(callbacks, weatherData);
+			defineCallBack(brickletData, bricklets, WAIT);
+			registerCallBack(bricklets, callbacks, weatherData, alDivider, hDivider);
 		}, 25);
 	} else {
 		setTimeout(() => {
