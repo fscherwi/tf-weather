@@ -180,10 +180,12 @@ export async function tfget(host: string, port: number, WAIT: number, live: bool
 	const hDivider = brickletData.HUMI.VERSION === 1 ? 10 : 100;
 	simpleGet(ipcon, bricklets, weatherData, alDivider, hDivider);
 	if (live) {
-		setTimeout(() => {
-			defineCallBack(brickletData, bricklets, WAIT);
-			registerCallBack(bricklets, callbacks, weatherData, alDivider, hDivider);
-		}, 25);
+		defineCallBack(brickletData, bricklets, WAIT);
+		registerCallBack(bricklets, callbacks, weatherData, alDivider, hDivider);
+		process.on('SIGINT', () => {
+			ipcon.disconnect();
+			process.exit(0);
+		});
 	} else {
 		setTimeout(() => {
 			output(weatherData);
