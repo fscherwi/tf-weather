@@ -176,12 +176,14 @@ export async function tfget(host: string, port: number, WAIT: number, live: bool
 	const bricklets: Bricklets = {};
 
 	const ipcon = tfinit(host, port, brickletData, bricklets, callbacks);
-	const alDivider = brickletData.LIGHT.VERSION === 1 ? 10 : 100;
-	const hDivider = brickletData.HUMI.VERSION === 1 ? 10 : 100;
+	const alDivider = brickletData.LIGHT?.VERSION === 1 ? 10 : 100;
+	const hDivider = brickletData.HUMI?.VERSION === 1 ? 10 : 100;
 	simpleGet(ipcon, bricklets, weatherData, alDivider, hDivider);
 	if (live) {
-		defineCallBack(brickletData, bricklets, WAIT);
-		registerCallBack(bricklets, callbacks, weatherData, alDivider, hDivider);
+		setTimeout(() => {
+			defineCallBack(brickletData, bricklets, WAIT);
+			registerCallBack(bricklets, callbacks, weatherData, alDivider, hDivider);
+		}, 25);
 		process.on('SIGINT', () => {
 			ipcon.disconnect();
 			process.exit(0);
