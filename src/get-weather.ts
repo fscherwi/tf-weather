@@ -2,10 +2,10 @@ import { IPConnection, BrickletAmbientLightV3, BrickletAmbientLightV2, BrickletA
 import { output } from './output';
 import { getUids } from './get-uid';
 import { connect } from './ipcon-connect';
-import { WeatherData } from '../types/weather-data';
-import { Callbacks } from '../types/callbacks';
-import { BrickletData } from '../types/bricklet-data';
-import { Bricklets } from '../types/bricklets';
+import { WeatherData } from '../interfaces/weather-data';
+import { Callbacks } from '../interfaces/callbacks';
+import { BrickletData } from '../interfaces/bricklet-data';
+import { Bricklets } from '../interfaces/bricklets';
 
 /**
  * Init Tinkerforge connection

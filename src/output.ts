@@ -1,5 +1,5 @@
 import logUpdate from 'log-update';
-import { WeatherData } from '../types/weather-data';
+import { WeatherData } from '../interfaces/weather-data';
 
 /**
  * Get the current time

@@ -1,5 +1,5 @@
 import { IPConnection, BrickletAmbientLight, BrickletAmbientLightV2, BrickletAmbientLightV3, BrickletBarometer, BrickletBarometerV2, BrickletHumidity, BrickletHumidityV2, BrickletTemperature, BrickletTemperatureV2 } from 'tinkerforge';
-import { BrickletData } from '../types/bricklet-data';
+import { BrickletData } from '../interfaces/bricklet-data';
 import { connect } from './ipcon-connect';
 
 /**
