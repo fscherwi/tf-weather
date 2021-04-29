@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
-    "@types/yargs": "^16.0.0",
+    "@types/yargs": "^16.0.1",
     "coveralls": "^3.1.0",
     "eslint-plugin-jsdoc": "^32.2.0",
     "nyc": "^15.1.0",
