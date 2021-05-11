@@ -14,13 +14,18 @@ jobs:
           check-latest: true
       - run: npm ci
       - run: npm run lint
-      - name: Cache
+      - name: Cache node modules
         uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
         with:
-          path: |
-            ~/cache
-            **/node_modules
-          key: '${{ runner.os }}-${{ hashFiles(''**/lockfiles'') }}'
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -32,13 +37,18 @@ jobs:
           check-latest: true
       - run: npm ci
       - run: npm run build
-      - name: Cache
+      - name: Cache node modules
         uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
         with:
-          path: |
-            ~/cache
-            **/node_modules
-          key: '${{ runner.os }}-${{ hashFiles(''**/lockfiles'') }}'
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
   automerge:
     needs: build
     runs-on: ubuntu-latest
