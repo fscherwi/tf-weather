@@ -10,12 +10,12 @@ const { argv } = yargs.options({
 	wait: { type: 'number', default: 1000, description: 'The Callback time in ms' }
 });
 
-if (argv.port < 0 || argv.port >= 65536) {
+if (argv.port < 0 || argv.port >= 65_536) {
 	console.error('\nError: PORT should be >= 0 and < 65536\n');
 	process.exit(1);
 }
 
-if (argv.wait < 0 || argv.wait > 4294967295) {
+if (argv.wait < 0 || argv.wait > 4_294_967_295) {
 	console.error('\nError: check your inserted Callback time\n');
 	process.exit(1);
 }

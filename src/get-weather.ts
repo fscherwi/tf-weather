@@ -1,11 +1,11 @@
 import { IPConnection, BrickletAmbientLightV3, BrickletAmbientLightV2, BrickletAmbientLight, BrickletBarometer, BrickletBarometerV2, BrickletHumidityV2, BrickletHumidity, BrickletTemperatureV2, BrickletTemperature } from 'tinkerforge';
-import { output } from './output';
-import { getUids } from './get-uid';
-import { connect } from './ipcon-connect';
 import { WeatherData } from '../interfaces/weather-data';
 import { Callbacks } from '../interfaces/callbacks';
 import { BrickletData } from '../interfaces/bricklet-data';
 import { Bricklets } from '../interfaces/bricklets';
+import { connect } from './ipcon-connect';
+import { getUids } from './get-uid';
+import { output } from './output';
 
 /**
  * Init Tinkerforge connection
