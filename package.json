@@ -29,13 +29,13 @@
     "yargs": "^17.0.1"
   },
   "devDependencies": {
-    "@types/node": "^15.12.2",
-    "@types/yargs": "^17.0.0",
-    "coveralls": "^3.1.0",
-    "eslint-plugin-jsdoc": "^35.2.0",
+    "@types/node": "^16.4.3",
+    "@types/yargs": "^17.0.2",
+    "coveralls": "^3.1.1",
+    "eslint-plugin-jsdoc": "^36.0.2",
     "nyc": "^15.1.0",
-    "typescript": "^4.3.2",
-    "xo": "^0.40.2"
+    "typescript": "^4.3.5",
+    "xo": "^0.42.0"
   },
   "bin": {
     "weather": "./dist/bin/weather.js"
@@ -63,7 +63,8 @@
       "@typescript-eslint/no-unsafe-call": 0,
       "@typescript-eslint/no-unsafe-member-access": 0,
       "@typescript-eslint/no-unsafe-return": 0,
-      "unicorn/prefer-switch": 0
+      "unicorn/prefer-switch": 0,
+      "@typescript-eslint/comma-dangle": 0
     },
     "extends": [
       "plugin:jsdoc/recommended"
