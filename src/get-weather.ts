@@ -1,3 +1,4 @@
+import process from 'node:process';
 import { IPConnection, BrickletAmbientLightV3, BrickletAmbientLightV2, BrickletAmbientLight, BrickletBarometer, BrickletBarometerV2, BrickletHumidityV2, BrickletHumidity, BrickletTemperatureV2, BrickletTemperature } from 'tinkerforge';
 import { WeatherData } from '../interfaces/weather-data';
 import { Callbacks } from '../interfaces/callbacks';

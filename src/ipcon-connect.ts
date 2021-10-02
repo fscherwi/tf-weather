@@ -1,3 +1,4 @@
+import process from 'node:process';
 import IPConnection from 'tinkerforge';
 
 const errors: Array<{ code: number; message: string }> = [
