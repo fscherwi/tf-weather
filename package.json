@@ -35,7 +35,7 @@
     "eslint-plugin-jsdoc": "^37.0.3",
     "nyc": "^15.1.0",
     "typescript": "^4.4.4",
-    "xo": "^0.45.0"
+    "xo": "^0.46.3"
   },
   "bin": {
     "weather": "./dist/bin/weather.js"
