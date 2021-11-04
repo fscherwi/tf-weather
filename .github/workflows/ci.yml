@@ -13,7 +13,7 @@ jobs:
           node-version: '16'
           check-latest: true
           cache: 'npm'
-      - run: npm install --legacy-peer-deps
+      - run: npm ci
       - run: npm run lint
 
   build:
