@@ -12,15 +12,17 @@ const { argv } = yargs.options({
 });
 
 (async () => {
-	if ((await argv).port < 0 || (await argv).port >= 65_536) {
+	const { host, port, wait, live } = await argv;
+
+	if (port < 0 || port >= 65_536) {
 		console.error('\nError: PORT should be >= 0 and < 65536\n');
 		process.exit(1);
 	}
 
-	if ((await argv).wait < 0 || (await argv).wait > 4_294_967_295) {
+	if (wait < 0 || wait > 4_294_967_295) {
 		console.error('\nError: check your inserted Callback time\n');
 		process.exit(1);
 	}
 
-	await tfget((await argv).host, (await argv).port, (await argv).wait, (await argv).live);
+	await tfget(host, port, wait, live);
 })();
