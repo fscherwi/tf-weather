@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/fscherwi/tf-weather/blob/master/README.md",
   "dependencies": {
-    "@vercel/ncc": "^0.32.0",
     "log-update": "^5.0.0",
     "tinkerforge": "^2.1.33",
     "yargs": "^17.3.0"
@@ -34,19 +33,16 @@
     "@tsconfig/node14": "^1.0.1",
     "@types/node": "^16.11.11",
     "@types/yargs": "^17.0.7",
+    "@vercel/ncc": "^0.32.0",
     "eslint-plugin-jsdoc": "^37.1.0",
     "typescript": "^4.5.2",
     "xo": "^0.47.0"
   },
   "bin": {
-    "weather": "./dist/bin/weather.js"
+    "weather": "./dist/index.js"
   },
   "files": [
-    "dist/bin/weather.js",
-    "dist/src/get-uid.js",
-    "dist/src/ipcon-connect.js",
-    "dist/src/output.js",
-    "dist/src/get-weather.js"
+    "dist/bin/index.js"
   ],
   "xo": {
     "rules": {
@@ -75,6 +71,5 @@
   },
   "engines": {
     "node": ">=14"
-  },
-  "type": "commonjs"
+  }
 }
