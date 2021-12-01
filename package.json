@@ -35,7 +35,7 @@
     "eslint-plugin-jsdoc": "^37.1.0",
     "nyc": "^15.1.0",
     "typescript": "^4.5.2",
-    "xo": "^0.45.0"
+    "xo": "^0.47.0"
   },
   "bin": {
     "weather": "./dist/bin/weather.js"
@@ -65,7 +65,8 @@
       "@typescript-eslint/no-unsafe-return": 0,
       "unicorn/prefer-switch": 0,
       "@typescript-eslint/comma-dangle": 0,
-      "@typescript-eslint/naming-convention": 0
+      "@typescript-eslint/naming-convention": 0,
+      "import/extensions": 0
     },
     "extends": [
       "plugin:jsdoc/recommended"
