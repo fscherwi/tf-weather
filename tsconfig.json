@@ -1,14 +1,8 @@
 {
+    "extends": "@tsconfig/node14/tsconfig.json",
     "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "target": "es2018",
-        "moduleResolution": "node",
-        "sourceMap": false,
         "outDir": "dist",
-        "resolveJsonModule": true
-    },
-    "lib": [
-        "es2018"
-    ]
+        "noImplicitAny": false,
+        "strictNullChecks": false
+    }
 }

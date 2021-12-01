@@ -4,9 +4,10 @@
   "description": "a tool to show the weather data from Tinkerforge sensors",
   "main": "dist/bin/weather.js",
   "scripts": {
-    "test": "npm run build && nyc node ./dist/bin/weather.js",
+    "test": "npm run build && npm start",
     "lint": "xo",
-    "build": "tsc -p ."
+    "build": "ncc build bin/weather.ts -o dist -m",
+    "start": "node ./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -24,11 +25,13 @@
   },
   "homepage": "https://github.com/fscherwi/tf-weather/blob/master/README.md",
   "dependencies": {
+    "@vercel/ncc": "^0.32.0",
     "log-update": "^5.0.0",
     "tinkerforge": "^2.1.33",
     "yargs": "^17.3.0"
   },
   "devDependencies": {
+    "@tsconfig/node14": "^1.0.1",
     "@types/node": "^16.11.11",
     "@types/yargs": "^17.0.7",
     "eslint-plugin-jsdoc": "^37.1.0",
@@ -72,5 +75,6 @@
   },
   "engines": {
     "node": ">=14"
-  }
+  },
+  "type": "commonjs"
 }
