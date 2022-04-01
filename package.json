@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",
-    "@types/node": "^17.0.21",
+    "@types/node": "^17.0.23",
     "@types/yargs": "^17.0.8",
     "@vercel/ncc": "^0.33.3",
     "eslint-plugin-jsdoc": "^37.9.5",
