@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/fscherwi/tf-weather/blob/master/README.md",
   "dependencies": {
-    "log-update": "^5.0.0",
+    "log-update": "^5.0.1",
     "tinkerforge": "^2.1.33",
     "yargs": "^17.4.0"
   },
