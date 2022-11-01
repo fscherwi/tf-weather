@@ -34,7 +34,7 @@
     "@types/node": "^18.7.23",
     "@types/yargs": "^17.0.13",
     "@vercel/ncc": "^0.34.0",
-    "eslint-plugin-jsdoc": "^39.3.6",
+    "eslint-plugin-jsdoc": "^39.4.0",
     "typescript": "^4.8.4",
     "xo": "^0.48.0"
   },
