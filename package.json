@@ -36,7 +36,7 @@
     "@vercel/ncc": "^0.36.1",
     "eslint-plugin-jsdoc": "^39.7.5",
     "typescript": "^4.9.5",
-    "xo": "^0.48.0"
+    "xo": "^0.54.2"
   },
   "bin": {
     "weather": "./dist/index.js"
